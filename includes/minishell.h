@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/22 17:23:04 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/22 17:49:38 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,15 @@ typedef struct s_line
 
 typedef struct s_command
 {
-	char	*inflile_name;
-	char	*outfile_name;
-	char	*limiter;
-	char	*cmd_path;
-	char	**args;
-	int		cmd_nb;
-	int		(*pipefd)[2];
+	t_line			*line;
+	char			*inflile_name;
+	char			*outfile_name;
+	char			*limiter;
+	char			*cmd_path;
+	char			**args;
+	int				cmd_nb;
+	int				(*pipefd)[2];
+	struct s_line	next;
 }				t_command;
 
 /* main */
@@ -62,4 +64,6 @@ int	ms_parsing_quote(t_line *to_parse);
 int	ms_parsing_sec_quote(t_line *to_parse, int i);
 int	ms_parsing_split(t_line *to_parse, int i, int j);
 int	ms_parsing_print(t_line *line);
+/* pipe */
+int	ms_pipe_start(t_line *to_pipe);
 #endif
