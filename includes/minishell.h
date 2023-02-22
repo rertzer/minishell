@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/22 13:45:20 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/22 17:23:04 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,11 @@
 # include <term.h>
 # include <unistd.h>
 
-# define RAW 0
-# define SQT 1
-# define DQT 2
+# include "libft.h"
 
 typedef struct s_line
 {
-	int				kind;
+	char			quote;
 	char			*line;
 	struct s_line	*next;
 }				t_line;		
@@ -54,7 +52,14 @@ typedef struct s_command
 }				t_command;
 
 /* main */
+/* line */
+int		ms_line_addback(t_line **first, char quote, char *str);
+t_line	*ms_line_last(t_line *first);
+void	ms_line_clean(t_line *first);
 /* parsing */
 int	ms_parsing_start(char *line);
-
+int	ms_parsing_quote(t_line *to_parse);
+int	ms_parsing_sec_quote(t_line *to_parse, int i);
+int	ms_parsing_split(t_line *to_parse, int i, int j);
+int	ms_parsing_print(t_line *line);
 #endif

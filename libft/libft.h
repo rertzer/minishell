@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/07 11:20:30 by rertzer           #+#    #+#             */
-/*   Updated: 2023/01/07 10:32:17 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/22 15:16:43 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ void		ft_putchar_fd(char c, int fd);
 void		ft_putstr_fd(char *s, int fd);
 void		ft_putendl_fd(char *s, int fd);
 void		ft_putnbr_fd(int n, int fd);
+/* extra functions */
+char		*ft_strndup(const char *s, int len);
 /* bonus functions*/
 t_list		*ft_lstnew(void *content);
 void		ft_lstadd_front(t_list **lst, t_list *newlst);

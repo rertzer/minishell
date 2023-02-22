@@ -13,19 +13,21 @@ INC_DIR = includes/
 
 LIBFT = $(LIBFT_DIR)libft.a
 
-SOURCES = 
+SOURCES = line.c \
+	parsing.c \
+	r_test.c
 
 OBJ = $(SOURCES:.c=.o)
 
-OBJS = $(addprefix $(MD_OBJ_DIR), $(OBJ))
+OBJS = $(addprefix $(OBJ_DIR), $(OBJ))
 
 all: $(NAME) $(BONUS_NAME)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
-	$(CC) $(FLAGS) -c $< -o $@ -I $(INC_DIR) -I $(LIBFT_DIR) -lreadline
+	$(CC) $(FLAGS) -c $< -o $@ -I $(INC_DIR) -I $(LIBFT_DIR) 
 
 $(NAME): $(OBJ_DIR) $(LIBFT) $(OBJS)
-	$(CC) $(FLAGS) -o  $@ $(OBJS) $(LIBFT)
+	$(CC) $(FLAGS) -o  $@ $(OBJS) $(LIBFT) -lreadline
 
 $(OBJ_DIR):
 	mkdir  $(OBJ_DIR)
