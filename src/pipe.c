@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 17:39:32 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/23 10:35:45 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/23 11:35:47 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	ms_pipe_start(t_line *to_pipe)
 {
 	int		i;
 	int		ret;
+	char	*str;
 	t_line	*tmp;
 
 	tmp = to_pipe;
@@ -29,21 +30,41 @@ int	ms_pipe_start(t_line *to_pipe)
 			{
 				if (tmp->line[i] == '|')
 				{
-					if (i == 0)
-						tmp->quote += 1;
-					else if ((unsigned long)(i + 1) == ft_strlen(tmp->line))
-						tmp->quote += 2;
+					str = tmp->line;
+					tmp->line = ft_strndup(tmp->line, i);
+					if (tmp == NULL)
+					{
+						free(str);
+						return (1);
+					}
+					if (ms_utils_spaceonly(tmp->line))
+					{
+						free(tmp->line);
+						tmp->line = ft_strdup("|");
+						tmp->quote = 'p';
+					}
 					else
 					{
-						tmp->quote += 2;
-						ret = ms_line_addin(tmp, ft_strndup(&tmp->line[i], ft_strlen(tmp->line) - (unsigned long) i));
+						ret = ms_line_addin(tmp, ft_strdup("|"));
 						if (ret)
+						{
+							free(str);
 							return (ret);
-						tmp->line = ft_strndup(tmp->line, i);
-						if (tmp == NULL)
-							return (1);
-						break ;
+						}
+						tmp = tmp->next;
+						tmp->quote = 'p';
 					}
+					if (!ms_utils_spaceonly(&str[i + 1])) 
+					{
+						ret = ms_line_addin(tmp, ft_strndup(&str[i + 1], ft_strlen(str) - (unsigned long) (i + 1)));
+						if (ret)
+						{
+							free(str);
+							return (ret);
+						}
+					}
+					free(str);
+					break ;
 				}
 			}
 		}

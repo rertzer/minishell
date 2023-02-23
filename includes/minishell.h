@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/23 10:45:03 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/23 11:14:55 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,6 @@ int	ms_parsing_print(t_line *line);
 /* pipe */
 int	ms_pipe_start(t_line *to_pipe);
 /* utils */
+int		ms_utils_spaceonly(char *str);
 char	*ms_utils_trim(char *str);
 #endif
