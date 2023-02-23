@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/23 11:14:55 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/23 16:26:44 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@
 
 # include "libft.h"
 
+#define DP fprintf(stderr, "%s %d\n", __FILE__, __LINE__);
+
 typedef struct s_line
 {
 	char			quote;
@@ -53,10 +55,18 @@ typedef struct s_command
 	struct s_line	next;
 }				t_command;
 
-/* main */
+/* minishell */
+/* dollar */
+int		ms_dollar_parse(t_line *to_parse, char **envp);
+int		ms_dollar_parseline(t_line *to_parse, char **envp);
+int		ms_dollar_replace(t_line *to_parse, int i, char **envp);
+/* env */
+char	*ms_env_getvalue(char **envp, char *key);
+int		ms_env_valueindex(char *env, char *key);
 /* line */
 int		ms_line_addback(t_line **first, char quote, char *str);
 int		ms_line_addin(t_line *prev, char *str);
+char	*ms_line_extractnext(t_line *prev);
 t_line	*ms_line_last(t_line *first);
 void	ms_line_clean(t_line *first);
 /* parsing */
@@ -70,4 +80,6 @@ int	ms_pipe_start(t_line *to_pipe);
 /* utils */
 int		ms_utils_spaceonly(char *str);
 char	*ms_utils_trim(char *str);
+int		ms_utils_wordlen(char *str);
+char	*ms_utils_strreplace(char *str, char *ins, int offset, int len);
 #endif

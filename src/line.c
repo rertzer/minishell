@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 14:57:00 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/23 09:52:09 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/23 14:34:54 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,18 @@ int	ms_line_addin(t_line *prev, char *str)
 	line->next = prev->next;
 	prev->next = line;
 	return (0);
+}
+
+char	*ms_line_extractnext(t_line *prev)
+{
+	char	*str;
+	t_line	*tmp;
+
+	str = prev->next->line;
+	tmp = prev->next->next;
+	free(prev->next);
+	prev->next = tmp;
+	return (str);
 }
 
 t_line	*ms_line_last(t_line *first)

@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:56:09 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/23 11:44:12 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/23 16:12:01 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ int	ms_parsing_start(char *line, char **envp)
 	if (!ret)
 		ret = ms_parsing_quote(to_parse);
 	if (!ret)
+		ret = ms_dollar_parse(to_parse, envp);
+	if (!ret)
 		ret = ms_pipe_start(to_parse);
-
 	ret = ms_parsing_print(to_parse);
-	(void)envp;
 	ms_line_clean(to_parse);
 	return (ret);
 }

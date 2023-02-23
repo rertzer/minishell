@@ -1,5 +1,5 @@
 CC = gcc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g
 
 NAME = minishell
 
@@ -13,7 +13,9 @@ INC_DIR = includes/
 
 LIBFT = $(LIBFT_DIR)libft.a
 
-SOURCES = line.c \
+SOURCES = dollar.c \
+	env.c \
+	line.c \
 	parsing.c \
 	pipe.c \
 	r_test.c \
