@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:56:09 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/23 16:12:01 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/23 17:30:29 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	ms_parsing_quote(t_line *to_parse)
 		{
 			j = ms_parsing_sec_quote(to_parse, i);
 			if (j)
-				ret = ms_parsing_split(to_parse, i, j);
+				ret = ms_split_split(to_parse, i, j);
 		}
 		if (ret)
 			break ;
@@ -64,60 +64,6 @@ int	ms_parsing_sec_quote(t_line *to_parse, int i)
 		if (to_parse->line[i] == quote)
 			return (i);
 	}
-	return (0);
-}
-
-int	ms_parsing_split(t_line *to_parse, int i, int j)
-{
-	int		quote;
-	char	*line;
-	char	*str;
-	
-	quote = to_parse->line[i];
-	line = to_parse->line;
-	if (i != 0)
-	{
-		to_parse->line = ft_strndup(line, i);
-		if (to_parse->line == NULL)
-			return (1);
-		if (ft_strlen(line) == (unsigned long)(j + 1))
-		{
-			str = ft_strndup(&line[i + 1], j - i - 1);
-			if (str == NULL)
-				return (1);
-			if (ms_line_addback(&to_parse, quote, str))
-				return (1);
-		}
-		else
-		{
-			str = ft_strndup(&line[i + 1], j - i - 1);
-			if (str == NULL)
-				return (1);
-			if (ms_line_addback(&to_parse, quote, str))
-				return (1);
-			str = ft_strndup(&line[j + 1], ft_strlen(line) - j - 1);
-			if (str == NULL)
-				return (1);
-			if (ms_line_addback(&to_parse, 0, str))
-				return (1);
-			return (ms_parsing_quote(ms_line_last(to_parse)));
-		}
-	}
-	else
-	{
-		to_parse->line = ft_strndup(&to_parse->line[1], j - 1);
-		to_parse->quote = quote;
-		 if (ft_strlen(line) != (unsigned long)(j + 1))
-		 {
-			str = ft_strndup(&line[j + 1], ft_strlen(line) - j - 1);
-		 	if (str == NULL)
-				return (1);
-		 	if (ms_line_addback(&to_parse, 0, str))
-			 	return(1);
-			return (ms_parsing_quote(ms_line_last(to_parse)));
-		}
-	}
-	free(line);
 	return (0);
 }
 

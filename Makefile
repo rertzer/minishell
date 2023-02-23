@@ -19,6 +19,7 @@ SOURCES = dollar.c \
 	parsing.c \
 	pipe.c \
 	r_test.c \
+	split.c \
 	utils.c \
 #	minishell.c \
 
