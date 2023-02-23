@@ -1,2 +1,2 @@
 # minishell
-Ecole 42 oroject
+Ecole 42 project
