@@ -15,8 +15,10 @@ LIBFT = $(LIBFT_DIR)libft.a
 
 SOURCES = line.c \
 	parsing.c \
-	minishell.c \
-	#r_test.c \
+	pipe.c \
+	r_test.c \
+	utils.c \
+#	minishell.c \
 
 OBJ = $(SOURCES:.c=.o)
 

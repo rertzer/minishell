@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 14:57:00 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/22 17:22:37 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/23 09:52:09 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ms_line_addback(t_line **first, char quote, char *str)
 	errno = 0;
 	line = malloc(sizeof(t_line));
 	if (line == NULL)
-		return(errno);
+		return (errno);
 	line->quote = quote;
 	line->line = str;
 	line->next = NULL;
@@ -33,6 +33,21 @@ int	ms_line_addback(t_line **first, char quote, char *str)
 			last = last->next;
 		last->next = line;
 	}
+	return (0);
+}
+
+int	ms_line_addin(t_line *prev, char *str)
+{
+	t_line	*line;
+
+	errno = 0;
+	line = malloc(sizeof(t_line));
+	if (line == NULL)
+		return (errno);
+	line->quote = 0;
+	line->line = str;
+	line->next = prev->next;
+	prev->next = line;
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/22 17:49:38 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/23 10:45:03 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,17 @@ typedef struct s_command
 /* main */
 /* line */
 int		ms_line_addback(t_line **first, char quote, char *str);
+int		ms_line_addin(t_line *prev, char *str);
 t_line	*ms_line_last(t_line *first);
 void	ms_line_clean(t_line *first);
 /* parsing */
-int	ms_parsing_start(char *line);
+int	ms_parsing_start(char *line, char **envp);
 int	ms_parsing_quote(t_line *to_parse);
 int	ms_parsing_sec_quote(t_line *to_parse, int i);
 int	ms_parsing_split(t_line *to_parse, int i, int j);
 int	ms_parsing_print(t_line *line);
 /* pipe */
 int	ms_pipe_start(t_line *to_pipe);
+/* utils */
+char	*ms_utils_trim(char *str);
 #endif
