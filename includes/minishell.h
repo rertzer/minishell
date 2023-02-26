@@ -55,7 +55,20 @@ typedef struct s_command
 	struct s_line	next;
 }				t_command;
 
+
+typedef struct	s_lpid
+{
+	pid_t				pid;
+	struct s_lpid		*next;
+	struct s_lpid		*last;
+}				t_lpid;
+
+extern t_lpid *g_lpid;
+
 /* minishell */
+void	ms_minishell_handle_sig(int signum, siginfo_t *info, void *context);
+int		main(void);
+
 /* dollar */
 int		ms_dollar_parse(t_line *to_parse, char **envp);
 int		ms_dollar_parseline(t_line *to_parse, char **envp);
@@ -69,6 +82,12 @@ int		ms_line_addin(t_line *prev, char *str);
 char	*ms_line_extractnext(t_line *prev);
 t_line	*ms_line_last(t_line *first);
 void	ms_line_clean(t_line *first);
+/* lpid */
+t_lpid	*ms_lpid_new(pid_t pid);
+void	ms_lpid_add(t_lpid *new);
+void	ms_lpid_delone(t_lpid *lpid);
+void	ms_lpid_del_pid(pid_t target);
+void	ms_lpid_print(void);
 /* parsing */
 int	ms_parsing_start(char *line, char **envp);
 int	ms_parsing_quote(t_line *to_parse);

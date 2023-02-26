@@ -18,10 +18,11 @@ SOURCES = dollar.c \
 	line.c \
 	parsing.c \
 	pipe.c \
-	r_test.c \
 	split.c \
 	utils.c \
-#	minishell.c \
+	minishell.c \
+	lpid.c \
+#	r_test.c \
 
 OBJ = $(SOURCES:.c=.o)
 

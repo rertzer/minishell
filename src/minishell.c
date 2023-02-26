@@ -11,7 +11,8 @@
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
-pid_t cpid;
+
+t_lpid	*g_lpid = NULL;
 
 void	ms_minishell_handle_sig(int signum, siginfo_t *info, void *context)
 {
@@ -19,54 +20,88 @@ void	ms_minishell_handle_sig(int signum, siginfo_t *info, void *context)
 	(void)info;
 	if (signum == SIGQUIT)
 	{
-		if (cpid > 0)
+		if (g_lpid && g_lpid->pid != getpid())
 		{
-			kill(cpid, SIGKILL);
-			printf("Quit (core dumped)\n");
-			exit(0);
+			while (g_lpid && g_lpid->pid > 0)
+			{
+				kill(g_lpid->pid, SIGKILL);
+				ms_lpid_del_pid(g_lpid->pid);
+			}
+			if (!g_lpid)
+				printf("Quit (core dumped)\n");
 		}
 		else
-			rl_redisplay();
+			printf("\e[1;32mMinishell: \e[0m");
 	}
 	else if (signum == SIGINT)
 	{
-		if (cpid > 0)
-			kill(cpid, SIGKILL);
-		else{
-			printf("\n\e[1;32mMinishell: \e[0m");
-			rl_redisplay();
+		if (g_lpid)
+		{
+			while (g_lpid && g_lpid->pid > 0)
+			{
+				kill(g_lpid->pid, SIGKILL);
+				ms_lpid_del_pid(g_lpid->pid);
+			}
 		}
+		else
+			printf("\n\e[1;32mMinishell: \e[0m");
 	}
 	return ;
 }
 
-static int	ms_minishell_start(char *line)
+int	ms_minishell_process_exemple(char *line)
 {
-	int i =0;
-	if (line[0]=='e')
-		exit (0);
+	int	i;
+
+	i = 0;
+	if (line[0] == 'e')
+		exit(0);
 	while (i < 10)
 	{
-		printf("CHILD [%d] IS SLEEPING\n", (int)cpid);
-		sleep(2);
-		i+=2;
+		printf("CHILD [%d][%d] IS SLEEPING\n", g_lpid->pid, getpid());
+		sleep(1);
+		i += 2;
 	}
-	printf("CHILD [%d] IS AWAKE\n", cpid);
+	printf("CHILD [%d][%d] IS AWAKE\n", g_lpid->pid, getpid());
 	free(line);
 	return (1);
 }
 
-//SIGINT -> kill line process
-//sig
-
-int main(void)
+static	int	ms_minishell_temporary_start(char *line)
 {
-	char *line;
-	char *prompt = "\e[1;32mMinishell: \e[0m";
-	struct sigaction 	sa;
-	//struct termios		*termios_p;
-	int 				status;
+	int	status;
 
+	if (line[0] == 'e' && line[1] == 'x' && line[2] == 'i' && line[3] == 't')
+	{
+		free(line);
+		exit(0);
+	}
+	g_lpid = ms_lpid_new(fork());
+	if (g_lpid->pid != 0)
+		ms_lpid_add(ms_lpid_new(fork()));
+	if (g_lpid->pid == 0)
+		exit (ms_minishell_process_exemple(line));
+	else if (g_lpid)
+	{
+		while (g_lpid && g_lpid->pid > 0)
+		{
+			waitpid(g_lpid->pid, &status, 0);
+			if (g_lpid)
+				ms_lpid_del_pid(g_lpid->pid);
+		}
+	}
+	ms_lpid_print();
+	free(line);
+	return (1);
+}
+
+int	main(void)
+{
+	char				*line;
+	char				*prompt;
+	struct sigaction	sa;
+
+	prompt = "\e[1;32mMinishell: \e[0m";
 	sa.sa_sigaction = ms_minishell_handle_sig;
 	sa.sa_flags = SA_SIGINFO;
 	sigemptyset(&sa.sa_mask);
@@ -76,25 +111,10 @@ int main(void)
 	{
 		line = readline(prompt);
 		if (!line)
-			continue;
+			continue ;
 		add_history(line);
-	//	tcgetattr(0, termios_p);
 		rl_on_new_line();
-		cpid = fork();
-		if (cpid == -1)
-		{
-			perror("fork");
-			exit(1);
-		}
-		if (cpid==0)
-			return (ms_minishell_start(line));
-		else
-		{
-			printf("wait child [%d]\n", cpid);
-			waitpid(cpid, &status, 0);
-			cpid = 0;
-		}
-		free (line);
+		ms_minishell_temporary_start(line);
 	}
 	return (1);
 }
