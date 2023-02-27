@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/27 17:33:00 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/27 18:05:10 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,7 @@
 
 # include "libft.h"
 
-#define DX fprintf(stderr, "%s %d\n",  __FILE__, __LINE__);
-#define DP fprintf(stderr, "%s %s %d\n", cmd->cmd_path, __FILE__, __LINE__);
+#define DP fprintf(stderr, "%s %d\n" __FILE__, __LINE__);
 
 typedef struct s_line
 {
@@ -67,7 +66,14 @@ typedef struct	s_pipeline
 	int			(*pipefd)[2];
 }				t_pipeline;
 
-/* minishell */
+typedef struct	s_lpid
+{
+	pid_t				pid;
+	struct s_lpid		*next;
+	struct s_lpid		*last;
+}				t_lpid;
+
+extern t_lpid *g_lpid;
 /* args */
 int		ms_args_add(t_command *cmd, char *line);
 int		ms_args_getnb(t_command *cmd);
@@ -77,6 +83,7 @@ int	ms_builtin_run(t_command *cmd, char **envp);///////////////////////
 /* command */
 int		ms_command_addback(t_command **start);
 int		ms_command_clean(t_command **cmd);
+
 /* dollar */
 int		ms_dollar_parse(t_line *to_parse, char **envp);
 int		ms_dollar_parseline(t_line *to_parse, char **envp);
@@ -101,6 +108,15 @@ int		ms_line_addin(t_line *prev, char *str);
 char	*ms_line_extractnext(t_line *prev);
 t_line	*ms_line_last(t_line *first);
 void	ms_line_clean(t_line *first);
+/* lpid */
+t_lpid	*ms_lpid_new(pid_t pid);
+void	ms_lpid_add(t_lpid *new);
+void	ms_lpid_delone(t_lpid *lpid);
+void	ms_lpid_del_pid(pid_t target);
+void	ms_lpid_print(void);
+/* minishell */
+void	ms_minishell_handle_sig(int signum, siginfo_t *info, void *context);
+//int		main(void); // la fonction main n'a pas besoin d'etre ajoutee
 /* parsing */
 int		ms_parsing_start(char *line, char **envp);
 int		ms_parsing_quote(t_line *to_parse);

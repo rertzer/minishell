@@ -24,6 +24,7 @@ SOURCES = args.c \
 	filesplit.c \
 	here_doc_bonus.c \
 	line.c \
+	lpid.c \
 	parsing.c \
 	pipe.c \
 	pipeline.c \
@@ -36,7 +37,8 @@ SOURCES = args.c \
 	tfile.c \
 	utils_bonus.c \
 	utils.c
-	#minishell.c \
+	minishell.c \
+#	r_test.c \
 
 OBJ = $(SOURCES:.c=.o)
 
