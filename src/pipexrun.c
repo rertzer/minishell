@@ -1,31 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strndup.c                                       :+:      :+:    :+:   */
+/*   pipexrun.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/22 15:15:19 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/27 14:27:18 by rertzer          ###   ########.fr       */
+/*   Created: 2023/02/26 16:22:45 by rertzer           #+#    #+#             */
+/*   Updated: 2023/02/27 13:17:48 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strndup(const char *s, int len)
+int	ms_pipex_run(t_pipeline *ppl, char **envp)
 {
-	int		i;
-	char	*dup;
-
-	dup = malloc(sizeof(char) * (len + 1));
-	if (dup == NULL)
-		return (NULL);
-	i = 0;
-	while (s[i] && i < len)
-	{
-		dup[i] = s[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
+	if (ppl->cmd_nb == 1 && ms_builtin_itis(ppl->cmds->cmd_path))
+		return (ms_builtin_run(ppl->cmds, envp));
+	else
+		return (pp_run_pipe(ppl, envp));
 }

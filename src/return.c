@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strndup.c                                       :+:      :+:    :+:   */
+/*   return.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/22 15:15:19 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/27 14:27:18 by rertzer          ###   ########.fr       */
+/*   Created: 2023/02/25 09:30:30 by rertzer           #+#    #+#             */
+/*   Updated: 2023/02/27 11:41:29 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "minishell.h"
 
-char	*ft_strndup(const char *s, int len)
+int	ms_return_freeturn(char **ptr, int ret)
 {
-	int		i;
-	char	*dup;
+	free(*ptr);
+	ptr = NULL;
+	return (ret);
+}
 
-	dup = malloc(sizeof(char) * (len + 1));
-	if (dup == NULL)
-		return (NULL);
-	i = 0;
-	while (s[i] && i < len)
-	{
-		dup[i] = s[i];
-		i++;
-	}
-	dup[i] = '\0';
-	return (dup);
+int	ms_return_msg(int ret, char *msg)
+{
+	if (NULL != msg)
+		ft_putendl_fd(msg, 2);
+	return (ret);
+}
+
+int	ms_return_error(int ret, char *msg)
+{
+	perror(msg);
+	return (ret);
 }

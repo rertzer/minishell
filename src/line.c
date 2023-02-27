@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 14:57:00 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/23 14:34:54 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/02/26 09:57:26 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	ms_line_addin(t_line *prev, char *str)
 {
 	t_line	*line;
 
+	if (str == NULL)
+		return (1);
 	errno = 0;
 	line = malloc(sizeof(t_line));
 	if (line == NULL)

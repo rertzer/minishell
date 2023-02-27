@@ -1,45 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   args.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/23 13:46:42 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/27 14:35:24 by rertzer          ###   ########.fr       */
+/*   Created: 2023/02/26 13:32:08 by rertzer           #+#    #+#             */
+/*   Updated: 2023/02/26 16:17:38 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ms_env_getvalue(char **envp, char *key)
+int	ms_args_add(t_command *cmd, char *line)
 {
 	int		i;
-	int		index;
-	char	*value;
+	int		arg_nb;
+	char	**new;
 
-	value = NULL;
+	arg_nb = ms_args_getnb(cmd);
+	new = malloc(sizeof(char *) * (arg_nb + 2));
+	if (new == NULL)
+		return (1);
 	i = -1;
-	while (envp[++i] != NULL)
-	{
-		index = ms_env_valueindex(envp[i], key);
-		if (index)
-		{
-			value = ft_strdup(&envp[i][index]);
-			break ;
-		}
-	}
-	return (value);
+	while (++i < arg_nb)
+		new[i] = cmd->args[i];
+	new[i] = line;
+	new[++i] = NULL;
+	free(cmd->args);
+	cmd->args = new;
+	return (0);
 }
 
-int	ms_env_valueindex(char *env, char *key)
+int	ms_args_getnb(t_command *cmd)
 {
-	int	i;
+	int	nb;
 
-	i = 0;
-	while (env[i] && env[i] == key[i])
-		i++;
-	if (env[i] == '=' && key[i] == '\0')
-		return (i + 1);
-	return (0);
+	if (cmd->args == NULL)
+		return (0);
+	nb = 0;
+	while (cmd->args[nb] != NULL)
+		nb++;
+	return (nb);
 }

@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/16 11:58:14 by rertzer           #+#    #+#             */
-/*   Updated: 2022/11/16 16:20:58 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/01/25 11:17:49 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 
 static int	word_count(char const *s, char c);
 static char	**feed_split(char **splited, char const *s, char c);
-static char	**flush(char **splited);
 
 char	**ft_split(char const *s, char c)
 {
@@ -73,13 +72,13 @@ static char	**feed_split(char **splited, char const *s, char c)
 			i++;
 		splited[k] = ft_substr(s, start, i - start);
 		if (NULL == splited[k])
-			return (flush(splited));
+			return (ft_split_flush(splited));
 		k++;
 	}
 	return (splited);
 }
 
-static char	**flush(char **splited)
+char	**ft_split_flush(char **splited)
 {
 	int	i;
 

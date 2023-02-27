@@ -1,45 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/23 13:46:42 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/27 14:35:24 by rertzer          ###   ########.fr       */
+/*   Created: 2023/02/27 12:52:18 by rertzer           #+#    #+#             */
+/*   Updated: 2023/02/27 14:30:59 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ms_env_getvalue(char **envp, char *key)
+int	ms_builtin_itis(char *name)
 {
-	int		i;
-	int		index;
-	char	*value;
-
-	value = NULL;
-	i = -1;
-	while (envp[++i] != NULL)
-	{
-		index = ms_env_valueindex(envp[i], key);
-		if (index)
-		{
-			value = ft_strdup(&envp[i][index]);
-			break ;
-		}
-	}
-	return (value);
+	(void)name;
+	return (0);
 }
 
-int	ms_env_valueindex(char *env, char *key)
+int	ms_builtin_run(t_command *cmd, char **envp)
 {
-	int	i;
-
-	i = 0;
-	while (env[i] && env[i] == key[i])
-		i++;
-	if (env[i] == '=' && key[i] == '\0')
-		return (i + 1);
+	(void)cmd;
+	(void)envp;
 	return (0);
 }

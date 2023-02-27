@@ -13,15 +13,30 @@ INC_DIR = includes/
 
 LIBFT = $(LIBFT_DIR)libft.a
 
-SOURCES = dollar.c \
+SOURCES = args.c \
+	builtin.c \
+	check_cmd_bonus.c \
+	child_bonus.c \
+	command.c \
+	dollar.c \
 	env.c \
+	file.c \
+	filesplit.c \
+	here_doc_bonus.c \
 	line.c \
 	parsing.c \
 	pipe.c \
+	pipeline.c \
+	pipex.c \
+	pipexrun.c \
+	return.c \
 	r_test.c \
+	run_bonus.c \
 	split.c \
-	utils.c \
-#	minishell.c \
+	tfile.c \
+	utils_bonus.c \
+	utils.c
+	#minishell.c \
 
 OBJ = $(SOURCES:.c=.o)
 
