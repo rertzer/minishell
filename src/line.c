@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 14:57:00 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/26 09:57:26 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/01 11:47:52 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,11 +77,11 @@ t_line	*ms_line_last(t_line *first)
 	return (last);
 }
 
-void ms_line_clean(t_line *first)
+void	ms_line_clean(t_line *first)
 {
 	t_line	*tmp;
 	t_line	*next;
-	
+
 	tmp = first;
 	while (tmp)
 	{

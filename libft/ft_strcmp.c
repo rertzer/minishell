@@ -1,34 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   r_test.c                                           :+:      :+:    :+:   */
+/*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/22 09:47:00 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/02 10:20:26 by rertzer          ###   ########.fr       */
+/*   Created: 2023/03/01 13:15:04 by rertzer           #+#    #+#             */
+/*   Updated: 2023/03/01 17:00:48 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char **old_envp)
+int	ft_strcmp(const char *s1, const char *s2)
 {
-	const char	prompt[] = "minishell: ";
-	char		*line = NULL;
-	char		**envp;
+	size_t	i;
+	i = 0;
+	while (s1[i] && s1[i] == s2[i])
+		i++;
 
-	(void)argc;
-	(void)argv;
-	envp = ft_2Dstrdup(old_envp);
-	while (1)
-	{
-		line = readline(prompt);
-		if (!line)
-			break;
-		add_history(line);
-		ms_parsing_start(line, &envp);
-		//free(line);
-	}
-	return (0);
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
 }

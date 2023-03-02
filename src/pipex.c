@@ -6,13 +6,13 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 11:04:32 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/27 14:58:46 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/02 10:22:43 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ms_pipex_start(t_line *parsed, char **envp)
+int	ms_pipex_start(t_line *parsed, char ***envp)
 {
 	int			cmd_nb;
 	t_command	*cmd;
@@ -26,22 +26,30 @@ int	ms_pipex_start(t_line *parsed, char **envp)
 	cmd = cmd_start;
 	while (parsed)
 	{
-		if (parsed->quote == 'p')
-		{
-			if (ms_command_addback(&cmd))
-				return (ms_command_clean(&cmd_start));
-			cmd = cmd->next;
-			cmd_nb++;
-			cmd->cmd_nb = cmd_nb;
-		}
-		else
-		{
-			if (ms_pipex_parse(parsed, cmd))
-				return (ms_command_clean(&cmd_start));
-		}
+		if (ms_pipex_pipe(parsed, &cmd, &cmd_start, &cmd_nb))
+				return (1);
 		parsed = parsed->next;
 	}
 	return (ms_pipeline_run(cmd_start, cmd_nb, envp));
+}
+
+int	ms_pipex_pipe(t_line *parsed, t_command **cmd, t_command **cmd_start, \
+				int *cmd_nb)
+{
+	if (parsed->quote == 'p')
+	{
+		if (ms_command_addback(cmd))
+			return (ms_command_clean(cmd_start));
+		*cmd = (*cmd)->next;
+		(*cmd_nb)++;
+		(*cmd)->cmd_nb = *cmd_nb;
+	}
+	else
+	{
+		if (ms_pipex_parse(parsed, *cmd))
+			return (ms_command_clean(cmd_start));
+	}
+	return (0);
 }
 
 int	ms_pipex_parse(t_line *parsed, t_command *cmd)
@@ -58,7 +66,7 @@ int	ms_pipex_parse(t_line *parsed, t_command *cmd)
 int	ms_pipex_word(char *line, t_command *cmd)
 {
 	if (cmd->cmd_path == NULL)
-		cmd->cmd_path = line;
+		cmd->cmd_path = ft_strdup(line);
 	return (ms_args_add(cmd, line));
 }
 
@@ -88,6 +96,7 @@ int	ms_pipex_other(t_line *parsed, t_command *cmd)
 
 int	ms_pipex_print(t_command *cmd_start, int cmd_nb)
 {
+	// remove function for submission
 	printf("%d commands\n", cmd_nb);
 	while (cmd_start)
 	{

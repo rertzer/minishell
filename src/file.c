@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 12:10:44 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/27 14:34:50 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/01 12:13:04 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ int	ms_file_chevron(t_line **to_parse, int i, char chevron)
 
 int	ms_file_quotenext(t_line **to_parse, char chevron)
 {
-	if ((*to_parse)->next && ((*to_parse)->next->quote == '\'' \
-				 || (*to_parse)->next->quote == '"'))
+	if ((*to_parse)->next && (((*to_parse)->next->quote == '\'') \
+			 || ((*to_parse)->next->quote == '"')))
 		(*to_parse)->next->quote = chevron;
 	else
 		return (1);

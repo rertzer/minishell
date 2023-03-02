@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 10:26:30 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/26 09:36:15 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/01 11:48:33 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*ms_utils_trim(char *str)
 {
-	char space[2];
+	char	space[2];
 	char	*dest;
 
 	space[0] = 32;
@@ -61,7 +61,7 @@ char	*ms_utils_strreplace(char *str, char *ins, int offset, int len)
 	i = -1;
 	while (++i < (int) ft_strlen(ins))
 		dest[offset + i] = ins[i];
-	i =  offset - 1;
+	i = offset - 1;
 	while (++i < (int)ft_strlen(str) - len)
 		dest[ft_strlen(ins) + i] = str[len + i];
 	dest[ft_strlen(ins) + i] = '\0';

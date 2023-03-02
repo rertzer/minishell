@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 17:18:44 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/25 09:56:11 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/01 11:29:59 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ int	ms_split_beggin(t_line *to_parse, int i, int j)
 	to_parse->quote = line[i];
 	if (ft_strlen(line) != (unsigned long)(j + 1))
 	{
-		ret = ms_split_addup(to_parse, &line[j + 1], 0, ft_strlen(line) - j - 1);
+		ret = ms_split_addup(to_parse, &line[j + 1], \
+				0, ft_strlen(line) - j - 1);
 		if (ret == 0)
 			ret = ms_parsing_quote(ms_line_last(to_parse));
 	}
@@ -77,7 +78,7 @@ int	ms_split_addup(t_line *to_parse, char *line, int quote, int len)
 	str = ft_strndup(line, len);
 	if (str == NULL)
 		ret = 1;
-	else 
+	else
 		ret = ms_line_addback(&to_parse, quote, str);
 	return (ret);
 }

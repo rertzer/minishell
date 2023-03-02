@@ -6,13 +6,13 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:56:09 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/27 14:56:32 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/02 11:57:49 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ms_parsing_start(char *line, char **envp)
+int	ms_parsing_start(char *line, char ***envp)
 {
 	int		ret;
 	t_line	*to_parse;
@@ -22,11 +22,15 @@ int	ms_parsing_start(char *line, char **envp)
 	if (!ret)
 		ret = ms_parsing_quote(to_parse);
 	if (!ret)
-		ret = ms_dollar_parse(to_parse, envp);
+		ret = ms_dollar_parse(to_parse, *envp);
 	if (!ret)
 		ret = ms_pipe_start(to_parse);
 	if (!ret)
+		ret = ms_token_tokenise(to_parse);
+	if (!ret)
 		ret = ms_file_parse(to_parse);
+	ms_parsing_print(to_parse);
+
 	ret = ms_pipex_start(to_parse, envp);
 	//if (!ret)
 	//ret = ms_parsing_print(to_parse);

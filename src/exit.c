@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   r_test.c                                           :+:      :+:    :+:   */
+/*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/22 09:47:00 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/02 10:20:26 by rertzer          ###   ########.fr       */
+/*   Created: 2023/03/01 11:55:38 by rertzer           #+#    #+#             */
+/*   Updated: 2023/03/01 16:00:38 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **old_envp)
+void	ms_exit_msg(t_pipeline *ppl, char *msg)
 {
-	const char	prompt[] = "minishell: ";
-	char		*line = NULL;
-	char		**envp;
-
-	(void)argc;
-	(void)argv;
-	envp = ft_2Dstrdup(old_envp);
-	while (1)
+	ms_pipeline_clean(ppl);
+	if (msg)
 	{
-		line = readline(prompt);
-		if (!line)
-			break;
-		add_history(line);
-		ms_parsing_start(line, &envp);
-		//free(line);
+		ft_putendl_fd(msg, 2);
+		exit(1);
 	}
-	return (0);
+	exit(0);
+}
+
+void	ms_exit_error(t_pipeline *ppl, char *msg)
+{
+	perror(msg);
+	ms_pipeline_clean(ppl);
+	exit(1);
 }

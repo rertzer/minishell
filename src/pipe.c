@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 17:39:32 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/27 14:21:43 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/02 11:31:05 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ms_pipe_start(t_line *to_pipe)
 	{
 		if (to_pipe->quote == 0)
 		{
-			to_pipe->line = ms_utils_trim(to_pipe->line);
+			//to_pipe->line = ms_utils_trim(to_pipe->line);
 			i = -1;
 			while (to_pipe->line[++i])
 			{

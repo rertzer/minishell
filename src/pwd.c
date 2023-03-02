@@ -1,34 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   r_test.c                                           :+:      :+:    :+:   */
+/*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/22 09:47:00 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/02 10:20:26 by rertzer          ###   ########.fr       */
+/*   Created: 2023/03/01 16:41:14 by rertzer           #+#    #+#             */
+/*   Updated: 2023/03/02 10:19:41 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **old_envp)
+int	ms_pwd_run(t_command *cmd, char ***envp)
 {
-	const char	prompt[] = "minishell: ";
-	char		*line = NULL;
-	char		**envp;
+	char *buffer;
 
-	(void)argc;
-	(void)argv;
-	envp = ft_2Dstrdup(old_envp);
-	while (1)
-	{
-		line = readline(prompt);
-		if (!line)
-			break;
-		add_history(line);
-		ms_parsing_start(line, &envp);
-		//free(line);
-	}
+	(void)cmd;
+	(void)envp;
+	errno = 0;
+	buffer = getcwd(NULL, 0);
+	if (buffer == NULL)
+		return (ms_return_error(errno, "pwd"));
+	ft_putendl_fd(buffer, 1);
+	free(buffer);
 	return (0);
 }

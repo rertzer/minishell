@@ -3,7 +3,8 @@ FLAGS = -Wall -Wextra -Werror
 
 TARGET = libft.a
 
-SOURCES = ft_atoi.c	\
+SOURCES = ft_2Dstrdup.c \
+	ft_atoi.c	\
 	ft_bzero.c	\
 	ft_calloc.c	\
 	ft_isalnum.c	\
@@ -30,6 +31,7 @@ SOURCES = ft_atoi.c	\
 	ft_strlcpy.c	\
 	ft_strlen.c	\
 	ft_strmapi.c	\
+	ft_strcmp.c	\
 	ft_strncmp.c	\
 	ft_strndup.c	\
 	ft_strnstr.c	\

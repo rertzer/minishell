@@ -1,34 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   r_test.c                                           :+:      :+:    :+:   */
+/*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/22 09:47:00 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/02 10:20:26 by rertzer          ###   ########.fr       */
+/*   Created: 2023/03/01 13:05:19 by rertzer           #+#    #+#             */
+/*   Updated: 2023/03/02 10:19:19 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **old_envp)
+int	ms_echo_run(t_command *cmd, char ***envp)
 {
-	const char	prompt[] = "minishell: ";
-	char		*line = NULL;
-	char		**envp;
+	int	i;
 
-	(void)argc;
-	(void)argv;
-	envp = ft_2Dstrdup(old_envp);
-	while (1)
+	(void)envp;
+	i = 0;
+	while (cmd->args[++i])
 	{
-		line = readline(prompt);
-		if (!line)
-			break;
-		add_history(line);
-		ms_parsing_start(line, &envp);
-		//free(line);
+		if ( i > 1)
+			ft_putchar_fd(' ', 1);
+		ft_putstr_fd(cmd->args[i], 1);
 	}
 	return (0);
 }

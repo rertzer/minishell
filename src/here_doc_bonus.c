@@ -6,29 +6,30 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 13:31:58 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/27 14:55:50 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/01 11:28:02 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	pp_here_doc(char *limiter, int *fd)
+int	pp_here_doc(t_pipeline *ppl, char *limiter)
 {
 	char	*line;
+	int		fd;
 	int		pipefd[2];
 
 	errno = 0;
 	if (pipe(pipefd) == -1)
-		return (1);
-	*fd = pipefd[0];
+		ms_exit_error(ppl, "pipe");
+	fd = pipefd[0];
 	line = get_next_line(0);
 	while (line)
-		line = pp_here_write_line(limiter, line, pipefd);
+		line = pp_here_line(ppl, limiter, line, pipefd);
 	close(pipefd[1]);
-	return (0);
+	return (fd);
 }
 
-char	*pp_here_write_line(char *limiter, char *line, int *pipefd)
+char	*pp_here_line(t_pipeline *ppl, char *limiter, char *line, int *pipefd)
 {
 	int	line_size;
 	int	limiter_size;
@@ -42,7 +43,7 @@ char	*pp_here_write_line(char *limiter, char *line, int *pipefd)
 		if (write(pipefd[1], line, line_size) == -1)
 		{
 			free(line);
-			return (NULL);
+			ms_exit_error(ppl, "write");
 		}
 		free(line);
 		line = get_next_line(0);

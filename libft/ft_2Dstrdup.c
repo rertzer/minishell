@@ -1,34 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   r_test.c                                           :+:      :+:    :+:   */
+/*   ft_2Dstrdup.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/22 09:47:00 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/02 10:20:26 by rertzer          ###   ########.fr       */
+/*   Created: 2023/03/02 09:47:21 by rertzer           #+#    #+#             */
+/*   Updated: 2023/03/02 10:00:51 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "libft.h"
 
-int	main(int argc, char **argv, char **old_envp)
+char	**ft_2Dstrdup(char **src)
 {
-	const char	prompt[] = "minishell: ";
-	char		*line = NULL;
-	char		**envp;
+	char	**dest;
+	int		i;
+	int		size;
 
-	(void)argc;
-	(void)argv;
-	envp = ft_2Dstrdup(old_envp);
-	while (1)
+	size = -1;
+	while (src[++size])
+		size++;
+	dest = malloc(sizeof(char *) * (size + 1));
+	if (NULL ==  dest)
+		return (NULL);
+	i = -1;
+	while (++i < size)
 	{
-		line = readline(prompt);
-		if (!line)
-			break;
-		add_history(line);
-		ms_parsing_start(line, &envp);
-		//free(line);
+		dest[i] = ft_strdup(src[i]);
+		if (dest[i] == NULL)
+			return (ft_split_flush(dest));
 	}
-	return (0);
+	dest[i] = NULL;
+	return (dest);
 }

@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 13:19:14 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/26 15:33:56 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/01 15:57:47 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ms_tfile_clean(t_file **start)
 	t_file	*tmp;
 	t_file	*file;
 
-	tmp = *start;
+	file = *start;
 	while (file)
 	{
 		free(file->name);
@@ -48,6 +48,7 @@ int	ms_tfile_clean(t_file **start)
 		free(file);
 		file = tmp;
 	}
+	
 	*start = NULL;
 	return (0);
 }

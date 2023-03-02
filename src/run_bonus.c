@@ -6,13 +6,13 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 14:24:29 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/27 13:48:07 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/02 10:25:10 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	pp_run_pipe(t_pipeline *ppl, char **envp)
+int	pp_run_pipe(t_pipeline *ppl, char ***envp)
 {
 	int	ret;
 
@@ -65,7 +65,7 @@ int	pp_run_make_pipes(t_pipeline *ppl)
 	return (0);
 }
 
-int	pp_run_fork(t_pipeline *ppl, char **envp)
+int	pp_run_fork(t_pipeline *ppl, char ***envp)
 {
 	int			i;
 	pid_t		child;
@@ -79,7 +79,7 @@ int	pp_run_fork(t_pipeline *ppl, char **envp)
 		if (child == -1)
 			return (1);
 		else if (child == 0)
-			return (pp_run_child(ppl, cmd, envp, i));
+			pp_run_child(ppl, cmd, envp, i);
 		cmd = cmd->next;
 	}
 	return (0);
