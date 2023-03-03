@@ -31,12 +31,12 @@ SOURCES = args.c \
 	pipex.c \
 	pipexrun.c \
 	return.c \
-	r_test.c \
 	run_bonus.c \
+	signal.c \
 	split.c \
 	tfile.c \
 	utils_bonus.c \
-	utils.c
+	utils.c \
 	minishell.c \
 #	r_test.c \
 

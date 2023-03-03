@@ -115,8 +115,7 @@ void	ms_lpid_delone(t_lpid *lpid);
 void	ms_lpid_del_pid(pid_t target);
 void	ms_lpid_print(void);
 /* minishell */
-void	ms_minishell_handle_sig(int signum, siginfo_t *info, void *context);
-//int		main(void); // la fonction main n'a pas besoin d'etre ajoutee
+int 	ms_set_termios(struct termios	*interact_tio, struct termios	*process_tio);
 /* parsing */
 int		ms_parsing_start(char *line, char **envp);
 int		ms_parsing_quote(t_line *to_parse);
@@ -141,6 +140,9 @@ int		ms_pipex_run(t_pipeline *ppl, char **envp);
 int		ms_return_freeturn(char **ptr, int ret);
 int		ms_return_msg(int ret, char *msg);
 int		ms_return_error(int ret, char *msg);
+/* signal */
+void	ms_signal_kill_child(void);
+void	ms_signal_handle_sig(int signum, siginfo_t *info, void *context);
 /* split */
 int		ms_split_split(t_line *to_parse, int i, int j);
 int		ms_split_middle(t_line *to_parse, int i, int j);
