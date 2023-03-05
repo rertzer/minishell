@@ -34,13 +34,15 @@ SOURCES = args.c \
 	pipexrun.c \
 	pwd.c \
 	return.c \
-	r_test.c \
 	run_bonus.c \
+	signal.c \
+	split.c \
 	tfile.c \
 	trim.c \
 	utils_bonus.c \
 	utils.c \
 	pipex.c
+	r_test.c 
 	#minishell.c \
 	#lpid.c \
 

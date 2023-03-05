@@ -14,41 +14,6 @@
 
 t_lpid	*g_lpid = NULL;
 
-void	ms_minishell_handle_sig(int signum, siginfo_t *info, void *context)
-{
-	(void)context;
-	(void)info;
-	if (signum == SIGQUIT)
-	{
-		if (g_lpid && g_lpid->pid != getpid())
-		{
-			while (g_lpid && g_lpid->pid > 0)
-			{
-				kill(g_lpid->pid, SIGKILL);
-				ms_lpid_del_pid(g_lpid->pid);
-			}
-			if (!g_lpid)
-				printf("Quit (core dumped)\n");
-		}
-		else
-			printf("\e[1;32mMinishell: \e[0m");
-	}
-	else if (signum == SIGINT)
-	{
-		if (g_lpid)
-		{
-			while (g_lpid && g_lpid->pid > 0)
-			{
-				kill(g_lpid->pid, SIGKILL);
-				ms_lpid_del_pid(g_lpid->pid);
-			}
-		}
-		else
-			printf("\n\e[1;32mMinishell: \e[0m");
-	}
-	return ;
-}
-
 int	ms_minishell_process_exemple(char *line)
 {
 	int	i;
@@ -95,26 +60,53 @@ static	int	ms_minishell_temporary_start(char *line)
 	return (1);
 }
 
+int	ms_set_termios(struct termios *interact_tio, struct termios *process_tio)
+{
+	int	tty_device;
+
+	tty_device = ttyslot();
+	if (!isatty(tty_device))
+		return (-1);
+	if (tcgetattr(tty_device, interact_tio) != 0)
+		return (-1);
+	if (tcgetattr(tty_device, process_tio) != 0)
+		return (-1);
+	interact_tio->c_cc[VQUIT] = 0;
+	return (1);
+}
+
+void	ms_set_sigaction(struct sigaction *sa)
+{
+	sa->sa_sigaction = ms_signal_handle_sig;
+	sa->sa_flags = SA_SIGINFO;
+	sigemptyset(&sa->sa_mask);
+	sigaction(SIGINT, sa, NULL);
+	sigaction(SIGQUIT, sa, NULL);
+}
+
 int	main(void)
 {
 	char				*line;
-	char				*prompt;
+	int					tty_device;
 	struct sigaction	sa;
+	struct termios		interact_tio;
+	struct termios		process_tio;
 
-	prompt = "\e[1;32mMinishell: \e[0m";
-	sa.sa_sigaction = ms_minishell_handle_sig;
-	sa.sa_flags = SA_SIGINFO;
-	sigemptyset(&sa.sa_mask);
-	sigaction(SIGINT, &sa, NULL);
-	sigaction(SIGQUIT, &sa, NULL);
+	tty_device = ms_set_termios(&interact_tio, &process_tio);
+	if (tty_device < 0)
+		return (-1);
+	ms_set_sigaction(&sa);
 	while (1)
 	{
-		line = readline(prompt);
+		tcsetattr(tty_device, TCSANOW, &interact_tio);
+		line = readline("\e[1;32mMinishell: \e[0m");
 		if (!line)
-			continue ;
+			break ;
 		add_history(line);
 		rl_on_new_line();
+		tcsetattr(tty_device, TCSANOW, &process_tio);
 		ms_minishell_temporary_start(line);
 	}
+	tcsetattr(tty_device, TCSANOW, &process_tio);
 	return (1);
 }

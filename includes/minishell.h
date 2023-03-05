@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/05 18:10:24 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/05 18:15:52 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,6 @@
 # define QT_CHAR "'\""
 # define FL_CHAR " \t<>"
 # define SP_CHAR " \t"
-
-// typedef struct s_line
-// {
-// 	char			quote;
-// 	char			*line;
-// 	struct s_line	*next;
-// }				t_line;		
 
 typedef struct s_file
 {
@@ -149,6 +142,12 @@ void	ms_lpid_del_pid(pid_t target);
 void	ms_lpid_print(void);
 /* minishell */
 void	ms_minishell_handle_sig(int signum, siginfo_t *info, void *context);
+int 	ms_set_termios(struct termios	*interact_tio, struct termios	*process_tio);
+/* parsing */
+int		ms_parsing_start(char *line, char **envp);
+int		ms_parsing_quote(t_line *to_parse);
+int		ms_parsing_sec_quote(t_line *to_parse, int i);
+int		ms_parsing_print(t_line *line);
 /* pipe */
 int		ms_pipe_start(char *line, char ***envp);
 int		ms_pipe_split(t_command *cmd, int *cmd_nb);
@@ -164,6 +163,14 @@ int		ms_pwd_run(t_command *cmd, char ***envp);
 int		ms_return_freeturn(char **ptr, int ret);
 int		ms_return_msg(int ret, char *msg);
 int		ms_return_error(int ret, char *msg);
+/* signal */
+void	ms_signal_kill_child(void);
+void	ms_signal_handle_sig(int signum, siginfo_t *info, void *context);
+/* split */
+int		ms_split_split(t_line *to_parse, int i, int j);
+int		ms_split_middle(t_line *to_parse, int i, int j);
+int		ms_split_beggin(t_line *to_parse, int i, int j);
+int		ms_split_addup(t_line *to_parse, char *line, int quote, int len);
 /* tfile */
 int		ms_tfile_addback(t_file **start, char *parsed, char mode);
 int		ms_tfile_clean(t_file **file);
