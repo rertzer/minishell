@@ -5,51 +5,35 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/23 13:57:05 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/23 17:06:39 by rertzer          ###   ########.fr       */
+/*   Created: 2023/03/02 17:18:36 by rertzer           #+#    #+#             */
+/*   Updated: 2023/03/05 09:11:07 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ms_dollar_parse(t_line *to_parse, char **envp)
-{
-	int		ret;
-
-	ret = 0;
-	while (to_parse)
-	{
-		if (to_parse->quote != '\'')
-			ret = ms_dollar_parseline(to_parse, envp);
-		if (ret)
-			break ;
-		to_parse = to_parse->next;
-	}
-	return (ret);
-}
-
-int	ms_dollar_parseline(t_line *to_parse, char **envp)
+char	*ms_dollar_parse(char *line, char **envp)
 {
 	int		i;
 	int		len;
 
 	i = 0;
-	while (to_parse->line[i])
+	while (line[i])
 	{
-		if (to_parse->line[i] == '$')
+		if (line[i] == '$' && ms_char_prevok(line, i))
 		{
-			len = ms_dollar_replace(to_parse, i, envp);
+			len = ms_dollar_replace(&line, i, envp);
 			if (len < 0)
-				return (1);
+				return (NULL);
 			i += len;
 		}
 		else
 			i++;
 	}
-	return (0);
+	return (line);
 }
 
-int	ms_dollar_replace(t_line *to_parse, int i, char **envp)
+int	ms_dollar_replace(char **line, int i, char **envp)
 {
 	int		len;
 	char	*key;
@@ -58,19 +42,19 @@ int	ms_dollar_replace(t_line *to_parse, int i, char **envp)
 	len = 0;
 	key = NULL;
 	value = NULL;
-	if (to_parse->line[i + 1])
+	if ((*line)[i + 1])
 	{
-		len = ms_utils_wordlen(&to_parse->line[i + 1]);
+		len = ms_utils_wordlen(&(*line)[i + 1]);
 		if (len)
-			key = ft_strndup(&to_parse->line[i + 1], len);
+			key = ft_strndup(&(*line)[i + 1], len);
 	}
 	if (key)
 		value = ms_env_getvalue(envp, key);
-	to_parse->line = ms_utils_strreplace(to_parse->line, value, i, len + 1);
+	*line = ms_utils_strreplace(*line, value, i, len + 1);
 	len = ft_strlen(value);
 	free(key);
 	free(value);
-	if (to_parse->line == NULL)
+	if (*line == NULL)
 		return (-1);
 	return (len);
 }

@@ -16,6 +16,7 @@ LIBFT = $(LIBFT_DIR)libft.a
 SOURCES = args.c \
 	builtin.c \
 	cd.c \
+	char.c \
 	check_cmd_bonus.c \
 	child_bonus.c \
 	command.c \
@@ -25,22 +26,21 @@ SOURCES = args.c \
 	exit.c \
 	export.c \
 	file.c \
-	filesplit.c \
+	file_utils.c \
 	here_doc_bonus.c \
-	line.c \
 	parsing.c \
 	pipe.c \
 	pipeline.c \
-	pipex.c \
 	pipexrun.c \
 	pwd.c \
 	return.c \
 	r_test.c \
 	run_bonus.c \
-	split.c \
 	tfile.c \
+	trim.c \
 	utils_bonus.c \
-	utils.c
+	utils.c \
+	pipex.c
 	#minishell.c \
 	#lpid.c \
 

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/22 13:56:09 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/02 11:57:49 by rertzer          ###   ########.fr       */
+/*   Created: 2023/03/02 17:13:25 by rertzer           #+#    #+#             */
+/*   Updated: 2023/03/05 14:34:29 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,73 +14,61 @@
 
 int	ms_parsing_start(char *line, char ***envp)
 {
-	int		ret;
-	t_line	*to_parse;
+	int		i;
+	int 	j;
+	char	*new_line;
 
-	to_parse = NULL;
-	ret = ms_line_addback(&to_parse, 0, line);
-	if (!ret)
-		ret = ms_parsing_quote(to_parse);
-	if (!ret)
-		ret = ms_dollar_parse(to_parse, *envp);
-	if (!ret)
-		ret = ms_pipe_start(to_parse);
-	if (!ret)
-		ret = ms_token_tokenise(to_parse);
-	if (!ret)
-		ret = ms_file_parse(to_parse);
-	ms_parsing_print(to_parse);
-
-	ret = ms_pipex_start(to_parse, envp);
-	//if (!ret)
-	//ret = ms_parsing_print(to_parse);
-	ms_line_clean(to_parse);
-	return (ret);
-}
-
-int	ms_parsing_quote(t_line *to_parse)
-{
-	int	i;
-	int	j;
-	int	ret;
-
-	ret = 0;
 	i = -1;
-	while (to_parse->line[++i])
-	{
-		if (to_parse->line[i] == '"' || to_parse->line[i] == '\'')
-		{
-			j = ms_parsing_sec_quote(to_parse, i);
-			if (j)
-				ret = ms_split_split(to_parse, i, j);
-		}
-		if (ret)
-			break ;
-	}
-	return (ret);
+	j = 0;
+	while (line[++i])
+		j += ms_char_isin(line[i], SQ_CHAR);
+	errno = 0;
+	new_line = malloc(sizeof(char) * (i + j + 1));
+	if (NULL == new_line)
+		return (ms_return_error(errno, "malloc"));
+	ms_parsing_quote(line, new_line);
+	new_line = ms_dollar_parse(new_line, *envp);
+	if (new_line == NULL)
+		return (ms_return_error(errno, "parsing dollar"));
+	return (ms_pipe_start(new_line, envp));
 }
 
-int	ms_parsing_sec_quote(t_line *to_parse, int i)
+void	ms_parsing_quote(char *line, char *new_line)
 {
+	int		i;
+	int		j;
 	char	quote;
 
-	if (to_parse->quote)
-		return (0);
-	quote = to_parse->line[i];
-	while (to_parse->line[++i])
+	i = -1;
+	j = -1;
+	quote = '\0';
+	while (line[++i])
 	{
-		if (to_parse->line[i] == quote)
-			return (i);
+		if (ms_parsing_isquote(&line[i], &quote))
+			continue ;
+		j++;
+		if ((quote == '\'' && ms_char_isin(line[i], SQ_CHAR)) \
+			|| (quote == '"' && ms_char_isin(line[i], DQ_CHAR)))
+			new_line[j++] = '\\';
+		new_line[j] = line[i];
 	}
-	return (0);
+	new_line[j + 1] = '\0';
 }
 
-int	ms_parsing_print(t_line *line)
+int	ms_parsing_isquote(char *line, char *quote)
 {
-	while (line)
+	if (ms_char_isin(line[0], QT_CHAR))
 	{
-		printf("quote : %c\nline: _%s_\n\n", line->quote, line->line);
-		line = line->next;
+		if (*quote == line[0])
+		{
+			*quote = '\0';
+			return (1);
+		}
+		else if ((!*quote) && ms_char_nextexist(line))
+		{
+			*quote = line[0];
+			return (1);
+		}
 	}
 	return (0);
 }

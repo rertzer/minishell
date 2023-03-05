@@ -5,80 +5,60 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/22 17:39:32 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/02 11:31:05 by rertzer          ###   ########.fr       */
+/*   Created: 2023/03/02 14:25:09 by rertzer           #+#    #+#             */
+/*   Updated: 2023/03/05 14:38:04 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ms_pipe_start(t_line *to_pipe)
+int	ms_pipe_start(char *line, char ***envp)
+{
+	int			cmd_nb;
+	t_command	*cmd_start;
+
+	
+	cmd_nb = 1;
+	cmd_start = NULL;
+	if (ms_command_addback(&cmd_start))
+		return (1);
+	cmd_start->cmd_nb = 1;
+	cmd_start->cmd_path = line;
+	if (ms_pipe_split(cmd_start, &cmd_nb))
+		return (ms_command_clean(&cmd_start));
+	if (ms_file_start(cmd_start))
+		return (ms_command_clean(&cmd_start));
+	return (ms_pipeline_run(cmd_start, cmd_nb, envp));
+}
+
+int	ms_pipe_split(t_command *cmd, int *cmd_nb)
 {
 	int		i;
+	int		start;
+	char	*line;
 
-	while (to_pipe)
+	line = ft_strdup(cmd->cmd_path);
+	i = -1;
+	start = 0;
+	while (line[++i])
 	{
-		if (to_pipe->quote == 0)
+		if (line[i] == '|' && ms_char_prevok(line, i))
 		{
-			//to_pipe->line = ms_utils_trim(to_pipe->line);
-			i = -1;
-			while (to_pipe->line[++i])
-			{
-				if (to_pipe->line[i] == '|')
-				{
-					if (ms_pipe_split(to_pipe, i))
-						return (1);
-					break ;
-				}
-			}
+			if (ms_command_addback(&cmd))
+				return (ms_return_freeturn(&line, 1));
+			free(cmd->cmd_path);
+			cmd->cmd_path = ft_strndup(&line[start], i - start);
+			if (NULL == cmd->cmd_path)
+				return (ms_return_freeturn(&line, 1));
+			start = i + 1;
+			cmd = cmd->next;
+			cmd->cmd_path = ft_strndup(&line[start], ft_strlen(&line[start]));
+			if (NULL == cmd->cmd_path)
+				return (ms_return_freeturn(&line, 1));
+			(*cmd_nb)++;
+			cmd->cmd_nb = *cmd_nb;
 		}
-		to_pipe = to_pipe->next;
 	}
-	return (0);
-}
-
-int	ms_pipe_split(t_line *to_pipe, int i)
-{
-	char	*str;
-
-	str = to_pipe->line;
-	to_pipe->line = ft_strndup(str, i);
-	if (to_pipe == NULL)
-		return (ms_return_freeturn(&str, 1));
-	if (ms_utils_spaceonly(to_pipe->line))
-	{
-		if (ms_pipe_setpipe(to_pipe))
-			return (ms_return_freeturn(&str, 1));
-	}
-	else
-	{
-		if (ms_pipe_addpipe(&to_pipe))
-			return (ms_return_freeturn(&str, 1));
-	}
-	if (!ms_utils_spaceonly(&str[i + 1]))
-	{
-		if (ms_line_addin(to_pipe, ft_strndup(&str[i + 1], \
-					ft_strlen(str) - (unsigned long)(i + 1))))
-			return (ms_return_freeturn(&str, 1));
-	}
-	return (ms_return_freeturn(&str, 0));
-}
-
-int	ms_pipe_addpipe(t_line **to_pipe)
-{
-	if (ms_line_addin(*to_pipe, ft_strdup("|")))
-		return (1);
-	*to_pipe = (*to_pipe)->next;
-	(*to_pipe)->quote = 'p';
-	return (0);
-}
-
-int	ms_pipe_setpipe(t_line *to_pipe)
-{
-	free(to_pipe->line);
-	to_pipe->quote = 'p';
-	to_pipe->line = ft_strdup("|");
-	if (to_pipe->line == NULL)
-		return (1);
+	free(line);
 	return (0);
 }

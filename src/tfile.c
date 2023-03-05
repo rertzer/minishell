@@ -6,13 +6,13 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 13:19:14 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/01 15:57:47 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/04 09:24:00 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ms_tfile_addback(t_file **start, t_line *parsed)
+int	ms_tfile_addback(t_file **start, char *line, char mode)
 {
 	t_file	*new;
 	t_file	*last;
@@ -20,8 +20,8 @@ int	ms_tfile_addback(t_file **start, t_line *parsed)
 	new = malloc(sizeof(t_file));
 	if (new == NULL)
 		return (1);
-	new->name = parsed->line;
-	new->mode = parsed->quote;
+	new->name = line;
+	new->mode = mode;
 	new->next = NULL;
 	if (*start == NULL)
 		*start = new;

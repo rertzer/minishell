@@ -6,12 +6,12 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 11:04:32 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/02 10:22:43 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/05 11:39:15 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
+/*
 int	ms_pipex_start(t_line *parsed, char ***envp)
 {
 	int			cmd_nb;
@@ -93,25 +93,25 @@ int	ms_pipex_other(t_line *parsed, t_command *cmd)
 	}
 	return (0);
 }
-
+*/
 int	ms_pipex_print(t_command *cmd_start, int cmd_nb)
 {
 	// remove function for submission
 	printf("%d commands\n", cmd_nb);
 	while (cmd_start)
 	{
-		printf("cmd %s\n", cmd_start->cmd_path);
+		printf("\ncmd %s\n", cmd_start->cmd_path);
 		t_file	*file;
 		file = cmd_start->infile;
 		while (file)
 		{
-			printf("file in %s %c\n", file->name, file->mode);
+			printf("file_in: _%s_ %c\n", file->name, file->mode);
 			file = file->next;
 		}
 		file = cmd_start->outfile;
 		while (file)
 		{
-			printf("file out %s %c\n", file->name, file->mode);
+			printf("file_out: _%s_ %c\n", file->name, file->mode);
 			file = file->next;
 		}
 		if (cmd_start->args)

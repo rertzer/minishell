@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/02 10:30:02 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/05 18:10:24 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,20 @@
 
 # include "libft.h"
 
-#define DP fprintf(stderr, "%s %d\n", __FILE__, __LINE__);
-#define FUN_TOP 6
-typedef struct s_line
-{
-	char			quote;
-	char			*line;
-	struct s_line	*next;
-}				t_line;		
+# define DP fprintf(stderr, "%s %d\n", __FILE__, __LINE__);
+# define FUN_TOP 6
+# define SQ_CHAR " $*|<>\t"
+# define DQ_CHAR " *|<>\t"
+# define QT_CHAR "'\""
+# define FL_CHAR " \t<>"
+# define SP_CHAR " \t"
+
+// typedef struct s_line
+// {
+// 	char			quote;
+// 	char			*line;
+// 	struct s_line	*next;
+// }				t_line;		
 
 typedef struct s_file
 {
@@ -79,13 +85,37 @@ typedef struct	s_lpid
 typedef	int (*builtin_fun)(t_command *cmd, char ***envp);
 
 extern t_lpid *g_lpid;
+
+/* parsing */
+int		ms_parsing_start(char *line, char ***envp);
+void	ms_parsing_quote(char *line, char *new_line);
+int		ms_parsing_isquote(char *line, char *quote);
+/* char */
+int		ms_char_isin(char c, char *special);
+int		ms_char_nextexist(char *line);
+int		ms_char_prevok(char *line, int i);
+char	*ms_char_unprotect(char *line);
+/* file */
+int		ms_file_start(t_command *cmd);
+int		ms_file_parse(t_command *cmd);
+/* file utils */
+void	ms_file_mode(char *path, char *mode, int *shift);
+int		ms_file_wordend(char *line, int j);
+t_file	**ms_file_adr(t_command *cmd, int mode);
+int		ms_file_chevron(t_command *cmd, int mode);
 /* args */
 int		ms_args_add(t_command *cmd, char *line);
 int		ms_args_getnb(t_command *cmd);
+int		ms_args_parse(t_command *cmd);
+int		ms_args_parseloop(t_command *cmd, int i, int start, int word);
+int		ms_args_insert(t_command *cmd, char *line);
 /* builtin */
-int		ms_builtin_itis(char *name);////////////////////////////////////////////////////
-int		ms_builtin_run(t_pipeline *ppl, t_command *cmd, char ***envp);/////////////////
+int		ms_builtin_itis(char *name);
+int		ms_builtin_run(t_pipeline *ppl, t_command *cmd, char ***envp);
 /* cd */
+int		ms_cd_setpath(char *key, char *value, char ***envp);
+int		ms_cd_pathsplit(char *path, char **npath, char **syml);
+char	*ms_cd_symbolicpath(char *path);
 int		ms_cd_run(t_command *cmd, char ***envp);
 /* command */
 void	ms_command_init(t_command *cmd);
@@ -94,9 +124,8 @@ int		ms_command_clean(t_command **cmd);
 void	ms_command_clean_one(t_command *cmd);
 void	ms_command_close(int fd);
 /* dollar */
-int		ms_dollar_parse(t_line *to_parse, char **envp);
-int		ms_dollar_parseline(t_line *to_parse, char **envp);
-int		ms_dollar_replace(t_line *to_parse, int i, char **envp);
+char	*ms_dollar_parse(char *line, char **envp);
+int		ms_dollar_replace(char **line, int i, char **envp);
 /* echo */
 int		ms_echo_run(t_command *cmd, char ***envp);
 /* env */
@@ -112,23 +141,6 @@ int		ms_export_run(t_command *cmd, char ***envp);
 void	ms_export_arg(char *arg, char ***envp);
 void	ms_export_new(char *arg, char ***envp);
 void	ms_export_set(char *arg, char **envp, int index);
-/* file */
-int		ms_file_parse(t_line *to_parse);
-int		ms_file_parseline(t_line **to_parse);
-int		ms_file_chevron(t_line **to_parse, int i, char chevron);
-int		ms_file_quotenext(t_line **to_parse, char chevron);
-int		ms_file_addin(t_line **to_parse, char *line, char chevron);
-/* file split */
-int		ms_file_split(t_line **to_parse, char chevron, int i, int shift);
-int		ms_file_split_beggin(t_line **to_parse, char chevron, int shift);
-int		ms_file_split_end(t_line **to_parse, char chevron, int i, int shift);
-int		ms_file_split_middle(t_line **to_parse, char chevron, int i, int shift);
-/* line */
-int		ms_line_addback(t_line **first, char quote, char *str);
-int		ms_line_addin(t_line *prev, char *str);
-char	*ms_line_extractnext(t_line *prev);
-t_line	*ms_line_last(t_line *first);
-void	ms_line_clean(t_line *first);
 /* lpid */
 t_lpid	*ms_lpid_new(pid_t pid);
 void	ms_lpid_add(t_lpid *new);
@@ -137,28 +149,13 @@ void	ms_lpid_del_pid(pid_t target);
 void	ms_lpid_print(void);
 /* minishell */
 void	ms_minishell_handle_sig(int signum, siginfo_t *info, void *context);
-//int		main(void); // la fonction main n'a pas besoin d'etre ajoutee
-/* parsing */
-int		ms_parsing_start(char *line, char ***envp);
-int		ms_parsing_quote(t_line *to_parse);
-int		ms_parsing_sec_quote(t_line *to_parse, int i);
-int		ms_parsing_print(t_line *line);
 /* pipe */
-int		ms_pipe_start(t_line *to_pipe);
-int		ms_pipe_split(t_line *to_pipe, int i);
-int		ms_pipe_addpipe(t_line **to_pipe);
-int		ms_pipe_setpipe(t_line *to_pipe);
+int		ms_pipe_start(char *line, char ***envp);
+int		ms_pipe_split(t_command *cmd, int *cmd_nb);
 /* pipeline */
 int		ms_pipeline_run(t_command *cmd_start, int cmd_nb, char ***envp);
 void	ms_pipeline_clean(t_pipeline *ppl);
-/* pipex */
-int		ms_pipex_start(t_line *parsed, char ***envp);
-int		ms_pipex_pipe(t_line *parsed, t_command **cmd, t_command **cmd_start, \
-					int *cmd_nb);
-int		ms_pipex_parse(t_line *parsed, t_command *cmd);
-int		ms_pipex_word(char *line, t_command *cmd);
-int		ms_pipex_other(t_line *parsed, t_command *cmd);
-int		ms_pipex_print(t_command *cmd_start, int cmd_nb);// remove for submission
+int		ms_pipex_print(t_command *cmd_start, int cmd_nb);// remove for submission 
 /* pipex run */
 int		ms_pipex_run(t_pipeline *ppl, char ***envp);
 /* pwd */
@@ -167,14 +164,11 @@ int		ms_pwd_run(t_command *cmd, char ***envp);
 int		ms_return_freeturn(char **ptr, int ret);
 int		ms_return_msg(int ret, char *msg);
 int		ms_return_error(int ret, char *msg);
-/* split */
-int		ms_split_split(t_line *to_parse, int i, int j);
-int		ms_split_middle(t_line *to_parse, int i, int j);
-int		ms_split_beggin(t_line *to_parse, int i, int j);
-int		ms_split_addup(t_line *to_parse, char *line, int quote, int len);
 /* tfile */
-int		ms_tfile_addback(t_file **start, t_line *parsed);
+int		ms_tfile_addback(t_file **start, char *parsed, char mode);
 int		ms_tfile_clean(t_file **file);
+/* trim */
+char	*ms_trim_trim(char *line);
 /* utils */
 int		ms_utils_spaceonly(char *str);
 char	*ms_utils_trim(char *str);
@@ -203,5 +197,6 @@ void	pp_open_out(t_pipeline *ppl, t_command *cmd, int i);
 void	pp_run_child(t_pipeline *ppl, t_command *cmd, char ***envp, int i);
 /* Utils */
 void	pp_nullfree(char **ptr);
-char	*pp_pathjoin(char const *s1, char const *s2);
+int		pp_path_size(char *s1, char const *s2);
+char	*pp_pathjoin(char *s1, char const *s2);
 #endif

@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 15:42:25 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/27 14:59:31 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/05 15:53:49 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,27 @@ void	pp_nullfree(char **ptr)
 	*ptr = NULL;
 }
 
-char	*pp_pathjoin(char const *s1, char const *s2)
+int		pp_path_size(char *s1, char const *s2)
+{
+	size_t	i;
+
+	i = ft_strlen(s1);
+	if (s1[i - 1] == '/')
+	{
+		s1[i - 1] = '\0';
+		i--;
+	}
+	i += ft_strlen(s2);
+	return (i + 2);
+}
+
+char	*pp_pathjoin(char *s1, char const *s2)
 {
 	size_t	i;
 	size_t	j;
 	char	*dest;
 
-	i = ft_strlen(s1);
-	i += ft_strlen(s2);
-	dest = malloc(sizeof(char) *(i + 2));
+	dest = malloc(sizeof(char) *(pp_path_size(s1, s2)));
 	if (NULL == dest)
 		return (NULL);
 	i = 0;

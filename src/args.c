@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 13:32:08 by rertzer           #+#    #+#             */
-/*   Updated: 2023/02/26 16:17:38 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/05 14:36:18 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,57 @@ int	ms_args_getnb(t_command *cmd)
 	while (cmd->args[nb] != NULL)
 		nb++;
 	return (nb);
+}
+
+int	ms_args_parse(t_command *cmd)
+{
+	if (cmd->cmd_path == NULL || ms_utils_spaceonly(cmd->cmd_path))
+	{
+		free(cmd->cmd_path);
+		cmd->cmd_path = NULL;
+		return (0);
+	}
+	return (ms_args_parseloop(cmd, -1, 0, 0));
+}
+
+int	ms_args_parseloop(t_command *cmd, int i, int start, int word)
+{
+	char	*line;
+
+	line = cmd->cmd_path;
+	while (line[++i])
+	{
+		if (ms_char_isin(line[i], SP_CHAR) && ms_char_prevok(line, i))
+		{
+			if (word)
+			{
+				ms_args_insert(cmd, ft_strndup(&line[start], i - start));// a proteger
+				start = i + 1;
+				word = 0;
+			}
+		}
+		else
+			word = 1;
+	}
+	if (i != start && word)
+		ms_args_insert(cmd, ft_strndup(&line[start], i - start));// a proteger
+	free(line);
+	return (0);
+}
+
+int	ms_args_insert(t_command *cmd, char *line)
+{
+	char	*str;
+
+	line = ms_char_unprotect(line);
+	if (cmd->args == NULL)
+	{	
+		errno = 0;
+		str = ft_strdup(line);
+		if (NULL == str)
+			return (ms_return_freeturn(&line, 1));
+		cmd->cmd_path = str;
+	}
+	ms_args_add(cmd, line);
+	return (0);
 }
