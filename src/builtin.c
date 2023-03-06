@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 12:52:18 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/02 11:06:23 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/06 11:39:27 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	ms_builtin_itis(char *name)
 	fun_names[3] = "pwd";
 	fun_names[4] = "env";
 	fun_names[5] = "export";
+	fun_names[6] = "unset";
+	fun_names[7] = "exit";
 	i = 0;
 	while (++i < FUN_TOP)
 	{
@@ -47,6 +49,8 @@ int	ms_builtin_run(t_pipeline *ppl, t_command *cmd, char ***envp)
 	fun_exec[3] = ms_pwd_run;
 	fun_exec[4] = ms_env_run;
 	fun_exec[5] = ms_export_run;
+	fun_exec[6] = ms_unset_run;
+	fun_exec[7] = ms_exit_run;
 	fun_index = ms_builtin_itis(cmd->cmd_path);
 	if (fun_index)
 		return (fun_exec[fun_index](cmd, envp));

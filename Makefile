@@ -38,6 +38,7 @@ SOURCES = args.c \
 	run_bonus.c \
 	tfile.c \
 	trim.c \
+	unset.c \
 	utils_bonus.c \
 	utils.c \
 	pipex.c \
