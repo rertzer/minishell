@@ -42,10 +42,9 @@ SOURCES = args.c \
 	utils_bonus.c \
 	utils.c \
 	pipex.c \
-	r_test.c 
-	#minishell.c \
-	#lpid.c \
-	#signal.c \
+	minishell.c \
+	lpid.c \
+	signal.c \
 
 OBJ = $(SOURCES:.c=.o)
 

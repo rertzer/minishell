@@ -25,7 +25,7 @@ void	ms_signal_handle_sig(int signum, siginfo_t *info, void *context)
 {
 	(void)context;
 	(void)info;
-	if (signum == SIGQUIT && g_lpid && g_lpid->pid != getpid())
+	if (signum == SIGQUIT && g_lpid)
 	{
 		ms_signal_kill_child();
 		if (!g_lpid)
@@ -36,7 +36,12 @@ void	ms_signal_handle_sig(int signum, siginfo_t *info, void *context)
 		if (g_lpid)
 			ms_signal_kill_child();
 		else
-			printf("\n\e[1;32mMinishell: \e[0m");
+		{
+			rl_replace_line("", 0);
+			printf("\n");
+			rl_on_new_line();
+			rl_redisplay();
+		}
 	}
 	return ;
 }

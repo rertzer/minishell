@@ -40,5 +40,6 @@ int	ms_exit_run(t_command *cmd, char ***envp)
 		*envp = NULL;
 	}
 	ms_command_clean(&cmd);
+	ft_putstr_fd("exit\n", 1);
 	exit(0);
 }

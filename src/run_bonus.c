@@ -44,8 +44,12 @@ void	pp_run_wait(t_pipeline *ppl)
 
 	status = 0;
 	i = -1;
-	while (++i < ppl->cmd_nb)
-		wait(&status);
+	while (++i < ppl->cmd_nb && g_lpid && g_lpid->pid > 0)
+	{
+		waitpid(g_lpid->pid, &status, 0);
+		if (g_lpid)
+			ms_lpid_del_pid(g_lpid->pid);
+	}
 }
 
 int	pp_run_make_pipes(t_pipeline *ppl)
@@ -81,6 +85,8 @@ int	pp_run_fork(t_pipeline *ppl, char ***envp)
 			return (ms_return_error(errno, R_FRK));
 		else if (child == 0)
 			pp_run_child(ppl, cmd, envp, i);
+		else
+			ms_lpid_add_back(ms_lpid_new(child));
 		cmd = cmd->next;
 	}
 	return (0);

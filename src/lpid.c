@@ -18,7 +18,7 @@ t_lpid	*ms_lpid_new(pid_t pid)
 
 	lpid = malloc(sizeof(t_lpid));
 	if (!lpid)
-		return (NULL);
+		return (NULL); // malloc error
 	lpid->pid = pid;
 	lpid->last = NULL;
 	lpid->next = NULL;
@@ -35,6 +35,25 @@ void	ms_lpid_add(t_lpid *new)
 		g_lpid->last = new;
 	}
 	g_lpid = new;
+}
+
+void	ms_lpid_add_back(t_lpid *new)
+{
+	t_lpid	*first;
+
+	if (!new)
+		return ;
+	if (g_lpid)
+	{
+		first = g_lpid;
+		while (g_lpid->next)
+			g_lpid = g_lpid->next;
+		g_lpid->next = new;
+		new->last = g_lpid;
+		g_lpid = first;
+	}
+	else
+		g_lpid = new;
 }
 
 void	ms_lpid_delone(t_lpid *lpid)
@@ -69,7 +88,7 @@ void	ms_lpid_del_pid(pid_t target)
 	}
 }
 
-void	ms_lpid_print(void)
+void	ms_lpid_print(void) //temporaire
 {
 	t_lpid	*copy;
 	int		i;
@@ -77,7 +96,11 @@ void	ms_lpid_print(void)
 	copy = g_lpid;
 	i = 1;
 	if (!g_lpid)
+	{
+		printf("\e[1;31mEmpty gl_pid\n\e[0m");
 		return ;
+	}
+	printf("\e[1;33m[%d] got : \e[0m", getpid());
 	while (copy->last)
 	{
 		copy = copy->last;
@@ -89,4 +112,5 @@ void	ms_lpid_print(void)
 			printf("----> ");
 		copy = copy->next;
 	}
+	printf("\n");
 }

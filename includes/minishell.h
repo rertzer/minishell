@@ -86,6 +86,13 @@ typedef struct	s_lpid
 	struct s_lpid		*last;
 }				t_lpid;
 
+typedef struct	s_term
+{
+	struct termios		interact_tio;
+	struct termios		process_tio;
+	int					tty_device;
+}				t_term;
+
 typedef	int (*builtin_fun)(t_command *cmd, char ***envp);
 
 extern t_lpid *g_lpid;
@@ -96,11 +103,12 @@ extern t_lpid *g_lpid;
 /* lpid */
 t_lpid	*ms_lpid_new(pid_t pid);
 void	ms_lpid_add(t_lpid *new);
+void	ms_lpid_add_back(t_lpid *new);
 void	ms_lpid_delone(t_lpid *lpid);
 void	ms_lpid_del_pid(pid_t target);
-void	ms_lpid_print(void);
+void	ms_lpid_print(void); 					// to remove
 /* minishell */
-void	ms_minishell_handle_sig(int signum, siginfo_t *info, void *context);
+void	ms_set_sigaction(struct sigaction *sa);
 int 	ms_set_termios(struct termios *interact_tio, \
 		struct termios *process_tio);
 /* signal */
