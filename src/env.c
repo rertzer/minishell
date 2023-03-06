@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 13:46:42 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/02 11:20:01 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/06 15:00:11 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ char	*ms_env_getvalue(char **envp, char *key)
 		if (index)
 		{
 			value = ft_strdup(&envp[i][index]);
+			if (value == NULL)
+				return (ms_return_null(R_STR));
 			break ;
 		}
 	}
@@ -45,7 +47,6 @@ int	ms_env_getindex(char **envp, char *key)
 			return (i);
 	}
 	return (-1);
-
 }
 
 int	ms_env_valueindex(char *env, char *key)

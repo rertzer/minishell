@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 14:46:23 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/04 10:59:30 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/06 17:25:00 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,12 @@ int	pp_open_file(t_pipeline *ppl, t_file *file)
 	else if (file->mode == '?')
 		flags = O_CREAT | O_APPEND | O_WRONLY;
 	else
-		ms_exit_msg(ppl, "syntax error");
+		ms_exit_msg(ppl, R_SYN);
 	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 	errno = 0;
 	fd = open(file->name, flags, mode);
 	if (fd == -1)
-		ms_exit_error(ppl, "open");
+		ms_exit_error(ppl, R_OPN);
 	return (fd);
 }
 
@@ -80,15 +80,28 @@ void	pp_run_child(t_pipeline *ppl, t_command *cmd, char ***envp, int i)
 		ms_exit_msg(ppl, NULL);
 	if (ms_builtin_itis(cmd->cmd_path))
 	{
-		ms_builtin_run(ppl, cmd, envp);
+		ms_builtin_run(cmd, envp);
 		ms_exit_msg(ppl, NULL);
 	}
+	pp_run_exec(ppl, cmd, envp);
+}
+
+void	pp_run_exec(t_pipeline *ppl, t_command *cmd, char ***envp)
+{
+	char	*path;
+	char	**args;
+
 	pp_check_cmd_path(ppl, cmd);
-	if (NULL != cmd->cmd_path)
+	path = cmd->cmd_path;
+	args = cmd->args;
+	cmd->cmd_path = NULL;
+	cmd->args = NULL;
+	ms_pipeline_clean(ppl);
+	if (NULL != path)
 	{
-		// il faut tout clean sauf une copie de lexec
 		errno = 0;
-		execve(cmd->cmd_path, cmd->args, *envp);
-		ms_exit_error(ppl, cmd->cmd_path);
+		execve(path, args, *envp);
+		ms_exit_error(NULL, path);
 	}
+	exit(0);
 }

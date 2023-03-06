@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 13:31:58 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/01 11:28:02 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/06 16:36:56 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*pp_here_line(t_pipeline *ppl, char *limiter, char *line, int *pipefd)
 		if (write(pipefd[1], line, line_size) == -1)
 		{
 			free(line);
-			ms_exit_error(ppl, "write");
+			ms_exit_error(ppl, R_WRT);
 		}
 		free(line);
 		line = get_next_line(0);

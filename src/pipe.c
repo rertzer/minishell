@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 14:25:09 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/05 14:38:04 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/06 17:26:47 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ int	ms_pipe_start(char *line, char ***envp)
 	int			cmd_nb;
 	t_command	*cmd_start;
 
-	
 	cmd_nb = 1;
 	cmd_start = NULL;
 	if (ms_command_addback(&cmd_start))
@@ -44,21 +43,28 @@ int	ms_pipe_split(t_command *cmd, int *cmd_nb)
 	{
 		if (line[i] == '|' && ms_char_prevok(line, i))
 		{
-			if (ms_command_addback(&cmd))
-				return (ms_return_freeturn(&line, 1));
-			free(cmd->cmd_path);
-			cmd->cmd_path = ft_strndup(&line[start], i - start);
-			if (NULL == cmd->cmd_path)
-				return (ms_return_freeturn(&line, 1));
-			start = i + 1;
-			cmd = cmd->next;
-			cmd->cmd_path = ft_strndup(&line[start], ft_strlen(&line[start]));
-			if (NULL == cmd->cmd_path)
-				return (ms_return_freeturn(&line, 1));
+			if (ms_pipe_cut(cmd, line, &start, &i))
+				break ;
 			(*cmd_nb)++;
 			cmd->cmd_nb = *cmd_nb;
 		}
 	}
 	free(line);
+	return (0);
+}
+
+int	ms_pipe_cut(t_command *cmd, char *line, int *start, int *i)
+{
+	if (ms_command_addback(&cmd))
+		return (1);
+	free(cmd->cmd_path);
+	cmd->cmd_path = ft_strndup(&line[*start], *i - *start);
+	if (NULL == cmd->cmd_path)
+		return (1);
+	*start = *i + 1;
+	cmd = cmd->next;
+	cmd->cmd_path = ft_strndup(&line[*start], ft_strlen(&line[*start]));
+	if (NULL == cmd->cmd_path)
+		return (1);
 	return (0);
 }

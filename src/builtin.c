@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 12:52:18 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/06 11:39:27 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/06 14:28:17 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,8 @@ int	ms_builtin_itis(char *name)
 	return (0);
 }
 
-int	ms_builtin_run(t_pipeline *ppl, t_command *cmd, char ***envp)
+int	ms_builtin_run(t_command *cmd, char ***envp)
 {
-	(void)ppl;
-
 	int			fun_index;
 	builtin_fun	fun_exec[FUN_TOP];
 

@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 10:38:29 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/06 10:59:56 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/06 14:47:19 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,10 @@ char	*ms_cd_recompose(char **dirlst)
 	while (dirlst[++i])
 	{
 		if (dirlst[i][0] == '\0')
-			continue;
+			continue ;
 		tmp = ft_strdup(new_path);
+		if (tmp == NULL && new_path != NULL)
+			return (ms_return_null(R_STR));
 		new_path = pp_pathjoin(tmp, dirlst[i]);
 		free(tmp);
 		if (new_path == NULL)

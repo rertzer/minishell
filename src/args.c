@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 13:32:08 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/05 14:36:18 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/06 17:22:40 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ int	ms_args_add(t_command *cmd, char *line)
 	char	**new;
 
 	arg_nb = ms_args_getnb(cmd);
+	errno = 0;
 	new = malloc(sizeof(char *) * (arg_nb + 2));
 	if (new == NULL)
-		return (1);
+		return (ms_return_error(errno, R_MAL));
 	i = -1;
 	while (++i < arg_nb)
 		new[i] = cmd->args[i];
@@ -60,13 +61,15 @@ int	ms_args_parseloop(t_command *cmd, int i, int start, int word)
 	char	*line;
 
 	line = cmd->cmd_path;
+	cmd->cmd_path = NULL;
 	while (line[++i])
 	{
 		if (ms_char_isin(line[i], SP_CHAR) && ms_char_prevok(line, i))
 		{
 			if (word)
 			{
-				ms_args_insert(cmd, ft_strndup(&line[start], i - start));// a proteger
+				if (ms_args_insert(cmd, ft_strndup(&line[start], i - start)))
+					return (ms_return_freeturn(&line, 1));
 				start = i + 1;
 				word = 0;
 			}
@@ -75,9 +78,11 @@ int	ms_args_parseloop(t_command *cmd, int i, int start, int word)
 			word = 1;
 	}
 	if (i != start && word)
-		ms_args_insert(cmd, ft_strndup(&line[start], i - start));// a proteger
-	free(line);
-	return (0);
+	{
+		if (ms_args_insert(cmd, ft_strndup(&line[start], i - start)))
+			return (ms_return_freeturn(&line, 1));
+	}
+	return (ms_return_freeturn(&line, 0));
 }
 
 int	ms_args_insert(t_command *cmd, char *line)
@@ -85,12 +90,17 @@ int	ms_args_insert(t_command *cmd, char *line)
 	char	*str;
 
 	line = ms_char_unprotect(line);
-	if (cmd->args == NULL)
+	if (line == NULL)
+		return (1);
+	if (cmd->cmd_path == NULL)
 	{	
 		errno = 0;
 		str = ft_strdup(line);
 		if (NULL == str)
-			return (ms_return_freeturn(&line, 1));
+		{
+			free(line);
+			return (ms_return_error(errno, R_STR));
+		}
 		cmd->cmd_path = str;
 	}
 	ms_args_add(cmd, line);

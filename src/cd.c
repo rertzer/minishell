@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 16:19:46 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/06 11:23:47 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/06 14:50:49 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,15 +18,15 @@ int	ms_cd_setpath(char *key, char *value, char ***envp)
 
 	tmp = ft_strjoin(key, value);
 	if (tmp == NULL)
-		return (1);
+		return (ms_return_msg(1, R_STR));
 	ms_export_arg(tmp, envp);
 	return (0);
 }
 
 char	*ms_cd_resolvepath(char *path, char *pwd)
 {
-	char		*newpath;
-	char		**dirlst;
+	char	*newpath;
+	char	**dirlst;
 
 	newpath = pp_pathjoin(pwd, path);
 	if (newpath == NULL)
@@ -34,7 +34,7 @@ char	*ms_cd_resolvepath(char *path, char *pwd)
 	dirlst = ft_split(newpath, '/');
 	free(newpath);
 	if (dirlst == NULL)
-		return (NULL);
+		return (ms_return_null(R_SPL));
 	return (ms_cd_simplify(dirlst));
 }
 

@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 11:27:40 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/01 16:05:23 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/06 15:58:05 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,10 @@ int	ms_command_addback(t_command **start)
 	t_command	*cmd;
 	t_command	*last;
 
+	errno = 0;
 	cmd = malloc(sizeof(t_command));
 	if (cmd == NULL)
-		return (1);
+		return (ms_return_error(errno, R_MAL));
 	ms_command_init(cmd);
 	if (*start == NULL)
 		*start = cmd;
@@ -60,7 +61,6 @@ int	ms_command_clean(t_command **start)
 		cmd = tmp;
 	}
 	*start = NULL;
-	
 	return (0);
 }
 
@@ -70,9 +70,7 @@ void	ms_command_clean_one(t_command *cmd)
 
 	ms_command_close(cmd->fd_in);
 	ms_command_close(cmd->fd_out);
-	
 	ms_tfile_clean(&cmd->infile);
-	
 	ms_tfile_clean(&cmd->outfile);
 	i = -1;
 	if (cmd->args)

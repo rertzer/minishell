@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:41:28 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/02 10:16:00 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/06 15:13:32 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,22 +18,25 @@ int	ms_export_run(t_command *cmd, char ***envp)
 	
 	i = 0;
 	while (cmd->args[++i])
-		ms_export_arg(cmd->args[i], envp);
+	{
+		if (ms_export_arg(cmd->args[i], envp))
+			return (1);
+	}
 	return (0);
 }
 
-void	ms_export_arg(char *arg, char ***envp)
+int	ms_export_arg(char *arg, char ***envp)
 {
 	int	index;
 
 	index = ms_env_getindex(*envp, arg);
 	if (index == -1)
-		ms_export_new(arg, envp);
+		return (ms_export_new(arg, envp));
 	else
-		ms_export_set(arg, *envp, index);
+		return (ms_export_set(arg, *envp, index));
 }
 
-void	ms_export_new(char *arg, char ***envp)
+int	ms_export_new(char *arg, char ***envp)
 {
 	int		i;
 	int		entries;
@@ -45,7 +48,7 @@ void	ms_export_new(char *arg, char ***envp)
 	errno = 0;
 	new_env = malloc(sizeof(char *) * (entries + 2));
 	if (new_env == NULL)
-		ms_return_error(errno, "malloc");
+		return (ms_return_error(errno, R_MAL));
 	i = -1;
 	while (++i < entries)
 		new_env[i] = (*envp)[i];
@@ -53,10 +56,12 @@ void	ms_export_new(char *arg, char ***envp)
 	new_env[i + 1] = NULL;
 	free(*envp);
 	*envp = new_env;
+	return (0);
 }
 
-void	ms_export_set(char *arg, char **envp, int index)
+int	ms_export_set(char *arg, char **envp, int index)
 {
 	free(envp[index]);
 	envp[index] = arg;
+	return (0);
 }

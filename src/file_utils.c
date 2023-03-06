@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 18:36:08 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/05 14:36:43 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/06 16:11:14 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,7 @@ int		ms_file_wordend(char *line, int j)
 	word = 0;
 	while (line[j])
 	{
-		if (ms_char_isin(line[j], FL_CHAR) && \
-				ms_char_prevok(line, j))
+		if (ms_char_isin(line[j], FL_CHAR) && ms_char_prevok(line, j))
 		{
 			if (word)
 				break;

@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 09:08:17 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/04 10:11:19 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/06 15:04:58 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	ms_pipeline_run(t_command *cmd_start, int cmd_nb, char ***envp)
 {
 	t_pipeline	ppl;
 
-	//ms_pipex_print(cmd_start, cmd_nb);
 	ppl.cmd_nb = cmd_nb;
 	ppl.cmds = cmd_start;
 	ppl.pipefd = NULL;

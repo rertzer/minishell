@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 13:21:15 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/04 14:07:14 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/06 15:54:33 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ char	*ms_char_unprotect(char *line)
 	if (line == NULL)
 		return (NULL);
 	line = ms_trim_trim(line);
+	if (line == NULL)
+		return (NULL);
 	i = -1;
 	j = 0;
 	while (line[++i])

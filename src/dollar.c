@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 17:18:36 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/05 09:11:07 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/06 16:01:28 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int	ms_dollar_replace(char **line, int i, char **envp)
 		len = ms_utils_wordlen(&(*line)[i + 1]);
 		if (len)
 			key = ft_strndup(&(*line)[i + 1], len);
+		if (key == NULL)
+			return (-1);
 	}
 	if (key)
 		value = ms_env_getvalue(envp, key);

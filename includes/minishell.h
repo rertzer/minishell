@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/06 13:16:22 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/06 17:25:52 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,18 @@
 # define QT_CHAR "'\""
 # define FL_CHAR " \t<>"
 # define SP_CHAR " \t"
+
+# define R_STR "string error"
+# define R_SPL "split error"
+# define R_MAL "malloc error"
+# define R_PAT "path not found"
+# define R_WRT "write error"
+# define R_CMD "command not found"
+# define R_FRK "fork error"
+# define R_PIP "pipe error"
+# define R_SYN "syntax error"
+# define R_OPN "open error"
+# define R_QUT "Q"
 
 typedef struct s_file
 {
@@ -100,7 +112,7 @@ void	ms_signal_handle_sig(int signum, siginfo_t *info, void *context);
 /* ================================================================= */
 /* builtin */
 int		ms_builtin_itis(char *name);
-int		ms_builtin_run(t_pipeline *ppl, t_command *cmd, char ***envp);
+int		ms_builtin_run(t_command *cmd, char ***envp);
 /* cd */
 int		ms_cd_setpath(char *key, char *value, char ***envp);
 char	*ms_cd_resolvepath(char *path, char *pwd);
@@ -123,9 +135,9 @@ void	ms_exit_error(t_pipeline *ppl, char *msg);
 int		ms_exit_run(t_command *cmd, char ***envp);
 /* export */
 int		ms_export_run(t_command *cmd, char ***envp);
-void	ms_export_arg(char *arg, char ***envp);
-void	ms_export_new(char *arg, char ***envp);
-void	ms_export_set(char *arg, char **envp, int index);
+int		ms_export_arg(char *arg, char ***envp);
+int		ms_export_new(char *arg, char ***envp);
+int		ms_export_set(char *arg, char **envp, int index);
 /* pwd */
 int		ms_pwd_run(t_command *cmd, char ***envp);
 /* unset */
@@ -169,6 +181,7 @@ int		ms_parsing_isquote(char *line, char *quote);
 /* pipe */
 int		ms_pipe_start(char *line, char ***envp);
 int		ms_pipe_split(t_command *cmd, int *cmd_nb);
+int		ms_pipe_cut(t_command *cmd, char *line, int *start, int *i);
 /* pipeline */
 int		ms_pipeline_run(t_command *cmd_start, int cmd_nb, char ***envp);
 void	ms_pipeline_clean(t_pipeline *ppl);
@@ -177,6 +190,7 @@ int		ms_pipex_print(t_command *cmd_start, int cmd_nb);// remove for submission
 int		ms_pipex_run(t_pipeline *ppl, char ***envp);
 /* return */
 int		ms_return_freeturn(char **ptr, int ret);
+char	*ms_return_null(char *msg);
 int		ms_return_msg(int ret, char *msg);
 int		ms_return_error(int ret, char *msg);
 /* tfile */
@@ -186,7 +200,6 @@ int		ms_tfile_clean(t_file **file);
 char	*ms_trim_trim(char *line);
 /* utils */
 int		ms_utils_spaceonly(char *str);
-char	*ms_utils_trim(char *str);
 int		ms_utils_wordlen(char *str);
 char	*ms_utils_strreplace(char *str, char *ins, int offset, int len);
 
@@ -210,6 +223,7 @@ int		pp_open_file(t_pipeline *pp, t_file *file);
 void	pp_open_in(t_pipeline *ppl, t_command *cmd, int i);
 void	pp_open_out(t_pipeline *ppl, t_command *cmd, int i);
 void	pp_run_child(t_pipeline *ppl, t_command *cmd, char ***envp, int i);
+void	pp_run_exec(t_pipeline *ppl, t_command *cmd, char ***envp);
 /* Utils */
 void	pp_nullfree(char **ptr);
 int		pp_path_size(char const *s1, char const *s2);

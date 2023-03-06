@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 14:24:29 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/02 10:25:10 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/06 16:47:01 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ int	pp_run_make_pipes(t_pipeline *ppl)
 	errno = 0;
 	ppl->pipefd = malloc(sizeof(int) * 2 * (ppl->cmd_nb - 1));
 	if (NULL == ppl->pipefd)
-		return (1);
+		return (ms_return_error(errno, R_MAL));
 	i = -1;
 	while (++i < (ppl->cmd_nb - 1))
 	{
 		if (pipe(ppl->pipefd[i]) == -1)
-			return (1);
+			return (ms_return_error(errno, R_PIP));
 	}
 	return (0);
 }
@@ -75,9 +75,10 @@ int	pp_run_fork(t_pipeline *ppl, char ***envp)
 	cmd = ppl->cmds;
 	while (++i < ppl->cmd_nb)
 	{
+		errno = 0;
 		child = fork();
 		if (child == -1)
-			return (1);
+			return (ms_return_error(errno, R_FRK));
 		else if (child == 0)
 			pp_run_child(ppl, cmd, envp, i);
 		cmd = cmd->next;
