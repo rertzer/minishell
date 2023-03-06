@@ -3,7 +3,7 @@ FLAGS = -Wall -Wextra -Werror
 
 TARGET = libft.a
 
-SOURCES = ft_2Dstrdup.c \
+SOURCES = ft_2dstrdup.c \
 	ft_atoi.c	\
 	ft_bzero.c	\
 	ft_calloc.c	\

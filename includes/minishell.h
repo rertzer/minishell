@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/06 17:25:52 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/06 17:50:03 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 
 # include "libft.h"
 
-# define DP fprintf(stderr, "%s %d\n", __FILE__, __LINE__);
+# define DP frintf(stderr, "%s %d\n", __FILE__, __LINE__);
 # define FUN_TOP 8
 # define SQ_CHAR " $*|<>\t"
 # define DQ_CHAR " *|<>\t"
@@ -228,4 +228,5 @@ void	pp_run_exec(t_pipeline *ppl, t_command *cmd, char ***envp);
 void	pp_nullfree(char **ptr);
 int		pp_path_size(char const *s1, char const *s2);
 char	*pp_pathjoin(char const *s1, char const *s2);
+int		pp_duplicate(char const *src, char *dest, int shift);
 #endif

@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 15:42:25 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/06 11:19:25 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/06 17:54:20 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	pp_nullfree(char **ptr)
 	*ptr = NULL;
 }
 
-int		pp_path_size(char const *s1, char const *s2)
+int	pp_path_size(char const *s1, char const *s2)
 {
 	size_t	i;
 
@@ -30,33 +30,36 @@ int		pp_path_size(char const *s1, char const *s2)
 
 char	*pp_pathjoin(char const *s1, char const *s2)
 {
-	size_t	i;
-	size_t	j;
+	size_t	shift;
 	char	*dest;
 
+	errno = 0;
 	dest = malloc(sizeof(char) *(pp_path_size(s1, s2) + 1));
 	if (NULL == dest)
-		return (NULL);
-	i = 0;
-	j = 0;
-	if (s1)
 	{
-		while (s1[i])
+		ms_return_error(errno, R_MAL);
+		return (NULL);
+	}
+	shift = pp_duplicate(s1, dest, 0);
+	dest[shift] = '/';
+	shift++;
+	shift += pp_duplicate(s2, dest, shift);
+	dest[shift] = '\0';
+	return (dest);
+}
+
+int	pp_duplicate(char const *src, char *dest, int shift)
+{
+	int	i;
+
+	i = 0;
+	if (src)
+	{
+		while (src[i])
 		{
-			dest[i] = s1[i];
+			dest[i + shift] = src[i];
 			i++;
 		}
 	}
-	dest[i] = '/';
-	i++;
-	if (s2)
-	{
-		while (s2[j])
-		{
-			dest[i + j] = s2[j];
-			j++;
-		}
-	}
-	dest[i + j] = '\0';
-	return (dest);
+	return (i);
 }
