@@ -16,6 +16,7 @@ LIBFT = $(LIBFT_DIR)libft.a
 SOURCES = args.c \
 	builtin.c \
 	cd.c \
+	cd_utils.c \
 	char.c \
 	check_cmd_bonus.c \
 	child_bonus.c \
@@ -35,16 +36,15 @@ SOURCES = args.c \
 	pwd.c \
 	return.c \
 	run_bonus.c \
-	signal.c \
-	split.c \
 	tfile.c \
 	trim.c \
 	utils_bonus.c \
 	utils.c \
-	pipex.c
+	pipex.c \
 	r_test.c 
 	#minishell.c \
 	#lpid.c \
+	#signal.c \
 
 OBJ = $(SOURCES:.c=.o)
 

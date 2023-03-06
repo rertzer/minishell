@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/05 18:15:52 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/06 11:05:29 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,9 +107,13 @@ int		ms_builtin_itis(char *name);
 int		ms_builtin_run(t_pipeline *ppl, t_command *cmd, char ***envp);
 /* cd */
 int		ms_cd_setpath(char *key, char *value, char ***envp);
-int		ms_cd_pathsplit(char *path, char **npath, char **syml);
-char	*ms_cd_symbolicpath(char *path);
+char	*ms_cd_resolvepath(char *path, char *pwd);
 int		ms_cd_run(t_command *cmd, char ***envp);
+/* cd_utils */
+int		ms_cd_isdbldot(char *dir);
+int		ms_cd_rmprev(char **dirlst, int current);
+char	*ms_cd_recompose(char **dirlst);
+char	*ms_cd_simplify(char **dirlst);
 /* command */
 void	ms_command_init(t_command *cmd);
 int		ms_command_addback(t_command **start);
@@ -143,11 +147,6 @@ void	ms_lpid_print(void);
 /* minishell */
 void	ms_minishell_handle_sig(int signum, siginfo_t *info, void *context);
 int 	ms_set_termios(struct termios	*interact_tio, struct termios	*process_tio);
-/* parsing */
-int		ms_parsing_start(char *line, char **envp);
-int		ms_parsing_quote(t_line *to_parse);
-int		ms_parsing_sec_quote(t_line *to_parse, int i);
-int		ms_parsing_print(t_line *line);
 /* pipe */
 int		ms_pipe_start(char *line, char ***envp);
 int		ms_pipe_split(t_command *cmd, int *cmd_nb);
@@ -166,11 +165,6 @@ int		ms_return_error(int ret, char *msg);
 /* signal */
 void	ms_signal_kill_child(void);
 void	ms_signal_handle_sig(int signum, siginfo_t *info, void *context);
-/* split */
-int		ms_split_split(t_line *to_parse, int i, int j);
-int		ms_split_middle(t_line *to_parse, int i, int j);
-int		ms_split_beggin(t_line *to_parse, int i, int j);
-int		ms_split_addup(t_line *to_parse, char *line, int quote, int len);
 /* tfile */
 int		ms_tfile_addback(t_file **start, char *parsed, char mode);
 int		ms_tfile_clean(t_file **file);
@@ -204,6 +198,6 @@ void	pp_open_out(t_pipeline *ppl, t_command *cmd, int i);
 void	pp_run_child(t_pipeline *ppl, t_command *cmd, char ***envp, int i);
 /* Utils */
 void	pp_nullfree(char **ptr);
-int		pp_path_size(char *s1, char const *s2);
-char	*pp_pathjoin(char *s1, char const *s2);
+int		pp_path_size(char const *s1, char const *s2);
+char	*pp_pathjoin(char const *s1, char const *s2);
 #endif

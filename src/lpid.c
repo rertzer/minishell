@@ -6,11 +6,11 @@
 /*   By: flarcher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 11:15:25 by flarcher          #+#    #+#             */
-/*   Updated: 2023/02/23 11:15:27 by flarcher         ###   ########.fr       */
+/*   Updated: 2023/03/06 11:08:49 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 t_lpid	*ms_lpid_new(pid_t pid)
 {

@@ -6,11 +6,11 @@
 /*   By: flarcher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 17:45:42 by flarcher          #+#    #+#             */
-/*   Updated: 2023/03/03 17:45:43 by flarcher         ###   ########.fr       */
+/*   Updated: 2023/03/06 11:05:13 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 void	ms_signal_kill_child(void)
 {
