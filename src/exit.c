@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:55:38 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/06 17:39:13 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/08 10:14:09 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,5 @@ int	ms_exit_run(t_command *cmd, char ***envp)
 		*envp = NULL;
 	}
 	ms_command_clean(&cmd);
-	ft_putstr_fd("exit\n", 1);
 	exit(0);
 }

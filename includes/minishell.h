@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/06 17:50:03 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/08 12:45:07 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,10 +182,12 @@ void	ms_file_mode(char *path, char *mode, int *shift);
 int		ms_file_wordend(char *line, int j);
 t_file	**ms_file_adr(t_command *cmd, int mode);
 int		ms_file_chevron(t_command *cmd, int mode);
-///* parsing */
+/* parsing */
 int		ms_parsing_start(char *line, char ***envp);
 void	ms_parsing_quote(char *line, char *new_line);
 int		ms_parsing_isquote(char *line, char *quote);
+/* pattern */
+int		ms_pattern_match(char *name, char *patt, int offset);
 /* pipe */
 int		ms_pipe_start(char *line, char ***envp);
 int		ms_pipe_split(t_command *cmd, int *cmd_nb);
@@ -199,6 +201,7 @@ int		ms_pipex_run(t_pipeline *ppl, char ***envp);
 /* return */
 int		ms_return_freeturn(char **ptr, int ret);
 char	*ms_return_null(char *msg);
+char	*ms_return_nullerror(char *msg);
 int		ms_return_msg(int ret, char *msg);
 int		ms_return_error(int ret, char *msg);
 /* tfile */
@@ -210,6 +213,9 @@ char	*ms_trim_trim(char *line);
 int		ms_utils_spaceonly(char *str);
 int		ms_utils_wordlen(char *str);
 char	*ms_utils_strreplace(char *str, char *ins, int offset, int len);
+/* wildcard */
+char	*ms_wildcard_start(char *line);
+char	*ms_wildcard_expand(DIR *dd, char *line);
 
 /* **********************************************************************/
 /*                               pipex                                  */

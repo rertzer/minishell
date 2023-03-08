@@ -30,6 +30,7 @@ SOURCES = args.c \
 	file_utils.c \
 	here_doc_bonus.c \
 	parsing.c \
+	pattern.c \
 	pipe.c \
 	pipeline.c \
 	pipexrun.c \
@@ -45,6 +46,7 @@ SOURCES = args.c \
 	minishell.c \
 	lpid.c \
 	signal.c \
+	wildcard.c
 
 OBJ = $(SOURCES:.c=.o)
 

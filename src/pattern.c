@@ -1,43 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   file.c                                             :+:      :+:    :+:   */
+/*   pattern.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/02 15:16:20 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/08 09:55:00 by rertzer          ###   ########.fr       */
+/*   Created: 2023/03/08 11:47:11 by rertzer           #+#    #+#             */
+/*   Updated: 2023/03/08 13:32:04 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	 ms_file_start(t_command *cmd)
+int	ms_pattern_match(char *name, char *patt, int offset)
 {
-	t_command	*tmp;
-	tmp = cmd;
-	while (tmp)
-	{
-		if (ms_file_parse(tmp))
-			return (1);
-		if (ms_args_parse(tmp))
-			return (1);
-		tmp = tmp->next;
-	}
-	return (0);
-}
+	int	i;
+	int	j;
 
-int	ms_file_parse(t_command *cmd)
-{
-	int		i;
-
-	i = -1;
-	while (cmd->cmd_path[++i])
+	i = -1 + offset;
+	while (name[++i])
 	{
-		if ((cmd->cmd_path[i] == '>' || cmd->cmd_path[i] == '<') \
-				&& ms_char_prevok(cmd->cmd_path, i))
-			i = ms_file_chevron(cmd, i);
-		if (i < 0)
+		j = -1;
+		while (patt[++j])
+		{
+			if (name[i + j] != patt[j])
+				break ;
+		}
+		if (patt[j] == '\0')
 			return (1);
 	}
 	return (0);

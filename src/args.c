@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 13:32:08 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/06 17:22:40 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/08 11:03:58 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ int	ms_args_add(t_command *cmd, char *line)
 	i = -1;
 	while (++i < arg_nb)
 		new[i] = cmd->args[i];
+	line = ms_wildcard_start(line);
+	if (line == NULL)
+	{
+		free(new);
+		return (1);
+	}
 	new[i] = line;
 	new[++i] = NULL;
 	free(cmd->args);

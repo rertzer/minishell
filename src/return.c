@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 09:30:30 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/06 14:49:36 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/08 10:50:00 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,12 @@ char	*ms_return_null(char *msg)
 		ft_putstr_fd("minishell error : ", 2);
 		ft_putendl_fd(msg, 2);
 	}
+	return (NULL);
+}
+
+char	*ms_return_nullerror(char *msg)
+{
+	perror(msg);
 	return (NULL);
 }
 
