@@ -55,6 +55,10 @@ char	*ms_cd_recompose(char **dirlst)
 		if (new_path == NULL)
 			return (NULL);
 	}
+	i = -1;
+	while (dirlst[++i])
+		free(dirlst[i]);
+	free(dirlst);
 	return (new_path);
 }
 

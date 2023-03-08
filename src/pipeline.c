@@ -15,11 +15,14 @@
 int	ms_pipeline_run(t_command *cmd_start, int cmd_nb, char ***envp)
 {
 	t_pipeline	ppl;
+	int			ret;
 
 	ppl.cmd_nb = cmd_nb;
 	ppl.cmds = cmd_start;
 	ppl.pipefd = NULL;
-	return (ms_pipex_run(&ppl, envp));
+	ret = ms_pipex_run(&ppl, envp);
+	ms_pipeline_clean(&ppl);
+	return (ret);
 }
 
 void	ms_pipeline_clean(t_pipeline *ppl)

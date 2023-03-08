@@ -56,7 +56,7 @@ int	main(int argc, char **argv, char **old_envp)
 		tcsetattr(term.tty_device, TCSANOW, &term.interact_tio);
 		line = readline("\e[1;32mMinishell: \e[0m");
 		if (!line)
-			break ;
+			ms_exit_run(NULL, &envp);
 		add_history(line);
 		tcsetattr(term.tty_device, TCSANOW, &term.process_tio);
 		ms_parsing_start(line, &envp);
