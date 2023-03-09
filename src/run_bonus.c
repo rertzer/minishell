@@ -20,7 +20,7 @@ int	pp_run_pipe(t_pipeline *ppl, char ***envp)
 	ret = pp_run_make_pipes(ppl);
 	if (!ret)
 		ret = pp_run_fork(ppl, envp);
-	pp_run_close_pipes(ppl);
+	//pp_run_close_pipes(ppl);
 	pp_run_wait(ppl);
 	return (ret);
 }
@@ -35,6 +35,9 @@ void	pp_run_close_pipes(t_pipeline *ppl)
 		close(ppl->pipefd[i][0]);
 		close(ppl->pipefd[i][1]);
 	}
+	if (ppl->pipefd)
+		free(ppl->pipefd);
+	ppl->pipefd = NULL;
 }
 
 void	pp_run_wait(t_pipeline *ppl)

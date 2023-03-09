@@ -34,11 +34,19 @@ void	ms_exit_error(t_pipeline *ppl, char *msg)
 
 int	ms_exit_run(t_command *cmd, char ***envp)
 {
-	if (cmd->cmd_nb == 0)
+	if (cmd)
+	{
+		if (cmd->cmd_nb == 0)
+		{
+			ft_split_flush(*envp);
+			*envp = NULL;
+		}
+		ms_command_clean(&cmd);
+	}
+	else
 	{
 		ft_split_flush(*envp);
 		*envp = NULL;
 	}
-	ms_command_clean(&cmd);
 	exit(0);
 }
