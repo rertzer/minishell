@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 14:24:29 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/06 16:47:01 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/09 12:41:37 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	pp_run_pipe(t_pipeline *ppl, char ***envp)
 	ret = pp_run_make_pipes(ppl);
 	if (!ret)
 		ret = pp_run_fork(ppl, envp);
-	//pp_run_close_pipes(ppl);
+	pp_run_close_pipes(ppl);
 	pp_run_wait(ppl);
 	return (ret);
 }
@@ -35,9 +35,9 @@ void	pp_run_close_pipes(t_pipeline *ppl)
 		close(ppl->pipefd[i][0]);
 		close(ppl->pipefd[i][1]);
 	}
-	if (ppl->pipefd)
-		free(ppl->pipefd);
-	ppl->pipefd = NULL;
+	//if (ppl->pipefd)
+	//	free(ppl->pipefd);
+	//ppl->pipefd = NULL;
 }
 
 void	pp_run_wait(t_pipeline *ppl)
