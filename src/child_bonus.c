@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 14:46:23 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/09 13:28:15 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/06 17:25:00 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	pp_run_exec(t_pipeline *ppl, t_command *cmd, char ***envp)
 	char	*path;
 	char	**args;
 
-	pp_check_cmd_path(ppl, cmd);
+	pp_check_cmd_path(ppl, cmd, envp);
 	path = cmd->cmd_path;
 	args = cmd->args;
 	cmd->cmd_path = NULL;

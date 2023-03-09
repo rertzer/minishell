@@ -234,8 +234,8 @@ int		ms_wildcard_match(char *name, char *pattern);
 int		pp_here_doc(t_pipeline *ppl, char *limiter);
 char	*pp_here_line(t_pipeline *ppl, char *limiter, char *line, int *pipefd);
 /* check_cmd */
-void	pp_check_cmd_path(t_pipeline *ppl, t_command *cmd);
-void	pp_check_path(t_pipeline *ppl, t_command *cmd, char **paths);
+void	pp_check_cmd_path(t_pipeline *ppl, t_command *cmd, char ***envp);
+void	pp_check_path(t_pipeline *ppl, t_command *cmd, char **paths, char ***envp);
 /* Run */
 int		pp_run_pipe(t_pipeline *ppl, char ***envp);
 void	pp_run_close_pipes(t_pipeline *ppl);

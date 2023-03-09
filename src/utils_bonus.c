@@ -34,7 +34,7 @@ char	*pp_pathjoin(char const *s1, char const *s2)
 	char	*dest;
 
 	errno = 0;
-	dest = malloc(sizeof(char) *(pp_path_size(s1, s2) + 1)); ////////////////////////////////////
+	dest = malloc(sizeof(char) *(pp_path_size(s1, s2) + 1)); ///	LEAKS		///
 	if (NULL == dest)
 	{
 		ms_return_error(errno, R_MAL);

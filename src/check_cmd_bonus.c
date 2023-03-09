@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	pp_check_cmd_path(t_pipeline *ppl, t_command *cmd)
+void	pp_check_cmd_path(t_pipeline *ppl, t_command *cmd, char ***envp)
 {
 	char	**paths;
 
@@ -21,10 +21,10 @@ void	pp_check_cmd_path(t_pipeline *ppl, t_command *cmd)
 	paths = ft_split(getenv("PATH"), ':');
 	if (paths == NULL)
 		ms_exit_msg(ppl, R_PAT);
-	pp_check_path(ppl, cmd, paths);
+	pp_check_path(ppl, cmd, paths, envp);
 }
 
-void	pp_check_path(t_pipeline *ppl, t_command *cmd, char **paths)
+void	pp_check_path(t_pipeline *ppl, t_command *cmd, char **paths, char ***e)
 {
 	int		i;
 	char	*cmd_path;
@@ -44,7 +44,10 @@ void	pp_check_path(t_pipeline *ppl, t_command *cmd, char **paths)
 	}
 	ft_split_flush(paths);
 	if (NULL == cmd_path)
+	{
+		ft_split_flush(*e);
 		ms_exit_msg(ppl, R_CMD);
+	}
 	free(cmd->cmd_path);
 	cmd->cmd_path = cmd_path;
 }
