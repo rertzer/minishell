@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 13:32:08 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/09 11:33:38 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/09 16:37:29 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,21 +91,18 @@ int	ms_args_parseloop(t_command *cmd, int i, int start, int in_word)
 
 int	ms_args_insert(t_command *cmd, char *word)
 {
-	char	*str;
-
 	word = ms_char_unprotect(word);
 	if (word  == NULL)
 		return (1);
 	if (cmd->cmd_path == NULL)
 	{	
 		errno = 0;
-		str = ft_strdup(word);
-		if (NULL == str)
+		cmd->cmd_path = ft_strdup(word);
+		if (NULL == cmd->cmd_path)
 		{
 			free(word);
 			return (ms_return_error(errno, R_STR));
 		}
-		cmd->cmd_path = str;
 	}
 	ms_args_add(cmd, word);
 	

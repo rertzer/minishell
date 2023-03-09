@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/09 14:57:39 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/09 16:25:16 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,10 +137,6 @@ char	*ms_env_getvalue(char **envp, char *key);
 int		ms_env_getindex(char **envp, char *key);
 int		ms_env_valueindex(char *env, char *key);
 int		ms_env_run(t_command *cmd, char ***envp);
-/* exit */
-void	ms_exit_msg(t_pipeline *ppl, char *msg);
-void	ms_exit_error(t_pipeline *ppl, char *msg);
-int		ms_exit_run(t_command *cmd, char ***envp);
 /* export */
 int		ms_export_run(t_command *cmd, char ***envp);
 int		ms_export_arg(char *arg, char ***envp);
@@ -177,6 +173,11 @@ void	ms_command_close(int fd);
 /* dollar */
 char	*ms_dollar_parse(char *line, char **envp, int status);
 int		ms_dollar_replace(char **line, int i, char **envp, int status);
+/* exit */
+void	ms_exit_msg(t_pipeline *ppl, char ***envp, char *msg);
+void	ms_exit_error(t_pipeline *ppl, char *msg);
+int		ms_exit_run(t_command *cmd, char ***envp);
+
 /* file */
 int		ms_file_start(t_command *cmd);
 int		ms_file_parse(t_command *cmd);
@@ -243,9 +244,9 @@ int		pp_run_wait();//t_pipeline *ppl);
 int		pp_run_make_pipes(t_pipeline *ppl);
 int		pp_run_fork(t_pipeline *ppl, char ***envp);
 /* Child */
-int		pp_open_file(t_pipeline *pp, t_file *file);
-void	pp_open_in(t_pipeline *ppl, t_command *cmd, int i);
-void	pp_open_out(t_pipeline *ppl, t_command *cmd, int i);
+int		pp_open_file(t_pipeline *pp, t_file *file, char ***envp);
+void	pp_open_in(t_pipeline *ppl, t_command *cmd, int i, char ***envp);
+void	pp_open_out(t_pipeline *ppl, t_command *cmd, int i, char ***envp);
 void	pp_run_child(t_pipeline *ppl, t_command *cmd, char ***envp, int i);
 void	pp_run_exec(t_pipeline *ppl, t_command *cmd, char ***envp);
 /* Utils */

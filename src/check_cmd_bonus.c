@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 15:40:29 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/06 16:42:34 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/09 16:25:59 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,12 @@ void	pp_check_cmd_path(t_pipeline *ppl, t_command *cmd, char ***envp)
 		return ;
 	paths = ft_split(getenv("PATH"), ':');
 	if (paths == NULL)
-		ms_exit_msg(ppl, R_PAT);
+		ms_exit_msg(ppl, envp, R_PAT);
 	pp_check_path(ppl, cmd, paths, envp);
 }
 
-void	pp_check_path(t_pipeline *ppl, t_command *cmd, char **paths, char ***e)
+void	pp_check_path(t_pipeline *ppl, t_command *cmd, \
+		char **paths, char ***envp)
 {
 	int		i;
 	char	*cmd_path;
@@ -36,7 +37,7 @@ void	pp_check_path(t_pipeline *ppl, t_command *cmd, char **paths, char ***e)
 		if (cmd_path == NULL)
 		{
 			ft_split_flush(paths);
-			ms_exit_msg(ppl, R_QUT);
+			ms_exit_msg(ppl, envp, R_QUT);
 		}
 		if (access(cmd_path, F_OK | X_OK) == 0)
 			break ;
@@ -44,10 +45,7 @@ void	pp_check_path(t_pipeline *ppl, t_command *cmd, char **paths, char ***e)
 	}
 	ft_split_flush(paths);
 	if (NULL == cmd_path)
-	{
-		ft_split_flush(*e);
-		ms_exit_msg(ppl, R_CMD);
-	}
+		ms_exit_msg(ppl, envp, R_CMD);
 	free(cmd->cmd_path);
 	cmd->cmd_path = cmd_path;
 }

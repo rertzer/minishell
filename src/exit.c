@@ -6,15 +6,17 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:55:38 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/08 10:14:09 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/09 16:18:49 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ms_exit_msg(t_pipeline *ppl, char *msg)
+void	ms_exit_msg(t_pipeline *ppl, char ***envp, char *msg)
 {
 	ms_pipeline_clean(ppl);
+	ft_split_flush(*envp);
+	*envp = NULL;
 	if (msg)
 	{
 		if (msg[0] != 'Q')

@@ -6,13 +6,13 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 14:46:23 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/06 17:25:00 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/09 16:54:24 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	pp_open_file(t_pipeline *ppl, t_file *file)
+int	pp_open_file(t_pipeline *ppl, t_file *file, char ***envp)
 {
 	int		flags;
 	int		fd;
@@ -27,7 +27,7 @@ int	pp_open_file(t_pipeline *ppl, t_file *file)
 	else if (file->mode == '?')
 		flags = O_CREAT | O_APPEND | O_WRONLY;
 	else
-		ms_exit_msg(ppl, R_SYN);
+		ms_exit_msg(ppl, envp, R_SYN);
 	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 	errno = 0;
 	fd = open(file->name, flags, mode);
@@ -36,7 +36,7 @@ int	pp_open_file(t_pipeline *ppl, t_file *file)
 	return (fd);
 }
 
-void	pp_open_in(t_pipeline *ppl, t_command *cmd, int i)
+void	pp_open_in(t_pipeline *ppl, t_command *cmd, int i, char ***envp)
 {
 	t_file	*file;
 
@@ -46,12 +46,12 @@ void	pp_open_in(t_pipeline *ppl, t_command *cmd, int i)
 	while (file)
 	{
 		ms_command_close(cmd->fd_in);
-		cmd->fd_in = pp_open_file(ppl, file);
+		cmd->fd_in = pp_open_file(ppl, file, envp);
 		file = file->next;
 	}
 }
 
-void	pp_open_out(t_pipeline *ppl, t_command *cmd, int i)
+void	pp_open_out(t_pipeline *ppl, t_command *cmd, int i, char ***envp)
 {
 	t_file	*file;
 
@@ -61,27 +61,29 @@ void	pp_open_out(t_pipeline *ppl, t_command *cmd, int i)
 	while (file)
 	{
 		ms_command_close(cmd->fd_out);
-		cmd->fd_out = pp_open_file(ppl, file);
+		cmd->fd_out = pp_open_file(ppl, file, envp);
 		file = file->next;
 	}
 }
 
 void	pp_run_child(t_pipeline *ppl, t_command *cmd, char ***envp, int i)
 {
-	pp_open_in(ppl, cmd, i);
-	pp_open_out(ppl, cmd, i);
+	pp_open_in(ppl, cmd, i, envp);
+	pp_open_out(ppl, cmd, i, envp);
 	errno = 0;
+
+	fprintf(stderr, "pid %d command %s\n", getpid(), cmd->cmd_path);
 	if (dup2(cmd->fd_in, STDIN_FILENO) == -1)
 		ms_exit_error(ppl, "dup2");
 	if (dup2(cmd->fd_out, STDOUT_FILENO) == -1)
 		ms_exit_error(ppl, "dup2");
 	pp_run_close_pipes(ppl);
 	if (cmd->cmd_path == NULL || cmd->cmd_path[0] == '\0')
-		ms_exit_msg(ppl, NULL);
+		ms_exit_msg(ppl, envp, NULL);
 	if (ms_builtin_itis(cmd->cmd_path))
 	{
 		ms_builtin_run(cmd, envp);
-		ms_exit_msg(ppl, NULL);
+		ms_exit_msg(ppl, envp, NULL);
 	}
 	pp_run_exec(ppl, cmd, envp);
 }
