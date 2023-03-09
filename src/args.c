@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 13:32:08 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/08 11:03:58 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/09 11:33:38 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,9 @@ int	ms_args_add(t_command *cmd, char *line)
 		return (ms_return_error(errno, R_MAL));
 	i = -1;
 	while (++i < arg_nb)
+	{
 		new[i] = cmd->args[i];
-	line = ms_wildcard_start(line);
+	}
 	if (line == NULL)
 	{
 		free(new);
@@ -62,7 +63,7 @@ int	ms_args_parse(t_command *cmd)
 	return (ms_args_parseloop(cmd, -1, 0, 0));
 }
 
-int	ms_args_parseloop(t_command *cmd, int i, int start, int word)
+int	ms_args_parseloop(t_command *cmd, int i, int start, int in_word)
 {
 	char	*line;
 
@@ -72,43 +73,41 @@ int	ms_args_parseloop(t_command *cmd, int i, int start, int word)
 	{
 		if (ms_char_isin(line[i], SP_CHAR) && ms_char_prevok(line, i))
 		{
-			if (word)
+			if (in_word)
 			{
-				if (ms_args_insert(cmd, ft_strndup(&line[start], i - start)))
+				if (ms_args_wildinsert(cmd, line, start, i))
 					return (ms_return_freeturn(&line, 1));
 				start = i + 1;
-				word = 0;
+				in_word = 0;
 			}
 		}
 		else
-			word = 1;
+			in_word = 1;
 	}
-	if (i != start && word)
-	{
-		if (ms_args_insert(cmd, ft_strndup(&line[start], i - start)))
+	if (i != start && in_word && ms_args_wildinsert(cmd, line, start, i))
 			return (ms_return_freeturn(&line, 1));
-	}
 	return (ms_return_freeturn(&line, 0));
 }
 
-int	ms_args_insert(t_command *cmd, char *line)
+int	ms_args_insert(t_command *cmd, char *word)
 {
 	char	*str;
 
-	line = ms_char_unprotect(line);
-	if (line == NULL)
+	word = ms_char_unprotect(word);
+	if (word  == NULL)
 		return (1);
 	if (cmd->cmd_path == NULL)
 	{	
 		errno = 0;
-		str = ft_strdup(line);
+		str = ft_strdup(word);
 		if (NULL == str)
 		{
-			free(line);
+			free(word);
 			return (ms_return_error(errno, R_STR));
 		}
 		cmd->cmd_path = str;
 	}
-	ms_args_add(cmd, line);
+	ms_args_add(cmd, word);
+	
 	return (0);
 }

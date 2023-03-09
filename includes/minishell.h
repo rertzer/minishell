@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/08 12:45:07 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/09 09:51:40 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 
 # include "libft.h"
 
-# define DP frintf(stderr, "%s %d\n", __FILE__, __LINE__);
+# define DP fprintf(stderr, "%s %d\n", __FILE__, __LINE__);
 # define FUN_TOP 8
 # define SQ_CHAR " $*|<>\t"
 # define DQ_CHAR " *|<>\t"
@@ -160,6 +160,9 @@ int		ms_args_getnb(t_command *cmd);
 int		ms_args_parse(t_command *cmd);
 int		ms_args_parseloop(t_command *cmd, int i, int start, int word);
 int		ms_args_insert(t_command *cmd, char *line);
+/* args utils */
+int		ms_args_wildinsert(t_command *cmd, char *line, int start, int i);
+int		ms_args_expinsert(t_command *cmd, char **expanded);
 /* char */
 int		ms_char_isin(char c, char *special);
 int		ms_char_nextexist(char *line);
@@ -188,6 +191,9 @@ void	ms_parsing_quote(char *line, char *new_line);
 int		ms_parsing_isquote(char *line, char *quote);
 /* pattern */
 int		ms_pattern_match(char *name, char *patt, int offset);
+char	*ms_pattern_anchor(char *str);
+char	*ms_pattern_head(char *edge, char *str);
+char	*ms_pattern_tail(char *edgd, char *str);
 /* pipe */
 int		ms_pipe_start(char *line, char ***envp);
 int		ms_pipe_split(t_command *cmd, int *cmd_nb);
@@ -214,8 +220,10 @@ int		ms_utils_spaceonly(char *str);
 int		ms_utils_wordlen(char *str);
 char	*ms_utils_strreplace(char *str, char *ins, int offset, int len);
 /* wildcard */
-char	*ms_wildcard_start(char *line);
-char	*ms_wildcard_expand(DIR *dd, char *line);
+char	**ms_wildcard_start(char *line);
+char	**ms_wildcard_expand(DIR *dd, char *line);
+//char	*ms_wildcard_append(char *s1, char *s2);
+int		ms_wildcard_match(char *name, char *pattern);
 
 /* **********************************************************************/
 /*                               pipex                                  */

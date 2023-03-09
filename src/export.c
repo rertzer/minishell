@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:41:28 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/06 15:13:32 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/09 09:48:07 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	ms_export_new(char *arg, char ***envp)
 	char	**new_env;
 
 	entries = 0;
-	while ((*envp)[entries])
+	while (*envp && (*envp)[entries])
 		entries++;
 	errno = 0;
 	new_env = malloc(sizeof(char *) * (entries + 2));

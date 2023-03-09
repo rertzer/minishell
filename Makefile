@@ -14,6 +14,7 @@ INC_DIR = includes/
 LIBFT = $(LIBFT_DIR)libft.a
 
 SOURCES = args.c \
+	args_utils.c \
 	builtin.c \
 	cd.c \
 	cd_utils.c \
