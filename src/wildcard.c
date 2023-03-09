@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 10:19:35 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/09 11:31:16 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/09 13:13:23 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,7 +115,7 @@ int	ms_wildcard_match(char *name, char *pattern)
 	name_cpy = ms_pattern_anchor(name_cpy);
 	if (name_cpy == NULL)
 		return (-1);
-	patts = ft_split(pattern, '*');
+	patts = ms_split_protected(pattern, '*');
 	if (patts == NULL)
 		return (ms_return_msg(-1, "R_SPL"));
 	i = -1;

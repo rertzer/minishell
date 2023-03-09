@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 14:25:09 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/08 09:55:16 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/09 13:15:19 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 int	ms_pipe_start(char *line, char ***envp)
 {
 	int			cmd_nb;
+
 	t_command	*cmd_start;
-fprintf(stderr, "%s\n", line);
 	cmd_nb = 1;
 	cmd_start = NULL;
 	if (ms_command_addback(&cmd_start))

@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 14:24:29 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/09 12:41:37 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/09 14:39:06 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	pp_run_pipe(t_pipeline *ppl, char ***envp)
 {
+	//int	status;
 	int	ret;
 
 	ret = 0;
@@ -21,7 +22,7 @@ int	pp_run_pipe(t_pipeline *ppl, char ***envp)
 	if (!ret)
 		ret = pp_run_fork(ppl, envp);
 	pp_run_close_pipes(ppl);
-	pp_run_wait(ppl);
+	//status = pp_run_wait(ppl);
 	return (ret);
 }
 
@@ -35,24 +36,23 @@ void	pp_run_close_pipes(t_pipeline *ppl)
 		close(ppl->pipefd[i][0]);
 		close(ppl->pipefd[i][1]);
 	}
-	//if (ppl->pipefd)
-	//	free(ppl->pipefd);
-	//ppl->pipefd = NULL;
 }
 
-void	pp_run_wait(t_pipeline *ppl)
+int	pp_run_wait()//t_pipeline *ppl)
 {
-	int	i;
+	//int	i;
 	int	status;
 
 	status = 0;
-	i = -1;
-	while (++i < ppl->cmd_nb && g_lpid && g_lpid->pid > 0)
+	//i = -1;
+	//while (++i < ppl->cmd_nb && g_lpid && g_lpid->pid > 0)
+	while ( g_lpid && g_lpid->pid > 0)
 	{
 		waitpid(g_lpid->pid, &status, 0);
 		if (g_lpid)
 			ms_lpid_del_pid(g_lpid->pid);
 	}
+	return (WEXITSTATUS(status));
 }
 
 int	pp_run_make_pipes(t_pipeline *ppl)

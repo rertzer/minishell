@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 14:46:23 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/06 17:25:00 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/09 13:28:15 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	pp_run_child(t_pipeline *ppl, t_command *cmd, char ***envp, int i)
 	if (dup2(cmd->fd_out, STDOUT_FILENO) == -1)
 		ms_exit_error(ppl, "dup2");
 	pp_run_close_pipes(ppl);
-	if (cmd->cmd_path[0] == '\0')
+	if (cmd->cmd_path == NULL || cmd->cmd_path[0] == '\0')
 		ms_exit_msg(ppl, NULL);
 	if (ms_builtin_itis(cmd->cmd_path))
 	{

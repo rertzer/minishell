@@ -29,6 +29,7 @@ SOURCES = args.c \
 	export.c \
 	file.c \
 	file_utils.c \
+	ft_itoa.c \
 	here_doc_bonus.c \
 	parsing.c \
 	pattern.c \
@@ -38,6 +39,7 @@ SOURCES = args.c \
 	pwd.c \
 	return.c \
 	run_bonus.c \
+	split.c \
 	tfile.c \
 	trim.c \
 	unset.c \

@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 09:08:17 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/06 15:04:58 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/09 13:50:12 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,6 @@ void	ms_pipeline_clean(t_pipeline *ppl)
 {
 	ms_command_clean(&ppl->cmds);
 	pp_run_close_pipes(ppl);
+	free(ppl->pipefd);
+	ppl->pipefd = NULL;
 }

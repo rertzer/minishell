@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/09 09:51:40 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/09 14:57:39 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,8 +175,8 @@ int		ms_command_clean(t_command **cmd);
 void	ms_command_clean_one(t_command *cmd);
 void	ms_command_close(int fd);
 /* dollar */
-char	*ms_dollar_parse(char *line, char **envp);
-int		ms_dollar_replace(char **line, int i, char **envp);
+char	*ms_dollar_parse(char *line, char **envp, int status);
+int		ms_dollar_replace(char **line, int i, char **envp, int status);
 /* file */
 int		ms_file_start(t_command *cmd);
 int		ms_file_parse(t_command *cmd);
@@ -186,7 +186,7 @@ int		ms_file_wordend(char *line, int j);
 t_file	**ms_file_adr(t_command *cmd, int mode);
 int		ms_file_chevron(t_command *cmd, int mode);
 /* parsing */
-int		ms_parsing_start(char *line, char ***envp);
+int		ms_parsing_start(char *line, char ***envp, int status);
 void	ms_parsing_quote(char *line, char *new_line);
 int		ms_parsing_isquote(char *line, char *quote);
 /* pattern */
@@ -210,6 +210,8 @@ char	*ms_return_null(char *msg);
 char	*ms_return_nullerror(char *msg);
 int		ms_return_msg(int ret, char *msg);
 int		ms_return_error(int ret, char *msg);
+/* split */
+char	**ms_split_protected(char const *s, char c);
 /* tfile */
 int		ms_tfile_addback(t_file **start, char *parsed, char mode);
 int		ms_tfile_clean(t_file **file);
@@ -237,7 +239,7 @@ void	pp_check_path(t_pipeline *ppl, t_command *cmd, char **paths);
 /* Run */
 int		pp_run_pipe(t_pipeline *ppl, char ***envp);
 void	pp_run_close_pipes(t_pipeline *ppl);
-void	pp_run_wait(t_pipeline *ppl);
+int		pp_run_wait();//t_pipeline *ppl);
 int		pp_run_make_pipes(t_pipeline *ppl);
 int		pp_run_fork(t_pipeline *ppl, char ***envp);
 /* Child */
@@ -251,4 +253,9 @@ void	pp_nullfree(char **ptr);
 int		pp_path_size(char const *s1, char const *s2);
 char	*pp_pathjoin(char const *s1, char const *s2);
 int		pp_duplicate(char const *src, char *dest, int shift);
+/* *************************************************************************/
+/*                            printf                                       */
+/* *************************************************************************/
+/* ft_itoa */
+char	*ft_itoa(int nb);
 #endif

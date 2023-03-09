@@ -6,7 +6,7 @@
 /*   By: flarcher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:05:02 by flarcher          #+#    #+#             */
-/*   Updated: 2023/02/22 11:05:04 by flarcher         ###   ########.fr       */
+/*   Updated: 2023/03/09 15:22:09 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	ms_set_sigaction(struct sigaction *sa)
 
 int	main(int argc, char **argv, char **old_envp)
 {
+	int					status;
 	char				*line;
 	char				**envp;
 	t_term				term;
@@ -47,6 +48,7 @@ int	main(int argc, char **argv, char **old_envp)
 
 	(void)argc;
 	(void)argv;
+	status = 0;
 	term.tty_device = ms_set_termios(&term.interact_tio, &term.process_tio);
 	line = NULL;
 	envp = ft_2dstrdup(old_envp);
@@ -59,7 +61,8 @@ int	main(int argc, char **argv, char **old_envp)
 			ms_exit_run(NULL, &envp);
 		add_history(line);
 		tcsetattr(term.tty_device, TCSANOW, &term.process_tio);
-		ms_parsing_start(line, &envp);
+		ms_parsing_start(line, &envp, status);
+		status = pp_run_wait();
 	}
 	tcsetattr(term.tty_device, TCSANOW, &term.process_tio);
 	return (1);

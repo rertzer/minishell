@@ -6,13 +6,13 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 17:13:25 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/06 16:13:37 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/09 14:46:14 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ms_parsing_start(char *line, char ***envp)
+int	ms_parsing_start(char *line, char ***envp, int status)
 {
 	int		i;
 	int 	j;
@@ -27,7 +27,7 @@ int	ms_parsing_start(char *line, char ***envp)
 	if (NULL == new_line)
 		return (ms_return_error(errno, R_MAL));
 	ms_parsing_quote(line, new_line);
-	new_line = ms_dollar_parse(new_line, *envp);
+	new_line = ms_dollar_parse(new_line, *envp, status);
 	if (new_line == NULL)
 		return (1);
 	return (ms_pipe_start(new_line, envp));
