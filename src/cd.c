@@ -6,13 +6,13 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 16:19:46 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/06 14:50:49 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/11 11:09:39 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ms_cd_setpath(char *key, char *value, char ***envp)
+int	ms_cd_setpath(char *key, char const *value, char ***envp)
 {
 	char	*tmp;
 
@@ -20,6 +20,7 @@ int	ms_cd_setpath(char *key, char *value, char ***envp)
 	if (tmp == NULL)
 		return (ms_return_msg(1, R_STR));
 	ms_export_arg(tmp, envp);
+	free(tmp);
 	return (0);
 }
 

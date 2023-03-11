@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 14:46:23 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/09 16:54:24 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/11 10:57:59 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ void	pp_run_child(t_pipeline *ppl, t_command *cmd, char ***envp, int i)
 	pp_open_out(ppl, cmd, i, envp);
 	errno = 0;
 
-	fprintf(stderr, "pid %d command %s\n", getpid(), cmd->cmd_path);
 	if (dup2(cmd->fd_in, STDIN_FILENO) == -1)
 		ms_exit_error(ppl, "dup2");
 	if (dup2(cmd->fd_out, STDOUT_FILENO) == -1)

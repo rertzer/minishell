@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/09 16:25:16 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/11 09:41:16 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,7 +122,7 @@ void	ms_signal_handle_sig(int signum, siginfo_t *info, void *context);
 int		ms_builtin_itis(char *name);
 int		ms_builtin_run(t_command *cmd, char ***envp);
 /* cd */
-int		ms_cd_setpath(char *key, char *value, char ***envp);
+int		ms_cd_setpath(char *key, char const *value, char ***envp);
 char	*ms_cd_resolvepath(char *path, char *pwd);
 int		ms_cd_run(t_command *cmd, char ***envp);
 /* cd_utils */

@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 11:27:40 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/09 17:01:17 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/09 17:40:28 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ms_command_clean(t_command **start)
 {
 	t_command	*tmp;
 	t_command	*cmd;
-DP
+
 	cmd = *start;
 	while (cmd)
 	{

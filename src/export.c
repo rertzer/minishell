@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:41:28 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/09 09:48:07 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/11 10:41:36 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,17 @@ int	ms_export_run(t_command *cmd, char ***envp)
 
 int	ms_export_arg(char *arg, char ***envp)
 {
-	int	index;
+	int		index;
+	char	*tmp;
 
 	index = ms_env_getindex(*envp, arg);
 	if (index == -1)
-		return (ms_export_new(arg, envp));
+	{
+		tmp = ft_strdup(arg);
+		if (tmp == NULL)
+			return (ms_return_msg(1, R_STR));
+		return (ms_export_new(tmp, envp));
+	}
 	else
 		return (ms_export_set(arg, *envp, index));
 }
@@ -62,6 +68,6 @@ int	ms_export_new(char *arg, char ***envp)
 int	ms_export_set(char *arg, char **envp, int index)
 {
 	free(envp[index]);
-	envp[index] = arg;
+	envp[index] = ft_strdup(arg);
 	return (0);
 }

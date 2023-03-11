@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/30 15:42:25 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/06 17:54:20 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/09 17:45:32 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*pp_pathjoin(char const *s1, char const *s2)
 	return (dest);
 }
 
-int	pp_duplicate(char const *src, char *dest, int shift)
+int	pp_duplicate(char  const *src, char *dest, int shift)
 {
 	int	i;
 
