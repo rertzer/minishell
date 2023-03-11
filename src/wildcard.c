@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 10:19:35 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/09 13:13:23 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/11 12:19:53 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,25 +28,29 @@ char	**ms_wildcard_start(char *pattern)
 	errno = 0;
 	dir = getcwd(NULL, 0);
 	if (dir == NULL)
-	{
-		ms_return_error(1, "getcwd");
-		return (NULL);
-	}
+		return (ms_return_null2error("getcwd"));
 	dd = opendir(dir);
 	free(dir);
 	if (dd == NULL)
-	{
-		ms_return_error(1, "opendir");
-		return (NULL);
-	}
+		return (ms_return_null2error("opendir"));
 	expanded = ms_wildcard_expand(dd, pattern);
 	closedir(dd);
 	return (expanded);
 }
 
+int		ms_wildcard_export(struct dirent *entry, char *pattern, char ***expanded)
+{
+	int	ret;
+
+	ret = ms_wildcard_match(entry->d_name, pattern);
+	if (ret > 0)
+		ret = ms_export_new(ft_strdup(entry->d_name), expanded);
+	return (ret);
+
+}
+
 char	**ms_wildcard_expand(DIR *dd, char *pattern)
 {
-	int				ret;
 	char			**expanded;
 	struct dirent	*entry;
 
@@ -55,13 +59,7 @@ char	**ms_wildcard_expand(DIR *dd, char *pattern)
 	expanded = NULL;
 	while (entry)
 	{
-		ret = ms_wildcard_match(entry->d_name, pattern);
-		if (ret > 0)
-		{
-			if (ms_export_new(ft_strdup(entry->d_name), &expanded))
-			return (NULL);
-		}
-		else if (ret < 0)
+		if (ms_wildcard_export(entry, pattern, &expanded))
 			return (NULL);
 		entry = readdir(dd);	
 	}
@@ -78,29 +76,6 @@ char	**ms_wildcard_expand(DIR *dd, char *pattern)
 		free(pattern);
 	return (expanded);
 }
-/*
-char	*ms_wildcard_append(char **exp_tab, char *name)
-{
-	char	*tmp;
-
-	tmp = NULL;
-	if (s1 == NULL)
-	{
-		tmp = ft_strdup(s2);
-		if (tmp == NULL)
-			return (ms_return_null(R_STR));
-		return (tmp);
-	}
-	tmp = ft_strjoin(s1, " ");
-	if (tmp == NULL)
-		return (ms_return_null(R_STR));
-	free(s1);
-	s1 = ft_strjoin(tmp, s2);
-	if (s1 == NULL)
-		return (ms_return_null(R_STR));
-	free(tmp);
-	return (s1);
-}*/
 
 int	ms_wildcard_match(char *name, char *pattern)
 {

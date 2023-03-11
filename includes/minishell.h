@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/11 09:41:16 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/11 12:25:47 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -207,10 +207,12 @@ int		ms_pipex_print(t_command *cmd_start, int cmd_nb);// remove for submission
 int		ms_pipex_run(t_pipeline *ppl, char ***envp);
 /* return */
 int		ms_return_freeturn(char **ptr, int ret);
-char	*ms_return_null(char *msg);
-char	*ms_return_nullerror(char *msg);
 int		ms_return_msg(int ret, char *msg);
 int		ms_return_error(int ret, char *msg);
+/* return null */
+char	*ms_return_null(char *msg);
+char	*ms_return_nullerror(char *msg);
+char	**ms_return_null2error(char *msg);
 /* split */
 char	**ms_split_protected(char const *s, char c);
 /* tfile */
@@ -224,6 +226,8 @@ int		ms_utils_wordlen(char *str);
 char	*ms_utils_strreplace(char *str, char *ins, int offset, int len);
 /* wildcard */
 char	**ms_wildcard_start(char *line);
+int		mw_wildcard_export(struct dirent *entry, char *pattern, \
+		char ***expanded);
 char	**ms_wildcard_expand(DIR *dd, char *line);
 //char	*ms_wildcard_append(char *s1, char *s2);
 int		ms_wildcard_match(char *name, char *pattern);

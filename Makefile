@@ -38,6 +38,7 @@ SOURCES = args.c \
 	pipexrun.c \
 	pwd.c \
 	return.c \
+	return_null.c \
 	run_bonus.c \
 	split.c \
 	tfile.c \
