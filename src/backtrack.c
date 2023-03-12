@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 09:27:22 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/12 11:12:49 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/12 11:30:19 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	ms_backtrack_backtrack(char prev, char *pattern, char *name)
 	ret = 0;
 	if (name[0] == '\0' && pattern[0] == '\0')
 		ret = 1;
-
 	else if (name[0] == '\\')
 		ret = ms_backtrack_backtrack(pattern[0], &pattern[1], name);
 	else
@@ -32,8 +31,6 @@ int	ms_backtrack_backtrack(char prev, char *pattern, char *name)
 				ret = ms_backtrack_backtrack(prev, pattern, &name[1]);
 			if (ret != 1)
 				ret = ms_backtrack_backtrack(pattern[0], &pattern[1], &name[0]);
-			//if (ret != 1 && name[0] != '\0')
-			//	ret = ms_backtrack_backtrack(pattern[0], &pattern[1], &name[1]);
 		}
 	}
 	return (ret);
@@ -47,7 +44,7 @@ int	ms_backtrack_match(char prev, char pattern, char name)
 	return (0);
 }
 
-int ms_backtrack_iswildcard(char prev, char pattern)
+int	ms_backtrack_iswildcard(char prev, char pattern)
 {
 	if (prev != '\\' && pattern == '*')
 		return (1);

@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 14:25:09 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/08 09:55:16 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/12 15:22:35 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,26 @@
 int	ms_pipe_start(char *line, char ***envp)
 {
 	int			cmd_nb;
-
 	t_command	*cmd_start;
+
 	cmd_nb = 1;
-	cmd_start = NULL;
-	if (ms_command_addback(&cmd_start))
+	if (ms_pipe_cmdinit(&cmd_start, line))
 		return (1);
-	cmd_start->cmd_nb = 1;
-	cmd_start->cmd_path = line;
 	if (ms_pipe_split(cmd_start, &cmd_nb))
 		return (ms_command_clean(&cmd_start));
 	if (ms_file_start(cmd_start))
 		return (ms_command_clean(&cmd_start));
-	return (ms_pipeline_run(cmd_start, cmd_nb, envp));
+	return (ms_pipeline_start(cmd_start, cmd_nb, envp));
+}
+
+int	ms_pipe_cmdinit(t_command **cmd_start, char *line)
+{
+	*cmd_start = NULL;
+	if (ms_command_addback(cmd_start))
+		return (1);
+	(*cmd_start)->cmd_nb = 1;
+	(*cmd_start)->cmd_path = line;
+	return (0);
 }
 
 int	ms_pipe_split(t_command *cmd, int *cmd_nb)
@@ -37,6 +44,8 @@ int	ms_pipe_split(t_command *cmd, int *cmd_nb)
 	char	*line;
 
 	line = ft_strdup(cmd->cmd_path);
+	if (line == NULL)
+		return (ms_return_msg(1, R_STR));
 	i = -1;
 	start = 0;
 	while (line[++i])
@@ -61,11 +70,11 @@ int	ms_pipe_cut(t_command *cmd, char *line, int *start, int *i)
 	free(cmd->cmd_path);
 	cmd->cmd_path = ft_strndup(&line[*start], *i - *start);
 	if (NULL == cmd->cmd_path)
-		return (1);
+		return (ms_return_msg(1, R_STR));
 	*start = *i + 1;
 	cmd = cmd->next;
 	cmd->cmd_path = ft_strndup(&line[*start], ft_strlen(&line[*start]));
 	if (NULL == cmd->cmd_path)
-		return (1);
+		return (ms_return_msg(1, R_STR));
 	return (0);
 }

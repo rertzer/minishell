@@ -6,11 +6,11 @@
 /*   By: flarcher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:05:02 by flarcher          #+#    #+#             */
-/*   Updated: 2023/03/09 15:22:09 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/12 11:55:13 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "minishell.h"
 
 t_lpid	*g_lpid = NULL;
 
@@ -38,10 +38,24 @@ void	ms_set_sigaction(struct sigaction *sa)
 	sigaction(SIGQUIT, sa, NULL);
 }
 
+void	shell_loop(t_term term, char ***envp, int *status)
+{	
+	char	*line;
+
+	line = NULL;
+	tcsetattr(term.tty_device, TCSANOW, &term.interact_tio);
+	line = readline("\e[1;32mMinishell: \e[0m");
+	if (!line)
+		ms_exit_run(NULL, envp);
+	add_history(line);
+	tcsetattr(term.tty_device, TCSANOW, &term.process_tio);
+	ms_parsing_start(line, envp, *status);
+	*status = pp_run_wait();
+}
+
 int	main(int argc, char **argv, char **old_envp)
 {
 	int					status;
-	char				*line;
 	char				**envp;
 	t_term				term;
 	struct sigaction	sa;
@@ -50,20 +64,10 @@ int	main(int argc, char **argv, char **old_envp)
 	(void)argv;
 	status = 0;
 	term.tty_device = ms_set_termios(&term.interact_tio, &term.process_tio);
-	line = NULL;
 	envp = ft_2dstrdup(old_envp);
 	ms_set_sigaction(&sa);
 	while (1)
-	{
-		tcsetattr(term.tty_device, TCSANOW, &term.interact_tio);
-		line = readline("\e[1;32mMinishell: \e[0m");
-		if (!line)
-			ms_exit_run(NULL, &envp);
-		add_history(line);
-		tcsetattr(term.tty_device, TCSANOW, &term.process_tio);
-		ms_parsing_start(line, &envp, status);
-		status = pp_run_wait();
-	}
+		shell_loop(term, &envp, &status);
 	tcsetattr(term.tty_device, TCSANOW, &term.process_tio);
 	return (1);
 }

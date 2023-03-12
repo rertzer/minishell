@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 16:19:46 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/11 11:09:39 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/12 17:55:59 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,17 @@ int	ms_cd_run(t_command *cmd, char ***envp)
 		new_path = ms_cd_resolvepath(cmd->args[1], path);
 	if (new_path == NULL)
 		return (ms_return_freeturn(&path, 1));
+	if (ms_cd_chdir(path, new_path))
+		return (1);
+	ms_cd_setpath("OLDPWD=", path, envp);
+	ms_cd_setpath("PWD=", new_path, envp);
+	free(path);
+	free(new_path);
+	return (0);
+}
+
+int	ms_cd_chdir(char *path, char *new_path)
+{
 	errno = 0;
 	if (chdir(new_path) == -1)
 	{
@@ -60,9 +71,5 @@ int	ms_cd_run(t_command *cmd, char ***envp)
 		free(new_path);
 		return (ms_return_error(errno, "chdir"));
 	}
-	ms_cd_setpath("OLDPWD=", path, envp);
-	ms_cd_setpath("PWD=", new_path, envp);
-	free(path);
-	free(new_path);
 	return (0);
 }

@@ -1,40 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   echo.c                                             :+:      :+:    :+:   */
+/*   lpid_del.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/01 13:05:19 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/12 13:14:43 by rertzer          ###   ########.fr       */
+/*   Created: 2023/03/12 11:42:28 by rertzer           #+#    #+#             */
+/*   Updated: 2023/03/12 14:10:10 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ms_echo_run(t_command *cmd, char ***envp)
+void	ms_lpid_delone(t_lpid *lpid)
 {
-	int	i;
-	int	n_flag;
+	if (!lpid)
+		return ;
+	if (lpid->last)
+		lpid->last->next = lpid->next;
+	else
+		g_lpid = g_lpid->next;
+	if (lpid->next)
+		lpid->next->last = lpid->last;
+	if (lpid->last == NULL && lpid->next && NULL)
+		g_lpid = NULL;
+	free(lpid);
+}
 
-	(void)envp;
-	n_flag = 0;
-	i = 0;
-	if (cmd->args[1])
+void	ms_lpid_del_pid(pid_t target)
+{
+	t_lpid	*copy;
+
+	if (!g_lpid)
+		return ;
+	copy = g_lpid;
+	while (copy)
 	{
-		if (cmd->args[1][0] == '-' && cmd->args[1][1] == 'n')
+		if (copy->pid == target)
 		{
-			n_flag = 1;
-			i++;
-		}
-		while (cmd->args[++i])
-		{
-			if ((i > 1 && n_flag == 0) || i > 2)
-				ft_putchar_fd(' ', 1);
-			ft_putstr_fd(cmd->args[i], 1);
+			ms_lpid_delone(copy);
+			return ;
 		}
 	}
-	if (n_flag == 0)
-		ft_putchar_fd('\n', 1);
-	return (0);
 }

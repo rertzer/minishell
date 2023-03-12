@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 17:49:34 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/09 11:34:14 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/12 14:05:34 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,9 @@ int	ms_args_wildinsert(t_command *cmd, char *line, int start, int i)
 	expanded = ms_wildcard_start(word);
 	if (expanded == NULL)
 		return (ms_return_msg(1, R_STR));
+	ms_sort_sort(expanded);
 	if (ms_args_expinsert(cmd, expanded))
-			return (1);
+		return (1);
 	free(expanded);
 	return (0);
 }

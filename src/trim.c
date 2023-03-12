@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 09:04:49 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/09 11:31:59 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/12 16:05:24 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,13 @@ static int	ms_get_end(char const *str)
 	return (end);
 }
 
+static size_t	ms_get_len(int start, int end)
+{
+	if (start > end)
+		return (0);
+	return (end - start + 1);
+}
+
 char	*ms_trim_trim(char *line)
 {
 	size_t	i;
@@ -61,10 +68,7 @@ char	*ms_trim_trim(char *line)
 
 	start = ms_get_start(line);
 	end = ms_get_end(line);
-	if (start > end)
-		len = 0;
-	else
-		len = end - start + 1;
+	len = ms_get_len(start, end);
 	errno = 0;
 	trimed = malloc(sizeof(char) * (len + 1));
 	if (trimed == NULL)

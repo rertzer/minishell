@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 13:32:08 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/09 16:37:29 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/12 13:07:23 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,14 +85,14 @@ int	ms_args_parseloop(t_command *cmd, int i, int start, int in_word)
 			in_word = 1;
 	}
 	if (i != start && in_word && ms_args_wildinsert(cmd, line, start, i))
-			return (ms_return_freeturn(&line, 1));
+		return (ms_return_freeturn(&line, 1));
 	return (ms_return_freeturn(&line, 0));
 }
 
 int	ms_args_insert(t_command *cmd, char *word)
 {
 	word = ms_char_unprotect(word);
-	if (word  == NULL)
+	if (word == NULL)
 		return (1);
 	if (cmd->cmd_path == NULL)
 	{	
@@ -105,6 +105,5 @@ int	ms_args_insert(t_command *cmd, char *word)
 		}
 	}
 	ms_args_add(cmd, word);
-	
 	return (0);
 }

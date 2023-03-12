@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 16:41:14 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/06 15:16:17 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/12 13:15:31 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ms_pwd_run(t_command *cmd, char ***envp)
 {
-	char *buffer;
+	char	*buffer;
 
 	(void)cmd;
 	buffer = ms_env_getvalue(*envp, "PWD");

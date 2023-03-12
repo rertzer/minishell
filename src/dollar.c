@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 17:18:36 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/09 15:24:47 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/12 13:06:30 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,23 +33,11 @@ char	*ms_dollar_parse(char *line, char **envp, int status)
 	return (line);
 }
 
-int	ms_dollar_replace(char **line, int i, char **envp, int status)
+char	*ms_dollar_getvalue(char *key, int status, char **envp)
 {
-	int		len;
-	char	*key;
 	char	*value;
 
-	len = 0;
-	key = NULL;
 	value = NULL;
-	if ((*line)[i + 1])
-	{
-		len = ms_utils_wordlen(&(*line)[i + 1]);
-		if (len)
-			key = ft_strndup(&(*line)[i + 1], len);
-		if (key == NULL)
-			return (-1);
-	}
 	if (key)
 	{
 		if (ft_strcmp(key, "?") == 0)
@@ -59,6 +47,36 @@ int	ms_dollar_replace(char **line, int i, char **envp, int status)
 	}
 	if (value == NULL)
 		value = ft_strdup("");
+	return (value);
+}
+
+int	ms_dollar_copykey(char **key, char **line, int i)
+{
+	int		len;
+
+	len = 0;
+	if ((*line)[i + 1])
+	{
+		len = ms_utils_wordlen(&(*line)[i + 1]);
+		if (len)
+			*key = ft_strndup(&(*line)[i + 1], len);
+		if (*key == NULL)
+			return (-1);
+	}
+	return (len);
+}
+
+int	ms_dollar_replace(char **line, int i, char **envp, int status)
+{
+	int		len;
+	char	*key;
+	char	*value;
+
+	key = NULL;
+	len = ms_dollar_copykey(&key, line, i);
+	if (len < 0)
+		return (-1);
+	value = ms_dollar_getvalue(key, status, envp);
 	*line = ms_utils_strreplace(*line, value, i, len + 1);
 	len = ft_strlen(value);
 	free(key);

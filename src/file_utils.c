@@ -6,11 +6,11 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 18:36:08 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/06 16:11:14 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/12 13:18:12 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
- #include "minishell.h"
+#include "minishell.h"
 
 void	ms_file_mode(char *path, char *mode, int *shift)
 {
@@ -23,7 +23,7 @@ void	ms_file_mode(char *path, char *mode, int *shift)
 	}
 }
 
-int		ms_file_wordend(char *line, int j)
+int	ms_file_wordend(char *line, int j)
 {
 	int	word;
 
@@ -33,7 +33,7 @@ int		ms_file_wordend(char *line, int j)
 		if (ms_char_isin(line[j], FL_CHAR) && ms_char_prevok(line, j))
 		{
 			if (word)
-				break;
+				break ;
 		}
 		else
 			word = 1;
@@ -56,6 +56,7 @@ int	ms_file_chevron(t_command *cmd, int i)
 	int		shift;
 	char	mode;
 	char	*str;
+
 	ms_file_mode(&cmd->cmd_path[i], &mode, &shift);
 	j = ms_file_wordend(cmd->cmd_path, i + shift);
 	str = ft_strndup(&cmd->cmd_path[i + shift], j - i - shift);

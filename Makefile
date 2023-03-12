@@ -20,8 +20,8 @@ SOURCES = args.c \
 	cd.c \
 	cd_utils.c \
 	char.c \
-	check_cmd_bonus.c \
-	child_bonus.c \
+	check_cmd.c \
+	child.c \
 	command.c \
 	dollar.c \
 	echo.c \
@@ -31,24 +31,25 @@ SOURCES = args.c \
 	file.c \
 	file_utils.c \
 	ft_itoa.c \
-	here_doc_bonus.c \
+	here_doc.c \
+	open.c \
 	parsing.c \
 	pipe.c \
 	pipeline.c \
-	pipexrun.c \
 	pwd.c \
 	return.c \
 	return_null.c \
-	run_bonus.c \
+	run.c \
+	sort.c \
 	split.c \
 	tfile.c \
 	trim.c \
 	unset.c \
-	utils_bonus.c \
+	utils_pp.c \
 	utils.c \
-	pipex.c \
 	minishell.c \
 	lpid.c \
+	lpid_del.c \
 	signal.c \
 	wildcard.c
 
