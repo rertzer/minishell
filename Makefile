@@ -15,6 +15,7 @@ LIBFT = $(LIBFT_DIR)libft.a
 
 SOURCES = args.c \
 	args_utils.c \
+	backtrack.c \
 	builtin.c \
 	cd.c \
 	cd_utils.c \
@@ -32,7 +33,6 @@ SOURCES = args.c \
 	ft_itoa.c \
 	here_doc_bonus.c \
 	parsing.c \
-	pattern.c \
 	pipe.c \
 	pipeline.c \
 	pipexrun.c \

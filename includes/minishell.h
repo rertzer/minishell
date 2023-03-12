@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/11 12:25:47 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/12 11:16:21 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,10 @@ int		ms_args_insert(t_command *cmd, char *line);
 /* args utils */
 int		ms_args_wildinsert(t_command *cmd, char *line, int start, int i);
 int		ms_args_expinsert(t_command *cmd, char **expanded);
+/* backtrack */
+int		ms_backtrack_backtrack(char prev, char *pattern, char *name);
+int		ms_backtrack_match(char prev, char pattern, char name);
+int		ms_backtrack_iswildcard(char prev, char pattern);
 /* char */
 int		ms_char_isin(char c, char *special);
 int		ms_char_nextexist(char *line);
@@ -190,11 +194,6 @@ int		ms_file_chevron(t_command *cmd, int mode);
 int		ms_parsing_start(char *line, char ***envp, int status);
 void	ms_parsing_quote(char *line, char *new_line);
 int		ms_parsing_isquote(char *line, char *quote);
-/* pattern */
-int		ms_pattern_match(char *name, char *patt, int offset);
-char	*ms_pattern_anchor(char *str);
-char	*ms_pattern_head(char *edge, char *str);
-char	*ms_pattern_tail(char *edgd, char *str);
 /* pipe */
 int		ms_pipe_start(char *line, char ***envp);
 int		ms_pipe_split(t_command *cmd, int *cmd_nb);
@@ -229,7 +228,6 @@ char	**ms_wildcard_start(char *line);
 int		mw_wildcard_export(struct dirent *entry, char *pattern, \
 		char ***expanded);
 char	**ms_wildcard_expand(DIR *dd, char *line);
-//char	*ms_wildcard_append(char *s1, char *s2);
 int		ms_wildcard_match(char *name, char *pattern);
 
 /* **********************************************************************/

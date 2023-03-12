@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 10:19:35 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/11 12:19:53 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/12 11:15:30 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ char	**ms_wildcard_start(char *pattern)
 		ms_export_new(pattern, &expanded);
 		return (expanded);
 	}
-	pattern = ms_pattern_anchor(pattern);
 	errno = 0;
 	dir = getcwd(NULL, 0);
 	if (dir == NULL)
@@ -42,7 +41,7 @@ int		ms_wildcard_export(struct dirent *entry, char *pattern, char ***expanded)
 {
 	int	ret;
 
-	ret = ms_wildcard_match(entry->d_name, pattern);
+	ret = ms_backtrack_backtrack('\0', pattern, entry->d_name);
 	if (ret > 0)
 		ret = ms_export_new(ft_strdup(entry->d_name), expanded);
 	return (ret);
@@ -70,36 +69,12 @@ char	**ms_wildcard_expand(DIR *dd, char *pattern)
 		ms_return_error(1, "readdir");
 		return (NULL);
 	}
-	if (expanded == NULL && ms_export_new(pattern, &expanded))
-		return (NULL);
+	if (expanded == NULL)
+	{
+		if (ms_export_new(pattern, &expanded))
+			return (NULL);
+	}
 	else
 		free(pattern);
 	return (expanded);
-}
-
-int	ms_wildcard_match(char *name, char *pattern)
-{
-	int		i;
-	int		j;
-	char	**patts;
-	char	*name_cpy;
-
-	name_cpy = ft_strdup(name);
-	if (name_cpy == NULL)
-		return (ms_return_msg(-1, R_STR));
-	name_cpy = ms_pattern_anchor(name_cpy);
-	if (name_cpy == NULL)
-		return (-1);
-	patts = ms_split_protected(pattern, '*');
-	if (patts == NULL)
-		return (ms_return_msg(-1, "R_SPL"));
-	i = -1;
-	j = 0;
-	while (patts[++i])
-	{
-		j = ms_pattern_match(name_cpy, patts[i], j);
-		if (j < 0)
-			return (0);
-	}
-	return (1);
 }
