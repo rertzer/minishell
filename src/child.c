@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 16:13:34 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/13 17:03:23 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/13 18:36:36 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,18 @@
 
 void	pp_child_run(t_pipeline *ppl, t_command *cmd, char ***envp, int i)
 {
+	int builtin;
+
 	pp_open_in(ppl, cmd, i);
 	pp_open_out(ppl, cmd, i);
 	pp_child_dupfd(ppl, cmd);
 	if (cmd->cmd_path == NULL || cmd->cmd_path[0] == '\0')
 		ms_exit_msg(ppl, envp, NULL);
-	if (ms_builtin_itis(cmd->cmd_path))
+	builtin = ms_builtin_itis(cmd->cmd_path);
+	if (builtin)
 	{
-		ms_builtin_run(cmd, envp, 1);
+		if (builtin != 7)
+			ms_builtin_run(cmd, envp, 1);
 		ms_exit_msg(ppl, envp, NULL);
 	}
 	pp_child_exec(ppl, cmd, envp);
