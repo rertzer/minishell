@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 13:21:15 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/09 11:32:21 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/13 18:15:43 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ int	ms_char_nextexist(char *line)
 	char	c;
 
 	c = line[0];
-	line++;
 	while (*line++)
 	{
 		if (*line == c)
