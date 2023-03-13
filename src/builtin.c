@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 12:52:18 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/12 13:27:12 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/13 17:02:36 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	ms_builtin_itis(char *name)
 	return (0);
 }
 
-int	ms_builtin_run(t_command *cmd, char ***envp)
+int	ms_builtin_run(t_command *cmd, char ***envp, int fd)
 {
 	int				fun_index;
 	t_builtin_fun	fun_exec[FUN_TOP];
@@ -51,6 +51,6 @@ int	ms_builtin_run(t_command *cmd, char ***envp)
 	fun_exec[7] = ms_exit_run;
 	fun_index = ms_builtin_itis(cmd->cmd_path);
 	if (fun_index)
-		return (fun_exec[fun_index](cmd, envp));
+		return (fun_exec[fun_index](cmd, envp, fd));
 	return (1);
 }

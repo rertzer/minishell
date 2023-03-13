@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/13 14:48:48 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/13 17:49:13 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ typedef struct s_term
 	int					tty_device;
 }				t_term;
 
-typedef int		(*t_builtin_fun)(t_command *cmd, char ***envp);
+typedef int		(*t_builtin_fun)(t_command *cmd, char ***envp, int fd_out);
 
 extern t_lpid	*g_lpid;
 
@@ -109,6 +109,7 @@ t_lpid	*ms_lpid_new(pid_t pid);
 void	ms_lpid_add(t_lpid *new);
 void	ms_lpid_add_back(t_lpid *new);
 /* lpid del */
+void	ms_lpid_clean(void);
 void	ms_lpid_delone(t_lpid *lpid);
 void	ms_lpid_del_pid(pid_t target);
 /* signal */
@@ -120,24 +121,24 @@ void	ms_signal_handle_sig(int signum, siginfo_t *info, void *context);
 /* ================================================================= */
 /* builtin */
 int		ms_builtin_itis(char *name);
-int		ms_builtin_run(t_command *cmd, char ***envp);
+int		ms_builtin_run(t_command *cmd, char ***envp, int fd_out);
 /* cd */
-int		ms_cd_run(t_command *cmd, char ***envp);
+int		ms_cd_run(t_command *cmd, char ***envp, int fd_out);
 /* cd_utils */
 char	*ms_cd_simplify(char **dirlst);
 /* echo */
-int		ms_echo_run(t_command *cmd, char ***envp);
+int		ms_echo_run(t_command *cmd, char ***envp, int fd_out);
 /* env */
 char	*ms_env_getvalue(char **envp, char *key);
 int		ms_env_getindex(char **envp, char *key);
-int		ms_env_run(t_command *cmd, char ***envp);
+int		ms_env_run(t_command *cmd, char ***envp, int fd_out);
 /* export */
-int		ms_export_run(t_command *cmd, char ***envp);
+int		ms_export_run(t_command *cmd, char ***envp, int fd_out);
 int		ms_export_arg(char *arg, char ***envp);
 /* pwd */
-int		ms_pwd_run(t_command *cmd, char ***envp);
+int		ms_pwd_run(t_command *cmd, char ***envp, int fd_out);
 /* unset */
-int		ms_unset_run(t_command *cmd, char ***envp);
+int		ms_unset_run(t_command *cmd, char ***envp, int fd_out);
 
 /* ================================================================= */
 /*                        parse and run                              */
@@ -164,11 +165,13 @@ char	*ms_dollar_parse(char *line, char **envp, int status);
 /* exit */
 void	ms_exit_msg(t_pipeline *ppl, char ***envp, char *msg);
 void	ms_exit_error(t_pipeline *ppl, char *msg);
-int		ms_exit_run(t_command *cmd, char ***envp);
+int		ms_exit_run(t_command *cmd, char ***envp, int fd_out);
 /* file */
 int		ms_file_start(t_command *cmd);
 /* file utils */
 int		ms_file_chevron(t_command *cmd, int mode);
+/* output */
+int		ms_output_openall(t_command *cmd);
 /* parsing */
 int		ms_parsing_start(char *line, char ***envp, int status);
 int		ms_parsing_computelen(char *line);
@@ -235,10 +238,10 @@ int		pp_run_wait(void);
 int		pp_run_make_pipes(t_pipeline *ppl);
 int		pp_run_fork(t_pipeline *ppl, char ***envp);
 /* Open */
-int		pp_open_file(t_pipeline *pp, t_file *file, char ***envp);
-int		pp_open_flags(char mode, t_pipeline *ppl, char ***envp);
-void	pp_open_in(t_pipeline *ppl, t_command *cmd, int i, char ***envp);
-void	pp_open_out(t_pipeline *ppl, t_command *cmd, int i, char ***envp);
+int		pp_open_file(t_pipeline *pp, t_file *file);
+int		pp_open_flags(char mode);
+void	pp_open_in(t_pipeline *ppl, t_command *cmd, int i);
+void	pp_open_out(t_pipeline *ppl, t_command *cmd, int i);
 /* Child */
 void	pp_child_run(t_pipeline *ppl, t_command *cmd, char ***envp, int i);
 void	pp_child_dupfd(t_pipeline *ppl, t_command *cmd);

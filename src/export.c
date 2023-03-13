@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:41:28 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/13 13:35:15 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/13 17:13:12 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,11 @@
 static int	ms_export_isposix(char *arg);
 static int	ms_export_set(char *arg, char **envp, int index);
 
-int	ms_export_run(t_command *cmd, char ***envp)
+int	ms_export_run(t_command *cmd, char ***envp, int fd_out)
 {
 	int	i;
 
+	(void)fd_out;
 	i = 0;
 	while (cmd->args[++i])
 	{

@@ -6,11 +6,25 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 11:42:28 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/12 14:10:10 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/13 17:48:48 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	ms_lpid_clean(void)
+{
+	t_lpid	*lpid;
+	t_lpid	*tmp;
+
+	lpid = g_lpid;
+	while (lpid)
+	{
+		tmp = lpid;
+		lpid = lpid->next;
+		free(tmp);
+	}
+}
 
 void	ms_lpid_delone(t_lpid *lpid)
 {

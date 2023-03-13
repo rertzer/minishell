@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 13:46:42 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/13 11:52:20 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/13 17:06:45 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,15 @@
 
 static int	ms_env_valueindex(char *env, char *key);
 
-int	ms_env_run(t_command *cmd, char ***envp)
+int	ms_env_run(t_command *cmd, char ***envp, int fd_out)
 {
 	int	i;
 
 	(void)cmd;
 	i = -1;
 	while ((*envp)[++i])
-		ft_putendl_fd((*envp)[i], 1);
+		ft_putendl_fd((*envp)[i], fd_out);
+	ms_command_close(fd_out);
 	return (0);
 }
 

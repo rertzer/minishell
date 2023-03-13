@@ -32,6 +32,7 @@ SOURCES = args.c \
 	file_utils.c \
 	here_doc.c \
 	open.c \
+	output.c \
 	parsing.c \
 	pipe.c \
 	pipeline.c \
