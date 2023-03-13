@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 14:25:09 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/12 15:22:35 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/13 15:10:24 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ int	ms_pipe_start(char *line, char ***envp)
 	t_command	*cmd_start;
 
 	cmd_nb = 1;
+	cmd_start = NULL;
 	if (ms_pipe_cmdinit(&cmd_start, line))
 		return (1);
 	if (ms_pipe_split(cmd_start, &cmd_nb))
@@ -29,7 +30,6 @@ int	ms_pipe_start(char *line, char ***envp)
 
 int	ms_pipe_cmdinit(t_command **cmd_start, char *line)
 {
-	*cmd_start = NULL;
 	if (ms_command_addback(cmd_start))
 		return (1);
 	(*cmd_start)->cmd_nb = 1;

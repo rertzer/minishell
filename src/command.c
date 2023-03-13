@@ -6,23 +6,14 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 11:27:40 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/09 17:40:28 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/13 14:22:39 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ms_command_init(t_command *cmd)
-{
-	cmd->fd_in = 0;
-	cmd->fd_out = 1;
-	cmd->infile = NULL;
-	cmd->outfile = NULL;
-	cmd->cmd_path = NULL;
-	cmd->args = NULL;
-	cmd->next = NULL;
-	cmd->cmd_nb = 0;
-}
+static void	ms_command_init(t_command *cmd);
+static void	ms_command_clean_one(t_command *cmd);
 
 int	ms_command_addback(t_command **start)
 {
@@ -46,6 +37,18 @@ int	ms_command_addback(t_command **start)
 	return (0);
 }
 
+static void	ms_command_init(t_command *cmd)
+{
+	cmd->fd_in = 0;
+	cmd->fd_out = 1;
+	cmd->infile = NULL;
+	cmd->outfile = NULL;
+	cmd->cmd_path = NULL;
+	cmd->args = NULL;
+	cmd->next = NULL;
+	cmd->cmd_nb = 0;
+}
+
 int	ms_command_clean(t_command **start)
 {
 	t_command	*tmp;
@@ -63,7 +66,7 @@ int	ms_command_clean(t_command **start)
 	return (0);
 }
 
-void	ms_command_clean_one(t_command *cmd)
+static void	ms_command_clean_one(t_command *cmd)
 {
 	int	i;
 

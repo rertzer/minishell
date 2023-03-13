@@ -14,7 +14,7 @@ INC_DIR = includes/
 LIBFT = $(LIBFT_DIR)libft.a
 
 SOURCES = args.c \
-	args_utils.c \
+	args_parse.c \
 	backtrack.c \
 	builtin.c \
 	cd.c \
@@ -30,13 +30,13 @@ SOURCES = args.c \
 	export.c \
 	file.c \
 	file_utils.c \
-	ft_itoa.c \
 	here_doc.c \
 	open.c \
 	parsing.c \
 	pipe.c \
 	pipeline.c \
 	pwd.c \
+	redirect.c \
 	return.c \
 	return_null.c \
 	run.c \

@@ -6,27 +6,48 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 10:38:29 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/11 11:15:21 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/13 10:28:56 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ms_cd_isdbldot(char *dir)
+static int	ms_cd_isdoubledot(char *dir);
+static int	ms_cd_removeprevious(char **dirlst, int current);
+static char	*ms_cd_recompose(char **dirlst);
+
+char	*ms_cd_simplify(char **dirlst)
+{
+	int		i;
+
+	i = -1;
+	while (dirlst[++i])
+	{
+		if (dirlst[i][0] == '\0')
+			continue ;
+		else if (dirlst[i][0] == '.' && dirlst[i][1] == '\0')
+			dirlst[i][0] = '\0';
+		else if (ms_cd_isdoubledot(dirlst[i]))
+			ms_cd_removeprevious(dirlst, i);
+	}
+	return (ms_cd_recompose(dirlst));
+}
+
+static int	ms_cd_isdoubledot(char *dir)
 {
 	if (dir[0] == '.' && dir[1] == '.' && dir[2] == '\0')
 		return (1);
 	return (0);
 }
 
-int	ms_cd_rmprev(char **dirlst, int current)
+static int	ms_cd_removeprevious(char **dirlst, int current)
 {
 	int	i;
 
 	i = current;
 	while (--i >= 0)
 	{
-		if (ms_cd_isdbldot(dirlst[i]) || dirlst[i][0] == '\0')
+		if (ms_cd_isdoubledot(dirlst[i]) || dirlst[i][0] == '\0')
 			continue ;
 		dirlst[i][0] = '\0';
 		dirlst[current][0] = '\0';
@@ -35,7 +56,7 @@ int	ms_cd_rmprev(char **dirlst, int current)
 	return (0);
 }
 
-char	*ms_cd_recompose(char **dirlst)
+static char	*ms_cd_recompose(char **dirlst)
 {
 	int		i;
 	char	*tmp;
@@ -57,21 +78,4 @@ char	*ms_cd_recompose(char **dirlst)
 	}
 	dirlst = ft_split_flush(dirlst);
 	return (new_path);
-}
-
-char	*ms_cd_simplify(char **dirlst)
-{
-	int		i;
-
-	i = -1;
-	while (dirlst[++i])
-	{
-		if (dirlst[i][0] == '\0')
-			continue ;
-		else if (dirlst[i][0] == '.' && dirlst[i][1] == '\0')
-			dirlst[i][0] = '\0';
-		else if (ms_cd_isdbldot(dirlst[i]))
-			ms_cd_rmprev(dirlst, i);
-	}
-	return (ms_cd_recompose(dirlst));
 }

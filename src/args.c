@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 13:32:08 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/12 13:07:23 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/13 13:34:33 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,7 @@ int	ms_args_add(t_command *cmd, char *line)
 		return (ms_return_error(errno, R_MAL));
 	i = -1;
 	while (++i < arg_nb)
-	{
 		new[i] = cmd->args[i];
-	}
 	if (line == NULL)
 	{
 		free(new);
@@ -50,43 +48,6 @@ int	ms_args_getnb(t_command *cmd)
 	while (cmd->args[nb] != NULL)
 		nb++;
 	return (nb);
-}
-
-int	ms_args_parse(t_command *cmd)
-{
-	if (cmd->cmd_path == NULL || ms_utils_spaceonly(cmd->cmd_path))
-	{
-		free(cmd->cmd_path);
-		cmd->cmd_path = NULL;
-		return (0);
-	}
-	return (ms_args_parseloop(cmd, -1, 0, 0));
-}
-
-int	ms_args_parseloop(t_command *cmd, int i, int start, int in_word)
-{
-	char	*line;
-
-	line = cmd->cmd_path;
-	cmd->cmd_path = NULL;
-	while (line[++i])
-	{
-		if (ms_char_isin(line[i], SP_CHAR) && ms_char_prevok(line, i))
-		{
-			if (in_word)
-			{
-				if (ms_args_wildinsert(cmd, line, start, i))
-					return (ms_return_freeturn(&line, 1));
-				start = i + 1;
-				in_word = 0;
-			}
-		}
-		else
-			in_word = 1;
-	}
-	if (i != start && in_word && ms_args_wildinsert(cmd, line, start, i))
-		return (ms_return_freeturn(&line, 1));
-	return (ms_return_freeturn(&line, 0));
 }
 
 int	ms_args_insert(t_command *cmd, char *word)

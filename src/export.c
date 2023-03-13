@@ -6,11 +6,14 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:41:28 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/12 17:41:11 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/13 13:35:15 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	ms_export_isposix(char *arg);
+static int	ms_export_set(char *arg, char **envp, int index);
 
 int	ms_export_run(t_command *cmd, char ***envp)
 {
@@ -30,6 +33,8 @@ int	ms_export_arg(char *arg, char ***envp)
 	int		index;
 	char	*tmp;
 
+	if (!ms_export_isposix(arg))
+		return (ms_return_msg(1, R_NVI));
 	index = ms_env_getindex(*envp, arg);
 	if (index == -1)
 	{
@@ -42,7 +47,23 @@ int	ms_export_arg(char *arg, char ***envp)
 		return (ms_export_set(arg, *envp, index));
 }
 
-int	ms_export_set(char *arg, char **envp, int index)
+static int	ms_export_isposix(char *arg)
+{
+	int	i;
+
+	if (ft_isdigit(arg[0]))
+		return (0);
+	i = 0;
+	while (arg[i] != '\0' && arg[i] != '=')
+	{
+		if (!(ft_isdigit(arg[i]) || ft_isupper(arg[i]) || arg[i] == '_'))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+static int	ms_export_set(char *arg, char **envp, int index)
 {
 	free(envp[index]);
 	envp[index] = ft_strdup(arg);

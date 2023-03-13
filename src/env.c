@@ -6,11 +6,24 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 13:46:42 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/06 15:00:11 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/13 11:52:20 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	ms_env_valueindex(char *env, char *key);
+
+int	ms_env_run(t_command *cmd, char ***envp)
+{
+	int	i;
+
+	(void)cmd;
+	i = -1;
+	while ((*envp)[++i])
+		ft_putendl_fd((*envp)[i], 1);
+	return (0);
+}
 
 char	*ms_env_getvalue(char **envp, char *key)
 {
@@ -49,7 +62,7 @@ int	ms_env_getindex(char **envp, char *key)
 	return (-1);
 }
 
-int	ms_env_valueindex(char *env, char *key)
+static int	ms_env_valueindex(char *env, char *key)
 {
 	int	i;
 
@@ -58,16 +71,5 @@ int	ms_env_valueindex(char *env, char *key)
 		i++;
 	if (env[i] == '=' && (key[i] == '\0' || key[i] == '='))
 		return (i + 1);
-	return (0);
-}
-
-int	ms_env_run(t_command *cmd, char ***envp)
-{
-	int	i;
-
-	(void)cmd;
-	i = -1;
-	while ((*envp)[++i])
-		ft_putendl_fd((*envp)[i], 1);
 	return (0);
 }

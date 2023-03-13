@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 09:04:49 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/12 16:05:24 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/13 09:01:20 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	*ms_trim_trim(char *line)
 	errno = 0;
 	trimed = malloc(sizeof(char) * (len + 1));
 	if (trimed == NULL)
-		return (ms_return_null(R_MAL));
+		return (ms_return_nullerror(R_MAL));
 	i = -1;
 	while (++i < len)
 		trimed[i] = line[start + i];
