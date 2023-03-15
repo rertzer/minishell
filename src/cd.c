@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 16:19:46 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/13 17:12:28 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/15 17:28:07 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,7 @@ int	ms_cd_run(t_command *cmd, char ***envp, int fd_out)
 	if (!cmd->args[1])
 		return (0);
 	path = ms_env_getvalue(*envp, "PWD");
-	if (cmd->args[1][0] == '/')
-		new_path = ft_strdup(cmd->args[1]);
-	else
-		new_path = ms_cd_resolvepath(cmd->args[1], path);
+	new_path = ms_cd_resolvepath(cmd->args[1], path);
 	if (new_path == NULL)
 		return (ms_return_freeturn(&path, 1));
 	if (ms_cd_chdir(path, new_path))
@@ -45,7 +42,10 @@ static char	*ms_cd_resolvepath(char *path, char *pwd)
 	char	*newpath;
 	char	**dirlst;
 
-	newpath = pp_pathjoin(pwd, path);
+	if (path[0] == '/')
+		newpath = ft_strdup(path);
+	else
+		newpath = pp_pathjoin(pwd, path);
 	if (newpath == NULL)
 		return (NULL);
 	dirlst = ft_split(newpath, '/');
