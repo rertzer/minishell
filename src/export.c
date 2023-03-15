@@ -6,13 +6,13 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:41:28 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/13 17:13:12 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/15 10:44:46 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ms_export_isposix(char *arg);
+static int	ms_export_isvalid(char *arg);
 static int	ms_export_set(char *arg, char **envp, int index);
 
 int	ms_export_run(t_command *cmd, char ***envp, int fd_out)
@@ -34,7 +34,7 @@ int	ms_export_arg(char *arg, char ***envp)
 	int		index;
 	char	*tmp;
 
-	if (!ms_export_isposix(arg))
+	if (!ms_export_isvalid(arg))
 		return (ms_return_msg(1, R_NVI));
 	index = ms_env_getindex(*envp, arg);
 	if (index == -1)
@@ -48,7 +48,7 @@ int	ms_export_arg(char *arg, char ***envp)
 		return (ms_export_set(arg, *envp, index));
 }
 
-static int	ms_export_isposix(char *arg)
+static int	ms_export_isvalid(char *arg)
 {
 	int	i;
 
@@ -57,7 +57,7 @@ static int	ms_export_isposix(char *arg)
 	i = 0;
 	while (arg[i] != '\0' && arg[i] != '=')
 	{
-		if (!(ft_isdigit(arg[i]) || ft_isupper(arg[i]) || arg[i] == '_'))
+		if (!(ft_isalnum(arg[i]) || arg[i] == '_'))
 			return (0);
 		i++;
 	}

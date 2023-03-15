@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:55:38 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/15 10:29:33 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/15 14:12:38 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ int	ms_exit_run(t_command *cmd, char ***envp, int fd_out)
 	int	status;
 
 	status = 0;
-	if (cmd->args[1])
+	if (cmd && cmd->args[1])
 		status = ft_atoi(cmd->args[1]);
 	(void)fd_out;
 	ms_lpid_clean();
