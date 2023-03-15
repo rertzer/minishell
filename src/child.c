@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 16:13:34 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/13 18:36:36 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/15 10:19:18 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	pp_child_run(t_pipeline *ppl, t_command *cmd, char ***envp, int i)
 	{
 		if (builtin != 7)
 			ms_builtin_run(cmd, envp, 1);
-		ms_exit_msg(ppl, envp, NULL);
+		ms_exit_exit(ppl, envp, cmd->args[1]);
 	}
 	pp_child_exec(ppl, cmd, envp);
 }

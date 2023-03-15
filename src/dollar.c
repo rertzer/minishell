@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 17:18:36 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/13 14:33:41 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/15 10:08:10 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ char	*ms_dollar_parse(char *line, char **envp, int status)
 	i = 0;
 	while (line[i])
 	{
-		if (line[i] == '$' && ms_char_prevok(line, i))
+		if (line[i] == '$' && ms_char_prevok(line, i)	\
+				&& line[i + 1] && !ms_char_isin(line[i + 1], LD_CHAR))
 		{
 			len = ms_dollar_replace(&line, i, envp, status);
 			if (len < 0)

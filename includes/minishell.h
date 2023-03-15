@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/13 17:49:13 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/15 10:21:05 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@
 # define FL_CHAR " \t<>"
 # define SP_CHAR " \t"
 # define DL_CHAR " \t$/"
+# define LD_CHAR " \t$/\\"
 
 # define PROMPT "\001\e[1;32m\002Minishell: \001\e[0m\002"
 
@@ -165,6 +166,7 @@ char	*ms_dollar_parse(char *line, char **envp, int status);
 /* exit */
 void	ms_exit_msg(t_pipeline *ppl, char ***envp, char *msg);
 void	ms_exit_error(t_pipeline *ppl, char *msg);
+void	ms_exit_exit(t_pipeline *ppl, char ***envp, char *value);
 int		ms_exit_run(t_command *cmd, char ***envp, int fd_out);
 /* file */
 int		ms_file_start(t_command *cmd);
@@ -211,6 +213,7 @@ int		ms_tfile_clean(t_file **file);
 char	*ms_trim_trim(char *line);
 /* utils */
 int		ms_utils_spaceonly(char *str);
+int		ms_utils_isonly(char *str, char c);
 int		ms_utils_wordlen(char *str);
 char	*ms_utils_strreplace(char *str, char *ins, int offset, int len);
 int		ms_utils_insert(char *str, char ***table);

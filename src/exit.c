@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:55:38 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/13 17:41:43 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/15 10:29:33 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,20 @@ void	ms_exit_msg(t_pipeline *ppl, char ***envp, char *msg)
 	exit(0);
 }
 
+void	ms_exit_exit(t_pipeline *ppl, char ***envp, char *value)
+{
+	int	status;
+
+	status = 0;
+	if (value)
+		status = ft_atoi(value);
+	ms_pipeline_clean(ppl);
+	ft_split_flush(*envp);
+	ms_lpid_clean();
+	*envp = NULL;
+	exit(status);
+}
+
 void	ms_exit_error(t_pipeline *ppl, char *msg)
 {
 	
@@ -39,6 +53,11 @@ void	ms_exit_error(t_pipeline *ppl, char *msg)
 
 int	ms_exit_run(t_command *cmd, char ***envp, int fd_out)
 {
+	int	status;
+
+	status = 0;
+	if (cmd->args[1])
+		status = ft_atoi(cmd->args[1]);
 	(void)fd_out;
 	ms_lpid_clean();
 	if (cmd)
@@ -55,5 +74,5 @@ int	ms_exit_run(t_command *cmd, char ***envp, int fd_out)
 		ft_split_flush(*envp);
 		*envp = NULL;
 	}
-	exit(0);
+	exit(status);
 }

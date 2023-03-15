@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 10:26:30 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/12 17:47:03 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/15 09:20:05 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,17 @@ int	ms_utils_spaceonly(char *str)
 	while (*str)
 	{
 		if (*str != 9 && *str != 32)
+			return (0);
+		str++;
+	}
+	return (1);
+}
+
+int	ms_utils_isonly(char *str, char c)
+{
+	while (*str)
+	{
+		if (*str != c)
 			return (0);
 		str++;
 	}

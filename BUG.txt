@@ -9,15 +9,15 @@ echo	tab
 echo "	tab	"
 echo		tab
 echo hello world
-echo -n															INVALID READ
+echo -n
 echo -n a
 echo -n hello world
-echo -nnnnnnnn                        					    	BASH: 				\\ MINI: -nnnnnnnn 
-echo -nnnnnnnn a												BASH: a				\\ MINI: -nnnnnnnn a
-echo -nnnnnnnn hello world										BASH: hello world	\\ MINI: -nnnnnnnn hello world
-echo -nnnnnnnn -nnnnnnnn										BASH: 				\\ MINI: -nnnnnnnn -nnnnnnnn
-echo -nnnnnnnn -nnnnnnnn a										BASH: a  			\\ MINI: -nnnnnnnn -nnnnnnnn a
-echo -nnnnnnnn -nnnnnnnn hello world							BASH: hello world	\\ MINI: -nnnnnnnn -nnnnnnnn hello world
+echo -nnnnnnnn
+echo -nnnnnnnn a
+echo -nnnnnnnn hello world
+echo -nnnnnnnn -nnnnnnnn
+echo -nnnnnnnn -nnnnnnnn a
+echo -nnnnnnnn -nnnnnnnn hello world
 echo -nk hello
 echo -nnnnnnnnnnk hello
 echo -nknknknk hello
@@ -25,31 +25,18 @@ echo hello -n
 echo hello -nnnnnnn
 echo hello -nknknknknk
 echo hello -nnnnnnnnn -nnnnnnnnn
-echo \-n hello
 echo "-n" hello
 echo '-n' hello
 echo "-n" "hello"
 echo '-n' 'hello'
-echo \-\n \h\e\l\l\o
-echo '\-\n' '\h\e\l\l\o'										BASH: "\-\n \h\e\l\l\o\n"  \\ MINI: 
-echo "\-\n" "\h\e\l\l\o"										BASH: "\-\n \h\e\l\l\o\n"  \\ MINI: 
 echo $PATH
 echo "$PATH"
 echo '$PATH'
-echo \$PATH
-echo "\$PATH"
-echo '\$PATH'								
-echo a "" b "" c												BASH: "a  b  c"  					\\ MINI: "a b "" c"
-echo a "$NO_SUCH_ENV" b $NO_SUCH_ENV c, unset NO_SUCH_ENV		BASH: "a  b c, unset NO_SUCH_ENV"  	\\ MINI: "a b c, unset NO_SUCH_ENV"
+echo a "" b "" c
+echo a "$NO_SUCH_ENV" b $NO_SUCH_ENV c, unset NO_SUCH_ENV
 echo		hello
-echo \"$\"														BASH: "$"  						 \\ MINI: $
-echo "$ $ $ $ $ $ "												BASH: $ $ $ $ $ $ $  			 \\ MINI: \n
-echo "\$\$USER\\$USER""$USER"									BASH: $$USER\flarcherflarcher 	 \\ MINI: $$USER$USERflarcher
+echo "$ $ $ $ $ $ "	
 echo $
-echo \$USER	
-echo \\$USER													BASH: \flarcher 	\\ MINI: $USER
-echo \\\$USER													BASH: \$USER		\\ MINI: $USER
-echo \\\\$USER													BASH: \\flarcher 	\\ MINI: $USER
 
 -----------------------------------------------------------------------------------------------------------------------------------
 
