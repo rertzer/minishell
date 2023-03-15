@@ -6,11 +6,13 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:55:38 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/15 15:23:38 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/15 17:07:53 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	ms_exit_getstatus(char **args, int *status);
 
 void	ms_exit_msg(t_pipeline *ppl, char ***envp, char *msg)
 {
@@ -54,9 +56,9 @@ int	ms_exit_run(t_command *cmd, char ***envp, int fd_out)
 {
 	int	status;
 
-	status = 0;
-	if (cmd && cmd->args[1])
-		status = ft_atoi(cmd->args[1]);
+	status = 2;
+	if (cmd && cmd->args[1] && ms_exit_getstatus(&(cmd->args[1]), &status))
+		return (2);
 	(void)fd_out;
 	ms_lpid_clean();
 	if (cmd)
@@ -74,4 +76,11 @@ int	ms_exit_run(t_command *cmd, char ***envp, int fd_out)
 		*envp = NULL;
 	}
 	exit(status);
+}
+
+static int	ms_exit_getstatus(char **args, int *status)
+{
+	if (!ms_atoi(args[0], status) && args[1] != NULL)
+		return (ms_return_msg(2, "exit: too many arguments"));
+	return (0);
 }

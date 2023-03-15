@@ -15,6 +15,7 @@ LIBFT = $(LIBFT_DIR)libft.a
 
 SOURCES = args.c \
 	args_parse.c \
+	atoi.c \
 	backtrack.c \
 	builtin.c \
 	cd.c \

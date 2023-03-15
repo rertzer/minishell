@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/15 15:21:44 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/15 16:34:00 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@
 # define R_SYN "syntax error"
 # define R_OPN "open error"
 # define R_QUT "Q"
+# define R_NUM "numeric argument required"
 
 typedef struct s_file
 {
@@ -150,6 +151,8 @@ int		ms_args_getnb(t_command *cmd);
 int		ms_args_insert(t_command *cmd, char *line);
 /* args parse */
 int		ms_args_parse(t_command *cmd);
+/* atoi */
+int		ms_atoi(const char *nptr, int *status);
 /* backtrack */
 int		ms_backtrack_backtrack(char prev, char *pattern, char *name);
 /* char */
