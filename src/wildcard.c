@@ -6,11 +6,16 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 10:19:35 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/12 17:42:15 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/15 14:57:23 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	**ms_wildcard_expand(DIR *dd, char *pattern);
+static int	ms_wildcard_export(struct dirent *entry,	\
+		char *pattern, char ***expanded);
+static char	**ms_wildcard_returnclean(char *pattern, char **expanded);
 
 char	**ms_wildcard_start(char *pattern)
 {
@@ -37,17 +42,7 @@ char	**ms_wildcard_start(char *pattern)
 	return (expanded);
 }
 
-int	ms_wildcard_export(struct dirent *entry, char *pattern, char ***expanded)
-{
-	int	ret;
-
-	ret = ms_backtrack_backtrack('\0', pattern, entry->d_name);
-	if (ret > 0)
-		ret = ms_utils_insert(ft_strdup(entry->d_name), expanded);
-	return (ret);
-}
-
-char	**ms_wildcard_expand(DIR *dd, char *pattern)
+static char	**ms_wildcard_expand(DIR *dd, char *pattern)
 {
 	char			**expanded;
 	struct dirent	*entry;
@@ -73,7 +68,18 @@ char	**ms_wildcard_expand(DIR *dd, char *pattern)
 	return (expanded);
 }
 
-char	**ms_wildcard_returnclean(char *pattern, char **expanded)
+static int	ms_wildcard_export(struct dirent *entry,	\
+		char *pattern, char ***expanded)
+{
+	int	ret;
+
+	ret = ms_backtrack_backtrack('\0', pattern, entry->d_name);
+	if (ret > 0)
+		ret = ms_utils_insert(ft_strdup(entry->d_name), expanded);
+	return (ret);
+}
+
+static char	**ms_wildcard_returnclean(char *pattern, char **expanded)
 {
 	free(pattern);
 	ft_split_flush(expanded);

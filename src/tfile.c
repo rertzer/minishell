@@ -6,16 +6,17 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 13:19:14 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/06 16:29:52 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/15 14:36:53 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	ms_tfile_insertback(t_file **start, t_file *new);
+
 int	ms_tfile_addback(t_file **start, char *line, char mode)
 {
 	t_file	*new;
-	t_file	*last;
 
 	errno = 0;
 	new = malloc(sizeof(t_file));
@@ -24,6 +25,14 @@ int	ms_tfile_addback(t_file **start, char *line, char mode)
 	new->name = line;
 	new->mode = mode;
 	new->next = NULL;
+	ms_tfile_insertback(start, new);
+	return (0);
+}
+
+static void	ms_tfile_insertback(t_file **start, t_file *new)
+{
+	t_file	*last;
+
 	if (*start == NULL)
 		*start = new;
 	else
@@ -33,7 +42,6 @@ int	ms_tfile_addback(t_file **start, char *line, char mode)
 			last = last->next;
 		last->next = new;
 	}
-	return (0);
 }
 
 int	ms_tfile_clean(t_file **start)

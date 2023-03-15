@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 13:05:19 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/15 09:33:34 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/15 15:24:39 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ int	ms_echo_run(t_command *cmd, char ***envp, int fd_out)
 static int	ms_echo_isnflag(char **args)
 {
 	int	i;
-	
+
 	i = -1;
 	while (args[++i])
 	{
 		if (args[i][0] != '-' || !ms_utils_isonly(&(args[i][1]), 'n'))
-			break;
+			break ;
 	}
 	return (i);
 }

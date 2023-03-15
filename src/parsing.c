@@ -6,11 +6,16 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 17:13:25 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/12 16:33:51 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/15 14:19:11 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	ms_parsing_computelen(char *line);
+static void	ms_parsing_quote(char *line, char *new_line);
+static int	ms_parsing_isquote(char *line, char *quote);
+static int	ms_parsing_toprotect(char quote, char c);
 
 int	ms_parsing_start(char *line, char ***envp, int status)
 {
@@ -31,7 +36,7 @@ int	ms_parsing_start(char *line, char ***envp, int status)
 	return (ms_pipe_start(new_line, envp));
 }
 
-int	ms_parsing_computelen(char *line)
+static int	ms_parsing_computelen(char *line)
 {
 	int		len;
 	int		extra;
@@ -43,7 +48,7 @@ int	ms_parsing_computelen(char *line)
 	return (len + extra);
 }
 
-void	ms_parsing_quote(char *line, char *new_line)
+static void	ms_parsing_quote(char *line, char *new_line)
 {
 	int		i;
 	int		new_i;
@@ -64,15 +69,7 @@ void	ms_parsing_quote(char *line, char *new_line)
 	new_line[new_i + 1] = '\0';
 }
 
-int	ms_parsing_toprotect(char quote, char c)
-{
-	if ((quote == '\'' && ms_char_isin(c, SQ_CHAR)) \
-			|| (quote == '"' && ms_char_isin(c, DQ_CHAR)))
-		return (1);
-	return (0);
-}
-
-int	ms_parsing_isquote(char *line, char *quote)
+static int	ms_parsing_isquote(char *line, char *quote)
 {
 	if (ms_char_isin(line[0], QT_CHAR))
 	{
@@ -87,5 +84,13 @@ int	ms_parsing_isquote(char *line, char *quote)
 			return (1);
 		}
 	}
+	return (0);
+}
+
+static int	ms_parsing_toprotect(char quote, char c)
+{
+	if ((quote == '\'' && ms_char_isin(c, SQ_CHAR)) \
+			|| (quote == '"' && ms_char_isin(c, DQ_CHAR)))
+		return (1);
 	return (0);
 }

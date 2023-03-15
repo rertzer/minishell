@@ -6,11 +6,14 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 16:14:08 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/12 16:14:10 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/15 15:02:34 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static char	*pp_here_line(t_pipeline *ppl, char *limiter,	\
+		char *line, int *pipefd);
 
 int	pp_here_doc(t_pipeline *ppl, char *limiter)
 {
@@ -29,7 +32,8 @@ int	pp_here_doc(t_pipeline *ppl, char *limiter)
 	return (fd);
 }
 
-char	*pp_here_line(t_pipeline *ppl, char *limiter, char *line, int *pipefd)
+static char	*pp_here_line(t_pipeline *ppl, char *limiter,	\
+		char *line, int *pipefd)
 {
 	int	line_size;
 	int	limiter_size;

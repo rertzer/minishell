@@ -6,15 +6,18 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 16:13:34 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/15 10:19:18 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/15 15:23:11 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static void	pp_child_dupfd(t_pipeline *ppl, t_command *cmd);
+static void	pp_child_exec(t_pipeline *ppl, t_command *cmd, char ***envp);
+
 void	pp_child_run(t_pipeline *ppl, t_command *cmd, char ***envp, int i)
 {
-	int builtin;
+	int	builtin;
 
 	pp_open_in(ppl, cmd, i);
 	pp_open_out(ppl, cmd, i);
@@ -31,7 +34,7 @@ void	pp_child_run(t_pipeline *ppl, t_command *cmd, char ***envp, int i)
 	pp_child_exec(ppl, cmd, envp);
 }
 
-void	pp_child_dupfd(t_pipeline *ppl, t_command *cmd)
+static void	pp_child_dupfd(t_pipeline *ppl, t_command *cmd)
 {
 	errno = 0;
 	if (dup2(cmd->fd_in, STDIN_FILENO) == -1)
@@ -41,7 +44,7 @@ void	pp_child_dupfd(t_pipeline *ppl, t_command *cmd)
 	pp_run_close_pipes(ppl);
 }
 
-void	pp_child_exec(t_pipeline *ppl, t_command *cmd, char ***envp)
+static void	pp_child_exec(t_pipeline *ppl, t_command *cmd, char ***envp)
 {
 	char	*path;
 	char	**args;

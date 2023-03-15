@@ -6,11 +6,15 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 16:12:57 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/12 17:32:39 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/15 15:05:03 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	pp_check_path(t_pipeline *ppl, t_command *cmd, \
+		char **paths, char ***envp);
+static void	pp_check_exit(t_pipeline *ppl, char **paths, char ***envp);
 
 void	pp_check_cmd_path(t_pipeline *ppl, t_command *cmd, char ***envp)
 {
@@ -24,7 +28,7 @@ void	pp_check_cmd_path(t_pipeline *ppl, t_command *cmd, char ***envp)
 	pp_check_path(ppl, cmd, paths, envp);
 }
 
-void	pp_check_path(t_pipeline *ppl, t_command *cmd, \
+static void	pp_check_path(t_pipeline *ppl, t_command *cmd, \
 		char **paths, char ***envp)
 {
 	int		i;
@@ -47,7 +51,7 @@ void	pp_check_path(t_pipeline *ppl, t_command *cmd, \
 	cmd->cmd_path = cmd_path;
 }
 
-void	pp_check_exit(t_pipeline *ppl, char **paths, char ***envp)
+static void	pp_check_exit(t_pipeline *ppl, char **paths, char ***envp)
 {
 	ft_split_flush(paths);
 	ms_exit_msg(ppl, envp, R_QUT);

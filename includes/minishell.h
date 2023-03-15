@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/15 10:21:05 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/15 15:21:44 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,20 +176,11 @@ int		ms_file_chevron(t_command *cmd, int mode);
 int		ms_output_openall(t_command *cmd);
 /* parsing */
 int		ms_parsing_start(char *line, char ***envp, int status);
-int		ms_parsing_computelen(char *line);
-void	ms_parsing_quote(char *line, char *new_line);
-int		ms_parsing_toprotect(char quote, char c);
-int		ms_parsing_isquote(char *line, char *quote);
 /* pipe */
 int		ms_pipe_start(char *line, char ***envp);
-int		ms_pipe_cmdinit(t_command **cmd_start, char *line);
-int		ms_pipe_split(t_command *cmd, int *cmd_nb);
-int		ms_pipe_cut(t_command *cmd, char *line, int *start, int *i);
 /* pipeline */
 int		ms_pipeline_start(t_command *cmd_start, int cmd_nb, char ***envp);
-void	ms_pipeline_init(t_pipeline *ppl, t_command *cmd_start, int cmd__nb);
 void	ms_pipeline_clean(t_pipeline *ppl);
-int		ms_pipeline_run(t_pipeline *ppl, char ***envp);
 /* redirect */
 char	*ms_redirect_start(char *word);
 /* return */
@@ -202,8 +193,6 @@ char	*ms_return_nullerror(char *msg);
 char	**ms_return_null2error(char *msg);
 /* sort */
 void	ms_sort_sort(char **tosort);
-void	ms_sort_loop(char **tosort, int len);
-int		ms_sort_swap(char **tosort, int i);
 /* split */
 char	**ms_split_protected(char const *s, char c);
 /* tfile */
@@ -219,36 +208,23 @@ char	*ms_utils_strreplace(char *str, char *ins, int offset, int len);
 int		ms_utils_insert(char *str, char ***table);
 /* wildcard */
 char	**ms_wildcard_start(char *line);
-int		mw_wildcard_export(struct dirent *entry, char *pattern, \
-		char ***expanded);
-char	**ms_wildcard_expand(DIR *dd, char *line);
-char	**ms_wildcard_returnclean(char *pattern, char **expanded);
 /* **********************************************************************/
 /*                               pipex                                  */
 /* **********************************************************************/
 /* here doc */
 int		pp_here_doc(t_pipeline *ppl, char *limiter);
-char	*pp_here_line(t_pipeline *ppl, char *limiter, char *line, int *pipefd);
 /* check_cmd */
 void	pp_check_cmd_path(t_pipeline *ppl, t_command *cmd, char ***envp);
-void	pp_check_path(t_pipeline *ppl, t_command *cmd,	\
-		char **paths, char ***envp);
-void	pp_check_exit(t_pipeline *ppl, char **paths, char ***envp);
 /* Run */
 int		pp_run_pipe(t_pipeline *ppl, char ***envp);
 void	pp_run_close_pipes(t_pipeline *ppl);
 int		pp_run_wait(void);
-int		pp_run_make_pipes(t_pipeline *ppl);
-int		pp_run_fork(t_pipeline *ppl, char ***envp);
 /* Open */
-int		pp_open_file(t_pipeline *pp, t_file *file);
-int		pp_open_flags(char mode);
 void	pp_open_in(t_pipeline *ppl, t_command *cmd, int i);
 void	pp_open_out(t_pipeline *ppl, t_command *cmd, int i);
+int		pp_open_flags(char mode);
 /* Child */
 void	pp_child_run(t_pipeline *ppl, t_command *cmd, char ***envp, int i);
-void	pp_child_dupfd(t_pipeline *ppl, t_command *cmd);
-void	pp_child_exec(t_pipeline *ppl, t_command *cmd, char ***envp);
 /* Utils */
 void	pp_nullfree(char **ptr);
 int		pp_path_size(char const *s1, char const *s2);

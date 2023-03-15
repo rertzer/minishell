@@ -6,11 +6,14 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 13:39:41 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/12 14:10:25 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/15 15:19:25 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	ms_sort_loop(char **tosort, int len);
+static int	ms_sort_swap(char **tosort, int i);
 
 void	ms_sort_sort(char **tosort)
 {
@@ -24,7 +27,7 @@ void	ms_sort_sort(char **tosort)
 	ms_sort_loop(tosort, len);
 }
 
-void	ms_sort_loop(char **tosort, int len)
+static void	ms_sort_loop(char **tosort, int len)
 {
 	int		i;
 	int		is_sorted;
@@ -42,7 +45,7 @@ void	ms_sort_loop(char **tosort, int len)
 	}
 }
 
-int	ms_sort_swap(char **tosort, int i)
+static int	ms_sort_swap(char **tosort, int i)
 {
 	char	*tmp;
 

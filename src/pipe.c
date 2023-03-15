@@ -6,11 +6,15 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 14:25:09 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/13 15:10:24 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/15 14:22:54 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	ms_pipe_cmdinit(t_command **cmd_start, char *line);
+static int	ms_pipe_split(t_command *cmd, int *cmd_nb);
+static int	ms_pipe_cut(t_command *cmd, char *line, int *start, int *i);
 
 int	ms_pipe_start(char *line, char ***envp)
 {
@@ -28,7 +32,7 @@ int	ms_pipe_start(char *line, char ***envp)
 	return (ms_pipeline_start(cmd_start, cmd_nb, envp));
 }
 
-int	ms_pipe_cmdinit(t_command **cmd_start, char *line)
+static int	ms_pipe_cmdinit(t_command **cmd_start, char *line)
 {
 	if (ms_command_addback(cmd_start))
 		return (1);
@@ -37,7 +41,7 @@ int	ms_pipe_cmdinit(t_command **cmd_start, char *line)
 	return (0);
 }
 
-int	ms_pipe_split(t_command *cmd, int *cmd_nb)
+static int	ms_pipe_split(t_command *cmd, int *cmd_nb)
 {
 	int		i;
 	int		start;
@@ -63,7 +67,7 @@ int	ms_pipe_split(t_command *cmd, int *cmd_nb)
 	return (0);
 }
 
-int	ms_pipe_cut(t_command *cmd, char *line, int *start, int *i)
+static int	ms_pipe_cut(t_command *cmd, char *line, int *start, int *i)
 {
 	if (ms_command_addback(&cmd))
 		return (1);
