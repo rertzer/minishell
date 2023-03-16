@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 16:26:34 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/15 17:09:20 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/15 17:40:12 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ int	ms_atoi(const char *nptr, int *status)
 		if (nptr[i] >= '0' && nptr[i] <= '9')
 			total = total * 10 + nptr[i] - 48;
 		else
+		{
+			*status = 2;
 			return (ms_return_msg(2, R_NUM));
+		}
 		i++;
 	}
 	*status = sign * total;

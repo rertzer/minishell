@@ -6,12 +6,13 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 16:19:46 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/15 17:28:07 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/16 14:02:46 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int		ms_cd_isroot(char *path);
 static char		*ms_cd_resolvepath(char *path, char *pwd);
 static int		ms_cd_chdir(char *path, char *new_path);
 static int		ms_cd_setpath(char *key, char const *value, char ***envp);
@@ -24,16 +25,28 @@ int	ms_cd_run(t_command *cmd, char ***envp, int fd_out)
 	(void)fd_out;
 	if (!cmd->args[1])
 		return (0);
+	if (cmd->args[2])
+		return (ms_return_msg(1, R_SNP));
 	path = ms_env_getvalue(*envp, "PWD");
-	new_path = ms_cd_resolvepath(cmd->args[1], path);
+	if (ms_cd_isroot(cmd->args[1]))
+			new_path = ft_strdup("/");
+	else
+		new_path = ms_cd_resolvepath(cmd->args[1], path);
 	if (new_path == NULL)
-		return (ms_return_freeturn(&path, 1));
+		new_path = ft_strdup("/");
 	if (ms_cd_chdir(path, new_path))
 		return (1);
 	ms_cd_setpath("OLDPWD=", path, envp);
 	ms_cd_setpath("PWD=", new_path, envp);
 	free(path);
 	free(new_path);
+	return (0);
+}
+
+static int	ms_cd_isroot(char *path)
+{
+	if (ms_utils_isonly(path, '/'))
+		return (1);
 	return (0);
 }
 

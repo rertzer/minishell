@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 10:38:29 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/13 10:28:56 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/16 13:52:11 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ static int	ms_cd_removeprevious(char **dirlst, int current)
 	i = current;
 	while (--i >= 0)
 	{
-		if (ms_cd_isdoubledot(dirlst[i]) || dirlst[i][0] == '\0')
+		if (dirlst[i][0] == '\0')
 			continue ;
 		dirlst[i][0] = '\0';
 		dirlst[current][0] = '\0';

@@ -6,16 +6,16 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 16:14:08 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/15 15:02:34 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/16 09:55:33 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 static char	*pp_here_line(t_pipeline *ppl, char *limiter,	\
-		char *line, int *pipefd);
+		char *line, int *pipefd, char ***envp);
 
-int	pp_here_doc(t_pipeline *ppl, char *limiter)
+int	pp_here_doc(t_pipeline *ppl, char *limiter, char ***envp)
 {
 	char	*line;
 	int		fd;
@@ -23,17 +23,17 @@ int	pp_here_doc(t_pipeline *ppl, char *limiter)
 
 	errno = 0;
 	if (pipe(pipefd) == -1)
-		ms_exit_error(ppl, "pipe");
+		ms_exit_error(ppl, "pipe", envp);
 	fd = pipefd[0];
 	line = get_next_line(0);
 	while (line)
-		line = pp_here_line(ppl, limiter, line, pipefd);
+		line = pp_here_line(ppl, limiter, line, pipefd, envp);
 	close(pipefd[1]);
 	return (fd);
 }
 
 static char	*pp_here_line(t_pipeline *ppl, char *limiter,	\
-		char *line, int *pipefd)
+		char *line, int *pipefd, char ***envp)
 {
 	int	line_size;
 	int	limiter_size;
@@ -47,7 +47,7 @@ static char	*pp_here_line(t_pipeline *ppl, char *limiter,	\
 		if (write(pipefd[1], line, line_size) == -1)
 		{
 			free(line);
-			ms_exit_error(ppl, R_WRT);
+			ms_exit_error(ppl, R_WRT, envp);
 		}
 		free(line);
 		line = get_next_line(0);

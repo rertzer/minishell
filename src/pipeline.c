@@ -6,22 +6,23 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 09:08:17 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/15 15:23:25 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/16 11:48:50 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ms_pipeline_run(t_pipeline *ppl, char ***envp);
+static int	ms_pipeline_run(t_pipeline *ppl, char ***envp, int status);
 static void	ms_pipeline_init(t_pipeline *ppl, t_command *cmd_start, int cmd_nb);
 
-int	ms_pipeline_start(t_command *cmd_start, int cmd_nb, char ***envp)
+int	ms_pipeline_start(t_command *cmd_start, int cmd_nb, char ***envp, \
+		int status)
 {
 	t_pipeline	ppl;
 	int			ret;
 
 	ms_pipeline_init(&ppl, cmd_start, cmd_nb);
-	ret = ms_pipeline_run(&ppl, envp);
+	ret = ms_pipeline_run(&ppl, envp, status);
 	ms_pipeline_clean(&ppl);
 	return (ret);
 }
@@ -33,7 +34,7 @@ static void	ms_pipeline_init(t_pipeline *ppl, t_command *cmd_start, int cmd_nb)
 	ppl->pipefd = NULL;
 }
 
-static int	ms_pipeline_run(t_pipeline *ppl, char ***envp)
+static int	ms_pipeline_run(t_pipeline *ppl, char ***envp, int status)
 {
 	int	ret;
 	int	fd_out;
@@ -42,8 +43,11 @@ static int	ms_pipeline_run(t_pipeline *ppl, char ***envp)
 	{
 		ppl->cmds->cmd_nb = 0;
 		fd_out = ms_output_openall(ppl->cmds);
-		ret = ms_builtin_run(ppl->cmds, envp, fd_out);
-		ms_command_close(fd_out);
+		if (fd_out != -1)
+		{
+			ret = ms_builtin_run(ppl->cmds, envp, fd_out, status);
+			ms_command_close(fd_out);
+		}
 		ms_pipeline_clean(ppl);
 		return (ret);
 	}

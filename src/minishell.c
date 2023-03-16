@@ -6,7 +6,7 @@
 /*   By: flarcher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:05:02 by flarcher          #+#    #+#             */
-/*   Updated: 2023/03/13 17:16:24 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/15 18:15:42 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ static void	shell_loop(t_term term, char ***envp, int *status)
 	tcsetattr(term.tty_device, TCSANOW, &term.interact_tio);
 	line = readline(PROMPT);
 	if (!line)
-		ms_exit_run(NULL, envp, 1);
+		ms_exit_run(NULL, envp, *status);
 	add_history(line);
 	tcsetattr(term.tty_device, TCSANOW, &term.process_tio);
 	ms_parsing_start(line, envp, *status);

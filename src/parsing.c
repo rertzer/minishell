@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 17:13:25 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/15 14:19:11 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/15 17:52:45 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ms_parsing_start(char *line, char ***envp, int status)
 	new_line = ms_dollar_parse(new_line, *envp, status);
 	if (new_line == NULL)
 		return (1);
-	return (ms_pipe_start(new_line, envp));
+	return (ms_pipe_start(new_line, envp, status));
 }
 
 static int	ms_parsing_computelen(char *line)

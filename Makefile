@@ -28,6 +28,7 @@ SOURCES = args.c \
 	echo.c \
 	env.c \
 	exit.c \
+	exit_run.c \
 	export.c \
 	file.c \
 	file_utils.c \

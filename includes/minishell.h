@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/15 16:34:00 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/16 14:03:17 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,11 @@
 # define SP_CHAR " \t"
 # define DL_CHAR " \t$/"
 # define LD_CHAR " \t$/\\"
+# define CD_CHAR " \t/"
 
 # define PROMPT "\001\e[1;32m\002Minishell: \001\e[0m\002"
+
+# define DP fprintf(stderr, "%s %d\n", __FILE__, __LINE__);
 
 # define R_NVI "not a valid identifier"
 # define R_AMB "ambigous redirect"
@@ -58,6 +61,7 @@
 # define R_OPN "open error"
 # define R_QUT "Q"
 # define R_NUM "numeric argument required"
+# define R_SNP "string not in pwd"
 
 typedef struct s_file
 {
@@ -123,7 +127,8 @@ void	ms_signal_handle_sig(int signum, siginfo_t *info, void *context);
 /* ================================================================= */
 /* builtin */
 int		ms_builtin_itis(char *name);
-int		ms_builtin_run(t_command *cmd, char ***envp, int fd_out);
+int		ms_builtin_run(t_command *cmd, char ***envp, int fd_out, \
+		int status);
 /* cd */
 int		ms_cd_run(t_command *cmd, char ***envp, int fd_out);
 /* cd_utils */
@@ -168,8 +173,12 @@ void	ms_command_close(int fd);
 char	*ms_dollar_parse(char *line, char **envp, int status);
 /* exit */
 void	ms_exit_msg(t_pipeline *ppl, char ***envp, char *msg);
-void	ms_exit_error(t_pipeline *ppl, char *msg);
-void	ms_exit_exit(t_pipeline *ppl, char ***envp, char *value);
+void	ms_exit_error(t_pipeline *ppl, char *msg, char ***envp);
+void	ms_exit_child(char *path, char **args, char ***envp);
+void	ms_exit_path(t_pipeline *ppl, char *msg, char ***envp);
+void	ms_exit_exit(t_pipeline *ppl, char ***envp, char **args);
+int		ms_exit_getstatus(char **args, int *status);
+/* exit run */
 int		ms_exit_run(t_command *cmd, char ***envp, int fd_out);
 /* file */
 int		ms_file_start(t_command *cmd);
@@ -180,9 +189,10 @@ int		ms_output_openall(t_command *cmd);
 /* parsing */
 int		ms_parsing_start(char *line, char ***envp, int status);
 /* pipe */
-int		ms_pipe_start(char *line, char ***envp);
+int		ms_pipe_start(char *line, char ***envp, int status);
 /* pipeline */
-int		ms_pipeline_start(t_command *cmd_start, int cmd_nb, char ***envp);
+int		ms_pipeline_start(t_command *cmd_start, int cmd_nb, \
+		char ***envp, int status);
 void	ms_pipeline_clean(t_pipeline *ppl);
 /* redirect */
 char	*ms_redirect_start(char *word);
@@ -215,7 +225,7 @@ char	**ms_wildcard_start(char *line);
 /*                               pipex                                  */
 /* **********************************************************************/
 /* here doc */
-int		pp_here_doc(t_pipeline *ppl, char *limiter);
+int		pp_here_doc(t_pipeline *ppl, char *limiter, char ***envp);
 /* check_cmd */
 void	pp_check_cmd_path(t_pipeline *ppl, t_command *cmd, char ***envp);
 /* Run */
@@ -223,8 +233,8 @@ int		pp_run_pipe(t_pipeline *ppl, char ***envp);
 void	pp_run_close_pipes(t_pipeline *ppl);
 int		pp_run_wait(void);
 /* Open */
-void	pp_open_in(t_pipeline *ppl, t_command *cmd, int i);
-void	pp_open_out(t_pipeline *ppl, t_command *cmd, int i);
+void	pp_open_in(t_pipeline *ppl, t_command *cmd, int i, char ***envp);
+void	pp_open_out(t_pipeline *ppl, t_command *cmd, int i, char ***envp);
 int		pp_open_flags(char mode);
 /* Child */
 void	pp_child_run(t_pipeline *ppl, t_command *cmd, char ***envp, int i);

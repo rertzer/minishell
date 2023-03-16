@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 16:12:57 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/15 16:22:09 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/16 14:06:52 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,14 @@ static void	pp_check_path(t_pipeline *ppl, t_command *cmd, \
 		cmd_path = pp_pathjoin(paths[i], cmd->cmd_path);
 		if (cmd_path == NULL)
 			pp_check_exit(ppl, paths, envp);
-		if (access(cmd_path, F_OK | X_OK) == 0)
+		errno = 0;
+		if (access(cmd_path, F_OK) == 0)
 			break ;
 		pp_nullfree(&cmd_path);
 	}
 	ft_split_flush(paths);
 	if (NULL == cmd_path)
-		ms_exit_msg(ppl, envp, R_CMD);
+		ms_exit_path(ppl, cmd->cmd_path, envp);
 	free(cmd->cmd_path);
 	cmd->cmd_path = cmd_path;
 }
