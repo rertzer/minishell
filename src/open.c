@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 16:14:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/16 11:45:43 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/16 14:32:38 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ static int	pp_open_file(t_pipeline *ppl, t_file *file, char ***envp)
 	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 	errno = 0;
 	fd = open(file->name, flags, mode);
-		fd = -1;
 	if (fd == -1)
 		ms_exit_error(ppl, R_OPN, envp);
 	return (fd);

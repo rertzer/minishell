@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:55:38 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/16 11:31:19 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/16 14:31:12 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,7 @@ void	ms_exit_error(t_pipeline *ppl, char *msg, char ***envp)
 {
 	int	error;
 	error = errno;
-	DP
 	perror(msg);
-	DP
 	if (error == 13)
 		error = 126;
 	ms_lpid_clean();
