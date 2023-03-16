@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 16:13:34 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/16 16:05:03 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/16 18:01:44 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,11 @@ void	pp_child_run(t_msdata *msdata, t_command *cmd, int i)
 	if (builtin)
 	{
 		if (builtin != 7)
+		{
 			ms_builtin_run(msdata, cmd, 1);
-		ms_exit_exit(msdata, cmd->args);
+			ms_exit_exit(msdata, NULL);
+		}
+		ms_exit_exit(msdata, &(cmd->args[1]));
 	}
 	pp_child_exec(msdata, cmd);
 }

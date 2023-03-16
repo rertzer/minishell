@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:55:38 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/16 17:13:17 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/16 18:05:04 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ms_exit_msg(t_msdata *msdata, char *msg)
 
 void	ms_exit_exit(t_msdata *msdata, char **args)
 {
-	if (args)
+	if (args && args[0])
 		ms_exit_getstatus(msdata, args);
 	ms_msdata_clean(msdata);
 	ms_lpid_clean();

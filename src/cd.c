@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 16:19:46 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/16 17:10:15 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/16 18:30:25 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,10 @@ static int	ms_cd_setpath(t_msdata *msdata, char *key, char const *value)
 {
 	char	*tmp;
 
-	tmp = ft_strjoin(key, value);
+	if (value == NULL)
+		tmp = ft_strdup("");
+	else
+		tmp = ft_strjoin(key, value);
 	if (tmp == NULL)
 		return (ms_return_msg(1, R_STR));
 	ms_export_arg(msdata, tmp);
