@@ -6,7 +6,7 @@
 /*   By: flarcher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:05:02 by flarcher          #+#    #+#             */
-/*   Updated: 2023/03/15 18:15:42 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/16 17:39:02 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,22 @@ t_lpid	*g_lpid = NULL;
 static int	ms_set_termios(struct termios *interact_tio,	\
 							struct termios *process_tio);
 static void	ms_set_sigaction(struct sigaction *sa);
-static void	shell_loop(t_term term, char ***envp, int *status);
+static void	shell_loop(t_msdata *msdata, t_term term);
 
 int	main(int argc, char **argv, char **old_envp)
 {
-	int					status;
-	char				**envp;
+	t_msdata			msdata;
 	t_term				term;
 	struct sigaction	sa;
 
 	(void)argc;
 	(void)argv;
-	status = 0;
+	ms_msdata_init(&msdata);
 	term.tty_device = ms_set_termios(&term.interact_tio, &term.process_tio);
-	envp = ft_2dstrdup(old_envp);
+	msdata.envp = ft_2dstrdup(old_envp);
 	ms_set_sigaction(&sa);
 	while (1)
-		shell_loop(term, &envp, &status);
+		shell_loop(&msdata, term);
 	tcsetattr(term.tty_device, TCSANOW, &term.process_tio);
 	return (1);
 }
@@ -63,7 +62,7 @@ static void	ms_set_sigaction(struct sigaction *sa)
 	sigaction(SIGQUIT, sa, NULL);
 }
 
-static void	shell_loop(t_term term, char ***envp, int *status)
+static void	shell_loop(t_msdata *msdata, t_term term)
 {	
 	char	*line;
 
@@ -71,9 +70,9 @@ static void	shell_loop(t_term term, char ***envp, int *status)
 	tcsetattr(term.tty_device, TCSANOW, &term.interact_tio);
 	line = readline(PROMPT);
 	if (!line)
-		ms_exit_run(NULL, envp, *status);
+		ms_exit_run(msdata, NULL, 2);
 	add_history(line);
 	tcsetattr(term.tty_device, TCSANOW, &term.process_tio);
-	ms_parsing_start(line, envp, *status);
-	*status = pp_run_wait();
+	ms_parsing_start(msdata, line);
+	msdata->status = pp_run_wait();
 }

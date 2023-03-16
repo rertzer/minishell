@@ -6,59 +6,48 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 09:08:17 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/16 11:48:50 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/16 17:32:11 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ms_pipeline_run(t_pipeline *ppl, char ***envp, int status);
-static void	ms_pipeline_init(t_pipeline *ppl, t_command *cmd_start, int cmd_nb);
+static int	ms_pipeline_run(t_msdata *msdata);
 
-int	ms_pipeline_start(t_command *cmd_start, int cmd_nb, char ***envp, \
-		int status)
+int	ms_pipeline_start(t_msdata *msdata)
 {
-	t_pipeline	ppl;
 	int			ret;
 
-	ms_pipeline_init(&ppl, cmd_start, cmd_nb);
-	ret = ms_pipeline_run(&ppl, envp, status);
-	ms_pipeline_clean(&ppl);
+	ret = ms_pipeline_run(msdata);
+	ms_pipeline_clean(msdata);
 	return (ret);
 }
 
-static void	ms_pipeline_init(t_pipeline *ppl, t_command *cmd_start, int cmd_nb)
-{
-	ppl->cmd_nb = cmd_nb;
-	ppl->cmds = cmd_start;
-	ppl->pipefd = NULL;
-}
-
-static int	ms_pipeline_run(t_pipeline *ppl, char ***envp, int status)
+static int	ms_pipeline_run(t_msdata *msdata)
 {
 	int	ret;
 	int	fd_out;
 
-	if (ppl->cmd_nb == 1 && ms_builtin_itis(ppl->cmds[0].cmd_path))
+	if (msdata->cmd_nb == 1 && ms_builtin_itis(msdata->cmds[0].cmd_path))
 	{
-		ppl->cmds->cmd_nb = 0;
-		fd_out = ms_output_openall(ppl->cmds);
+		msdata->cmds->cmd_nb = 0;
+		fd_out = ms_output_openall(msdata->cmds);
 		if (fd_out != -1)
 		{
-			ret = ms_builtin_run(ppl->cmds, envp, fd_out, status);
+			ret = ms_builtin_run(msdata, msdata->cmds, fd_out);
 			ms_command_close(fd_out);
 		}
-		ms_pipeline_clean(ppl);
+		ms_pipeline_clean(msdata);
 		return (ret);
 	}
 	else
-		return (pp_run_pipe(ppl, envp));
+		return (pp_run_pipe(msdata));
 }
 
-void	ms_pipeline_clean(t_pipeline *ppl)
+void	ms_pipeline_clean(t_msdata *msdata)
 {
-	ms_command_clean(&ppl->cmds);
-	pp_run_close_pipes(ppl);
-	free(ppl->pipefd);
-	ppl->pipefd = NULL;
+	ms_command_clean(msdata);
+	pp_run_close_pipes(msdata);
+	free(msdata->pipefd);
+	msdata->pipefd = NULL;
 }

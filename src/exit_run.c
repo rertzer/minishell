@@ -6,45 +6,42 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 18:04:15 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/15 18:10:27 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/16 17:15:00 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static void	ms_exit_cleanup(t_command *cmd, char ***envp);
+static void	ms_exit_cleanup(t_msdata *msdata, t_command *cmd);
 
-int	ms_exit_run(t_command *cmd, char ***envp, int fd_out)
+int	ms_exit_run(t_msdata *msdata, t_command *cmd, int fd_out)
 {
-	int	status;
-
-	status = 0;
 	if (cmd && cmd->args[1])
 	{
-		if (ms_exit_getstatus(&(cmd->args[1]), &status))
+		if (ms_exit_getstatus(msdata, &(cmd->args[1])))
 			return (2);
 	}
 	else
-		status = fd_out;
-	ms_exit_cleanup(cmd, envp);
-	exit(status);
+		msdata->status = fd_out;
+	ms_exit_cleanup(msdata, cmd);
+	exit(msdata->status);
 }
 
-static void	ms_exit_cleanup(t_command *cmd, char ***envp)
+static void	ms_exit_cleanup(t_msdata *msdata, t_command *cmd)
 {
 	if (cmd)
 	{
 		if (cmd->cmd_nb == 0)
 		{
-			ft_split_flush(*envp);
-			*envp = NULL;
+			ft_split_flush(msdata->envp);
+			msdata->envp = NULL;
 		}
-		ms_command_clean(&cmd);
+		ms_command_clean(msdata);
 	}
 	else
 	{
-		ft_split_flush(*envp);
-		*envp = NULL;
+		ft_split_flush(msdata->envp);
+		msdata->envp = NULL;
 	}
 	ms_lpid_clean();
 }

@@ -6,18 +6,18 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 17:18:36 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/15 15:24:15 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/16 15:00:32 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ms_dollar_replace(char **line, int i, char **envp, int status);
+static int	ms_dollar_replace(t_msdata *msdata, char **line, int i);
 static int	ms_dollar_copykey(char **key, char **line, int i);
 static int	ms_dollar_wordlen(char *line);
-static char	*ms_dollar_getvalue(char *key, int status, char **envp);
+static char	*ms_dollar_getvalue(t_msdata *msdata, char *key);
 
-char	*ms_dollar_parse(char *line, char **envp, int status)
+char	*ms_dollar_parse(t_msdata *msdata, char *line)
 {
 	int		i;
 	int		len;
@@ -28,7 +28,7 @@ char	*ms_dollar_parse(char *line, char **envp, int status)
 		if (line[i] == '$' && ms_char_prevok(line, i) \
 				&& line[i + 1] && !ms_char_isin(line[i + 1], LD_CHAR))
 		{
-			len = ms_dollar_replace(&line, i, envp, status);
+			len = ms_dollar_replace(msdata, &line, i);
 			if (len < 0)
 				return (NULL);
 			i += len;
@@ -39,7 +39,7 @@ char	*ms_dollar_parse(char *line, char **envp, int status)
 	return (line);
 }
 
-static int	ms_dollar_replace(char **line, int i, char **envp, int status)
+static int	ms_dollar_replace(t_msdata *msdata, char **line, int i)
 {
 	int		len;
 	char	*key;
@@ -49,7 +49,7 @@ static int	ms_dollar_replace(char **line, int i, char **envp, int status)
 	len = ms_dollar_copykey(&key, line, i);
 	if (len < 0)
 		return (-1);
-	value = ms_dollar_getvalue(key, status, envp);
+	value = ms_dollar_getvalue(msdata, key);
 	*line = ms_utils_strreplace(*line, value, i, len + 1);
 	len = ft_strlen(value);
 	free(key);
@@ -75,7 +75,7 @@ static int	ms_dollar_copykey(char **key, char **line, int i)
 	return (len);
 }
 
-static char	*ms_dollar_getvalue(char *key, int status, char **envp)
+static char	*ms_dollar_getvalue(t_msdata *msdata, char *key)
 {
 	char	*value;
 
@@ -83,9 +83,9 @@ static char	*ms_dollar_getvalue(char *key, int status, char **envp)
 	if (key)
 	{
 		if (ft_strcmp(key, "?") == 0)
-			value = ft_itoa(status);
+			value = ft_itoa(msdata->status);
 		else
-			value = ms_env_getvalue(envp, key);
+			value = ms_env_getvalue(msdata->envp, key);
 	}
 	if (value == NULL)
 		value = ft_strdup("");

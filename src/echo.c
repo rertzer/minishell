@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 13:05:19 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/15 15:24:39 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/16 14:45:39 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,11 @@
 static int	ms_echo_isnflag(char **arg);
 static void	ms_echo_print(char **args, int fd_out);
 
-int	ms_echo_run(t_command *cmd, char ***envp, int fd_out)
+int	ms_echo_run(t_msdata *msdata, t_command *cmd, int fd_out)
 {
 	int	n_flag;
 
-	(void)envp;
+	(void)msdata;
 	n_flag = 0;
 	if (cmd->args[1])
 	{

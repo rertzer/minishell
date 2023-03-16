@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/16 14:03:17 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/16 17:26:32 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,12 +82,14 @@ typedef struct s_command
 	struct s_command	*next;
 }				t_command;
 
-typedef struct s_pipeline
+typedef struct s_msdata
 {
+	int			status;
 	int			cmd_nb;
 	t_command	*cmds;
 	int			(*pipefd)[2];
-}				t_pipeline;
+	char		**envp;
+}				t_msdata;
 
 typedef struct s_lpid
 {
@@ -103,7 +105,7 @@ typedef struct s_term
 	int					tty_device;
 }				t_term;
 
-typedef int		(*t_builtin_fun)(t_command *cmd, char ***envp, int fd_out);
+typedef int		(*t_builtin_fun)(t_msdata *msdata, t_command *cmd, int fd_out);
 
 extern t_lpid	*g_lpid;
 
@@ -127,25 +129,24 @@ void	ms_signal_handle_sig(int signum, siginfo_t *info, void *context);
 /* ================================================================= */
 /* builtin */
 int		ms_builtin_itis(char *name);
-int		ms_builtin_run(t_command *cmd, char ***envp, int fd_out, \
-		int status);
+int		ms_builtin_run(t_msdata *msdata, t_command *cmd, int fd_out);
 /* cd */
-int		ms_cd_run(t_command *cmd, char ***envp, int fd_out);
+int		ms_cd_run(t_msdata *msdata, t_command *cmd, int fd_out);
 /* cd_utils */
 char	*ms_cd_simplify(char **dirlst);
 /* echo */
-int		ms_echo_run(t_command *cmd, char ***envp, int fd_out);
+int		ms_echo_run(t_msdata *msdata, t_command *cmd, int fd_out);
 /* env */
 char	*ms_env_getvalue(char **envp, char *key);
 int		ms_env_getindex(char **envp, char *key);
-int		ms_env_run(t_command *cmd, char ***envp, int fd_out);
+int		ms_env_run(t_msdata *msdata, t_command *cmd, int fd_out);
 /* export */
-int		ms_export_run(t_command *cmd, char ***envp, int fd_out);
-int		ms_export_arg(char *arg, char ***envp);
+int		ms_export_run(t_msdata *msdata, t_command *cmd, int fd_out);
+int		ms_export_arg(t_msdata *msdata, char *arg);
 /* pwd */
-int		ms_pwd_run(t_command *cmd, char ***envp, int fd_out);
+int		ms_pwd_run(t_msdata *msdata, t_command *cmd, int fd_out);
 /* unset */
-int		ms_unset_run(t_command *cmd, char ***envp, int fd_out);
+int		ms_unset_run(t_msdata *msdata, t_command *cmd, int fd_out);
 
 /* ================================================================= */
 /*                        parse and run                              */
@@ -157,7 +158,7 @@ int		ms_args_insert(t_command *cmd, char *line);
 /* args parse */
 int		ms_args_parse(t_command *cmd);
 /* atoi */
-int		ms_atoi(const char *nptr, int *status);
+int		ms_atoi(t_msdata *msdata, const char *nptr);
 /* backtrack */
 int		ms_backtrack_backtrack(char prev, char *pattern, char *name);
 /* char */
@@ -166,34 +167,36 @@ int		ms_char_nextexist(char *line);
 int		ms_char_prevok(char *line, int i);
 char	*ms_char_unprotect(char *line);
 /* command */
-int		ms_command_addback(t_command **start);
-int		ms_command_clean(t_command **cmd);
+int		ms_command_addback(t_command **cmd_start);
+int		ms_command_clean(t_msdata *msdata);
 void	ms_command_close(int fd);
+/* msdata */
+void	ms_msdata_init(t_msdata *msdata);
+void	ms_msdata_clean(t_msdata *msdata);
 /* dollar */
-char	*ms_dollar_parse(char *line, char **envp, int status);
+char	*ms_dollar_parse(t_msdata *msdata, char *line);
 /* exit */
-void	ms_exit_msg(t_pipeline *ppl, char ***envp, char *msg);
-void	ms_exit_error(t_pipeline *ppl, char *msg, char ***envp);
-void	ms_exit_child(char *path, char **args, char ***envp);
-void	ms_exit_path(t_pipeline *ppl, char *msg, char ***envp);
-void	ms_exit_exit(t_pipeline *ppl, char ***envp, char **args);
-int		ms_exit_getstatus(char **args, int *status);
+void	ms_exit_msg(t_msdata *msdata, char *msg);
+void	ms_exit_error(t_msdata *msdata, char *msg);
+void	ms_exit_child(t_msdata *msdata, char *path, char **args);
+void	ms_exit_path(t_msdata *msdata, char *msg);
+void	ms_exit_exit(t_msdata *msdata, char **args);
+int		ms_exit_getstatus(t_msdata *msdata, char **args);
 /* exit run */
-int		ms_exit_run(t_command *cmd, char ***envp, int fd_out);
+int		ms_exit_run(t_msdata *msdata, t_command *cmd, int fd_out);
 /* file */
-int		ms_file_start(t_command *cmd);
+int		ms_file_start(t_msdata *msdata);
 /* file utils */
 int		ms_file_chevron(t_command *cmd, int mode);
 /* output */
 int		ms_output_openall(t_command *cmd);
 /* parsing */
-int		ms_parsing_start(char *line, char ***envp, int status);
+int		ms_parsing_start(t_msdata *msdata, char *line);
 /* pipe */
-int		ms_pipe_start(char *line, char ***envp, int status);
+int		ms_pipe_start(t_msdata *msdata, char *line);
 /* pipeline */
-int		ms_pipeline_start(t_command *cmd_start, int cmd_nb, \
-		char ***envp, int status);
-void	ms_pipeline_clean(t_pipeline *ppl);
+int		ms_pipeline_start(t_msdata *msdata);
+void	ms_pipeline_clean(t_msdata *msdata);
 /* redirect */
 char	*ms_redirect_start(char *word);
 /* return */
@@ -225,19 +228,19 @@ char	**ms_wildcard_start(char *line);
 /*                               pipex                                  */
 /* **********************************************************************/
 /* here doc */
-int		pp_here_doc(t_pipeline *ppl, char *limiter, char ***envp);
+int		pp_here_doc(t_msdata *msdata, char *limiter);
 /* check_cmd */
-void	pp_check_cmd_path(t_pipeline *ppl, t_command *cmd, char ***envp);
+void	pp_check_cmd_path(t_msdata *msdata, t_command *cmd);
 /* Run */
-int		pp_run_pipe(t_pipeline *ppl, char ***envp);
-void	pp_run_close_pipes(t_pipeline *ppl);
+int		pp_run_pipe(t_msdata *msdata);
+void	pp_run_close_pipes(t_msdata *msdata);
 int		pp_run_wait(void);
 /* Open */
-void	pp_open_in(t_pipeline *ppl, t_command *cmd, int i, char ***envp);
-void	pp_open_out(t_pipeline *ppl, t_command *cmd, int i, char ***envp);
+void	pp_open_in(t_msdata *msdata, t_command *cmd, int i);
+void	pp_open_out(t_msdata *msdata, t_command *cmd, int i);
 int		pp_open_flags(char mode);
 /* Child */
-void	pp_child_run(t_pipeline *ppl, t_command *cmd, char ***envp, int i);
+void	pp_child_run(t_msdata *msdata, t_command *cmd, int i);
 /* Utils */
 void	pp_nullfree(char **ptr);
 int		pp_path_size(char const *s1, char const *s2);

@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 16:19:46 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/16 14:02:46 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/16 17:10:15 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,9 @@
 static int		ms_cd_isroot(char *path);
 static char		*ms_cd_resolvepath(char *path, char *pwd);
 static int		ms_cd_chdir(char *path, char *new_path);
-static int		ms_cd_setpath(char *key, char const *value, char ***envp);
+static int		ms_cd_setpath(t_msdata *msdata, char *key, char const *value);
 
-int	ms_cd_run(t_command *cmd, char ***envp, int fd_out)
+int	ms_cd_run(t_msdata *msdata, t_command *cmd, int fd_out)
 {
 	char	*path;
 	char	*new_path;
@@ -27,7 +27,7 @@ int	ms_cd_run(t_command *cmd, char ***envp, int fd_out)
 		return (0);
 	if (cmd->args[2])
 		return (ms_return_msg(1, R_SNP));
-	path = ms_env_getvalue(*envp, "PWD");
+	path = ms_env_getvalue(msdata->envp, "PWD");
 	if (ms_cd_isroot(cmd->args[1]))
 			new_path = ft_strdup("/");
 	else
@@ -36,8 +36,8 @@ int	ms_cd_run(t_command *cmd, char ***envp, int fd_out)
 		new_path = ft_strdup("/");
 	if (ms_cd_chdir(path, new_path))
 		return (1);
-	ms_cd_setpath("OLDPWD=", path, envp);
-	ms_cd_setpath("PWD=", new_path, envp);
+	ms_cd_setpath(msdata, "OLDPWD=", path);
+	ms_cd_setpath(msdata, "PWD=", new_path);
 	free(path);
 	free(new_path);
 	return (0);
@@ -80,14 +80,14 @@ static int	ms_cd_chdir(char *path, char *new_path)
 	return (0);
 }
 
-static int	ms_cd_setpath(char *key, char const *value, char ***envp)
+static int	ms_cd_setpath(t_msdata *msdata, char *key, char const *value)
 {
 	char	*tmp;
 
 	tmp = ft_strjoin(key, value);
 	if (tmp == NULL)
 		return (ms_return_msg(1, R_STR));
-	ms_export_arg(tmp, envp);
+	ms_export_arg(msdata, tmp);
 	free(tmp);
 	return (0);
 }

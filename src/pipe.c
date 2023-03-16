@@ -6,42 +6,38 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 14:25:09 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/15 18:13:54 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/16 17:27:37 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ms_pipe_cmdinit(t_command **cmd_start, char *line);
-static int	ms_pipe_split(t_command *cmd, int *cmd_nb);
+static int	ms_pipe_cmdinit(t_msdata *msdata, char *line);
+static int	ms_pipe_split(t_msdata *msdata, t_command *cmd);
 static int	ms_pipe_cut(t_command *cmd, char *line, int *start, int *i);
 
-int	ms_pipe_start(char *line, char ***envp, int status)
+int	ms_pipe_start(t_msdata *msdata, char *line)
 {
-	int			cmd_nb;
-	t_command	*cmd_start;
-
-	cmd_nb = 1;
-	cmd_start = NULL;
-	if (ms_pipe_cmdinit(&cmd_start, line))
+	msdata->cmd_nb = 1;
+	if (ms_pipe_cmdinit(msdata, line))
 		return (1);
-	if (ms_pipe_split(cmd_start, &cmd_nb))
-		return (ms_command_clean(&cmd_start));
-	if (ms_file_start(cmd_start))
-		return (ms_command_clean(&cmd_start));
-	return (ms_pipeline_start(cmd_start, cmd_nb, envp, status));
+	if (ms_pipe_split(msdata, msdata->cmds))
+		return (ms_command_clean(msdata));
+	if (ms_file_start(msdata))
+		return (ms_command_clean(msdata));
+	return (ms_pipeline_start(msdata));
 }
 
-static int	ms_pipe_cmdinit(t_command **cmd_start, char *line)
+static int	ms_pipe_cmdinit(t_msdata *msdata, char *line)
 {
-	if (ms_command_addback(cmd_start))
+	if (ms_command_addback(&msdata->cmds))
 		return (1);
-	(*cmd_start)->cmd_nb = 1;
-	(*cmd_start)->cmd_path = line;
+	msdata->cmds->cmd_nb = 1;
+	msdata->cmds->cmd_path = line;
 	return (0);
 }
 
-static int	ms_pipe_split(t_command *cmd, int *cmd_nb)
+static int	ms_pipe_split(t_msdata *msdata, t_command *cmd)
 {
 	int		i;
 	int		start;
@@ -58,9 +54,9 @@ static int	ms_pipe_split(t_command *cmd, int *cmd_nb)
 		{
 			if (ms_pipe_cut(cmd, line, &start, &i))
 				return (ms_return_freeturn(&line, 1));
-			(*cmd_nb)++;
+			msdata->cmd_nb++;
 			cmd = cmd->next;
-			cmd->cmd_nb = *cmd_nb;
+			cmd->cmd_nb = msdata->cmd_nb;
 		}
 	}
 	free(line);

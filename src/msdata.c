@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   unset.c                                            :+:      :+:    :+:   */
+/*   msdata.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/06 11:43:48 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/16 14:54:36 by rertzer          ###   ########.fr       */
+/*   Created: 2023/03/16 14:23:20 by rertzer           #+#    #+#             */
+/*   Updated: 2023/03/16 15:38:30 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ms_unset_run(t_msdata *msdata, t_command *cmd, int fd_out)
+void	ms_msdata_init(t_msdata *msdata)
 {
-	int	index;
+	msdata->status = 0;
+	msdata->cmd_nb = 0;
+	msdata->cmds = NULL;
+	msdata->pipefd = NULL;
+	msdata->envp = NULL;
+}
 
-	(void)fd_out;
-	index = ms_env_getindex(msdata->envp, cmd->args[1]);
-	if (index < 0)
-		return (0);
-	free(msdata->envp[index]);
-	while (msdata->envp[index])
-	{
-		msdata->envp[index] = msdata->envp[index + 1];
-		index++;
-	}
-	return (0);
+void	ms_msdata_clean(t_msdata *msdata)
+{
+	ms_pipeline_clean(msdata);
+	ft_split_flush(msdata->envp);
+	msdata->envp = NULL;
 }

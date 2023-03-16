@@ -6,18 +6,16 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:55:38 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/16 14:31:12 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/16 17:13:17 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ms_exit_msg(t_pipeline *ppl, char ***envp, char *msg)
+void	ms_exit_msg(t_msdata *msdata, char *msg)
 {
-	ms_pipeline_clean(ppl);
-	ft_split_flush(*envp);
+	ms_msdata_clean(msdata);
 	ms_lpid_clean();
-	*envp = NULL;
 	if (msg)
 	{
 		if (msg[0] != 'Q')
@@ -27,21 +25,17 @@ void	ms_exit_msg(t_pipeline *ppl, char ***envp, char *msg)
 	exit(0);
 }
 
-void	ms_exit_exit(t_pipeline *ppl, char ***envp, char **args)
+void	ms_exit_exit(t_msdata *msdata, char **args)
 {
-	int	status;
-
-	status = 0;
 	if (args)
-		ms_exit_getstatus(args, &status);
-	ms_pipeline_clean(ppl);
-	ft_split_flush(*envp);
+		ms_exit_getstatus(msdata, args);
+	ms_msdata_clean(msdata);
 	ms_lpid_clean();
-	*envp = NULL;
-	exit(status);
+	msdata->envp = NULL;
+	exit(msdata->status);
 }
 
-void	ms_exit_error(t_pipeline *ppl, char *msg, char ***envp)
+void	ms_exit_error(t_msdata *msdata, char *msg)
 {
 	int	error;
 	error = errno;
@@ -49,13 +43,11 @@ void	ms_exit_error(t_pipeline *ppl, char *msg, char ***envp)
 	if (error == 13)
 		error = 126;
 	ms_lpid_clean();
-	if (ppl)
-		ms_pipeline_clean(ppl);
-	ft_split_flush(*envp);
+	ms_msdata_clean(msdata);
 	exit(error);
 }
 
-void	ms_exit_child(char *path, char **args, char ***envp)
+void	ms_exit_child(t_msdata *msdata, char *path, char **args)
 {
 	int	error;
 	
@@ -69,25 +61,23 @@ void	ms_exit_child(char *path, char **args, char ***envp)
 	free(path);
 	ft_split_flush(args);
 	ms_lpid_clean();
-	ft_split_flush(*envp);
+	ft_split_flush(msdata->envp);
 	exit(error);
-
 }
-void	ms_exit_path(t_pipeline *ppl, char *msg, char ***envp)
+
+void	ms_exit_path(t_msdata *msdata, char *msg)
 {
 	ft_putstr_fd("Minishell : ", 2);
 	ft_putstr_fd(msg, 2);
 	ft_putstr_fd(": command not found\n", 2);
 	ms_lpid_clean();
-	if (ppl)
-		ms_pipeline_clean(ppl);
-	ft_split_flush(*envp);
+	ms_msdata_clean(msdata);
 	exit(127);
 }
 
-int	ms_exit_getstatus(char **args, int *status)
+int	ms_exit_getstatus(t_msdata *msdata, char **args)
 {
-	if (!ms_atoi(args[0], status) && args[1] != NULL)
+	if (!ms_atoi(msdata, args[0]) && args[1] != NULL)
 		return (ms_return_msg(2, "exit: too many arguments"));
 	return (0);
 }

@@ -6,13 +6,13 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 16:26:34 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/15 17:40:12 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/16 17:14:01 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ms_atoi(const char *nptr, int *status)
+int	ms_atoi(t_msdata *msdata, const char *nptr)
 {
 	int	i;
 	int	sign;
@@ -33,11 +33,11 @@ int	ms_atoi(const char *nptr, int *status)
 			total = total * 10 + nptr[i] - 48;
 		else
 		{
-			*status = 2;
+			msdata->status = 2;
 			return (ms_return_msg(2, R_NUM));
 		}
 		i++;
 	}
-	*status = sign * total;
+	msdata->status = sign * total;
 	return (0);
 }

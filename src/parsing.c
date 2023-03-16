@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 17:13:25 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/15 17:52:45 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/16 15:17:03 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	ms_parsing_quote(char *line, char *new_line);
 static int	ms_parsing_isquote(char *line, char *quote);
 static int	ms_parsing_toprotect(char quote, char c);
 
-int	ms_parsing_start(char *line, char ***envp, int status)
+int	ms_parsing_start(t_msdata *msdata, char *line)
 {
 	int		len;
 	char	*new_line;
@@ -30,10 +30,10 @@ int	ms_parsing_start(char *line, char ***envp, int status)
 	if (NULL == new_line)
 		return (ms_return_error(errno, R_MAL));
 	ms_parsing_quote(line, new_line);
-	new_line = ms_dollar_parse(new_line, *envp, status);
+	new_line = ms_dollar_parse(msdata, new_line);
 	if (new_line == NULL)
 		return (1);
-	return (ms_pipe_start(new_line, envp, status));
+	return (ms_pipe_start(msdata, new_line));
 }
 
 static int	ms_parsing_computelen(char *line)

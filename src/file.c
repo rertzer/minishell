@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:16:20 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/13 15:20:55 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/16 17:20:40 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 static int	ms_file_parse(t_command *cmd);
 
-int	ms_file_start(t_command *cmd)
+int	ms_file_start(t_msdata *msdata)
 {
 	t_command	*tmp;
 
-	tmp = cmd;
+	tmp = msdata->cmds;
 	while (tmp)
 	{
 		if (ms_file_parse(tmp))

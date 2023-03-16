@@ -33,6 +33,7 @@ SOURCES = args.c \
 	file.c \
 	file_utils.c \
 	here_doc.c \
+	msdata.c \
 	open.c \
 	output.c \
 	parsing.c \

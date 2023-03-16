@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 11:27:40 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/13 14:22:39 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/16 17:28:35 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	ms_command_init(t_command *cmd);
 static void	ms_command_clean_one(t_command *cmd);
 
-int	ms_command_addback(t_command **start)
+int	ms_command_addback(t_command **cmd_start)
 {
 	t_command	*cmd;
 	t_command	*last;
@@ -25,11 +25,11 @@ int	ms_command_addback(t_command **start)
 	if (cmd == NULL)
 		return (ms_return_error(errno, R_MAL));
 	ms_command_init(cmd);
-	if (*start == NULL)
-		*start = cmd;
+	if (*cmd_start == NULL)
+		*cmd_start = cmd;
 	else
 	{
-		last = *start;
+		last = *cmd_start;
 		while (last->next)
 			last = last->next;
 		last->next = cmd;
@@ -49,12 +49,12 @@ static void	ms_command_init(t_command *cmd)
 	cmd->cmd_nb = 0;
 }
 
-int	ms_command_clean(t_command **start)
+int	ms_command_clean(t_msdata *msdata)
 {
 	t_command	*tmp;
 	t_command	*cmd;
 
-	cmd = *start;
+	cmd = msdata->cmds;
 	while (cmd)
 	{
 		ms_command_clean_one(cmd);
@@ -62,7 +62,7 @@ int	ms_command_clean(t_command **start)
 		free(cmd);
 		cmd = tmp;
 	}
-	*start = NULL;
+	msdata->cmds = NULL;
 	return (0);
 }
 
