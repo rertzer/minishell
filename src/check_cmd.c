@@ -6,12 +6,13 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 16:12:57 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/16 15:53:17 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/18 12:06:43 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static int	pp_check_othercase(t_msdata *msdata, char *path);
 static void	pp_check_path(t_msdata *msdata, t_command *cmd, char **paths);
 static void	pp_check_exit(t_msdata *msdata, char **paths);
 
@@ -20,7 +21,7 @@ void	pp_check_cmd_path(t_msdata *msdata, t_command *cmd)
 	char	*pathlst;
 	char	**paths;
 
-	if (ms_builtin_itis(cmd->cmd_path) || ft_strchr(cmd->cmd_path, '/'))
+	if (pp_check_othercase(msdata, cmd->cmd_path))
 		return ;
 	pathlst = ms_env_getvalue(msdata->envp, "PATH");
 	paths = ft_split(pathlst, ':');
@@ -29,6 +30,15 @@ void	pp_check_cmd_path(t_msdata *msdata, t_command *cmd)
 	if (paths == NULL)
 		ms_exit_msg(msdata, R_PAT);
 	pp_check_path(msdata, cmd, paths);
+}
+
+static int	pp_check_othercase(t_msdata *msdata, char *path)
+{
+	if (ms_builtin_itis(path) || ft_strchr(path, '/'))
+		return (1);
+	if (ms_utils_isonly(path, '.'))
+		ms_exit_path(msdata, path);
+	return (0);
 }
 
 static void	pp_check_path(t_msdata *msdata, t_command *cmd, char **paths)

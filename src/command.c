@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 11:27:40 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/16 17:28:35 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/18 12:25:07 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ static void	ms_command_clean_one(t_command *cmd)
 	int	i;
 
 	free(cmd->cmd_path);
-	ms_command_close(cmd->fd_in);
-	ms_command_close(cmd->fd_out);
+	ms_msdata_close(cmd->fd_in);
+	ms_msdata_close(cmd->fd_out);
 	ms_tfile_clean(&cmd->infile);
 	ms_tfile_clean(&cmd->outfile);
 	i = -1;
@@ -82,10 +82,4 @@ static void	ms_command_clean_one(t_command *cmd)
 			free(cmd->args[i]);
 		free(cmd->args);
 	}
-}
-
-void	ms_command_close(int fd)
-{
-	if (fd > 2)
-		close(fd);
 }

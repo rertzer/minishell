@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 16:14:08 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/16 15:49:18 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/18 12:26:12 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,7 @@ static char	*pp_here_line(t_msdata *msdata, char *limiter,	\
 
 	line_size = ft_strlen(line);
 	limiter_size = ft_strlen(limiter);
-	if (!((line_size == limiter_size + 1) && \
-			(ft_strncmp(line, limiter, limiter_size) == 0)))
+	if (pp_here_nolimit(line, limiter, line_size, limiter_size))
 	{
 		errno = 0;
 		if (write(pipefd[1], line, line_size) == -1)
@@ -55,4 +54,13 @@ static char	*pp_here_line(t_msdata *msdata, char *limiter,	\
 	else
 		pp_nullfree(&line);
 	return (line);
+}
+
+int	pp_here_nolimit(char *line, char *limiter,	\
+		int line_size, int limiter_size)
+{
+	if ((line_size == limiter_size + 1) && \
+				(ft_strncmp(line, limiter, limiter_size) == 0))
+		return (0);
+	return (1);
 }

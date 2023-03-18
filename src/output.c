@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 16:13:36 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/13 17:31:56 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/18 12:23:27 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	ms_output_loop(t_file *file)
 	fd = 1;
 	while (file)
 	{
-		ms_command_close(fd);
+		ms_msdata_close(fd);
 		fd = ms_output_openfile(file);
 		if (fd == -1)
 			return (-1);
@@ -69,7 +69,7 @@ static int	ms_output_heredoc(char *limiter)
 
 	errno = 0;
 	if (pipe(pipefd) == -1)
-		ms_return_error(-1, "pipe");
+		return (ms_return_error(-1, "pipe"));
 	fd = pipefd[0];
 	line = get_next_line(0);
 	while (line)
@@ -85,14 +85,13 @@ static char	*ms_output_hereline(char *limiter, char *line, int *pipefd)
 
 	line_size = ft_strlen(line);
 	limiter_size = ft_strlen(limiter);
-	if (!((line_size == limiter_size + 1) && \
-			(ft_strncmp(line, limiter, limiter_size) == 0)))
+	if (pp_here_nolimit(line, limiter, line_size, limiter_size))
 	{
 		errno = 0;
 		if (write(pipefd[1], line, line_size) == -1)
 		{
 			free(line);
-			ms_return_nullerror(R_WRT);
+			return (ms_return_nullerror(R_WRT));
 		}
 		free(line);
 		line = get_next_line(0);

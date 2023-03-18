@@ -31,7 +31,8 @@ SOURCES = args.c \
 	exit_run.c \
 	export.c \
 	file.c \
-	file_utils.c \
+	file_chevron.c \
+	file_wildcard.c \
 	here_doc.c \
 	msdata.c \
 	open.c \
@@ -40,7 +41,6 @@ SOURCES = args.c \
 	pipe.c \
 	pipeline.c \
 	pwd.c \
-	redirect.c \
 	return.c \
 	return_null.c \
 	run.c \

@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/16 17:26:32 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/18 12:21:34 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,10 +169,10 @@ char	*ms_char_unprotect(char *line);
 /* command */
 int		ms_command_addback(t_command **cmd_start);
 int		ms_command_clean(t_msdata *msdata);
-void	ms_command_close(int fd);
 /* msdata */
 void	ms_msdata_init(t_msdata *msdata);
 void	ms_msdata_clean(t_msdata *msdata);
+void	ms_msdata_close(int fd);
 /* dollar */
 char	*ms_dollar_parse(t_msdata *msdata, char *line);
 /* exit */
@@ -181,13 +181,15 @@ void	ms_exit_error(t_msdata *msdata, char *msg);
 void	ms_exit_child(t_msdata *msdata, char *path, char **args);
 void	ms_exit_path(t_msdata *msdata, char *msg);
 void	ms_exit_exit(t_msdata *msdata, char **args);
-int		ms_exit_getstatus(t_msdata *msdata, char **args);
 /* exit run */
 int		ms_exit_run(t_msdata *msdata, t_command *cmd, int fd_out);
 /* file */
+int		ms_exit_resetstatus(t_msdata *msdata, char **args);
 int		ms_file_start(t_msdata *msdata);
-/* file utils */
+/* file chevron */
 int		ms_file_chevron(t_command *cmd, int mode);
+/* file wildcard */
+char	*ms_file_wildcard(char *word);
 /* output */
 int		ms_output_openall(t_command *cmd);
 /* parsing */
@@ -197,8 +199,6 @@ int		ms_pipe_start(t_msdata *msdata, char *line);
 /* pipeline */
 int		ms_pipeline_start(t_msdata *msdata);
 void	ms_pipeline_clean(t_msdata *msdata);
-/* redirect */
-char	*ms_redirect_start(char *word);
 /* return */
 int		ms_return_freeturn(char **ptr, int ret);
 int		ms_return_msg(int ret, char *msg);
@@ -229,6 +229,8 @@ char	**ms_wildcard_start(char *line);
 /* **********************************************************************/
 /* here doc */
 int		pp_here_doc(t_msdata *msdata, char *limiter);
+int		pp_here_nolimit(char *line, char *limiter,	\
+		int line_size, int limiter_size);
 /* check_cmd */
 void	pp_check_cmd_path(t_msdata *msdata, t_command *cmd);
 /* Run */

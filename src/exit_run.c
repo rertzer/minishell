@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 18:04:15 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/16 17:15:00 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/18 12:13:08 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,22 @@ static void	ms_exit_cleanup(t_msdata *msdata, t_command *cmd);
 
 int	ms_exit_run(t_msdata *msdata, t_command *cmd, int fd_out)
 {
+	(void)fd_out;
 	if (cmd && cmd->args[1])
 	{
-		if (ms_exit_getstatus(msdata, &(cmd->args[1])))
+		if (ms_exit_resetstatus(msdata, &(cmd->args[1])))
 			return (2);
 	}
-	else
-		msdata->status = fd_out;
 	ms_exit_cleanup(msdata, cmd);
+	ft_putendl_fd("exit", 1);
 	exit(msdata->status);
+}
+
+int	ms_exit_resetstatus(t_msdata *msdata, char **args)
+{
+	if (!ms_atoi(msdata, args[0]) && args[1] != NULL)
+		return (ms_return_msg(2, "exit: too many arguments"));
+	return (0);
 }
 
 static void	ms_exit_cleanup(t_msdata *msdata, t_command *cmd)

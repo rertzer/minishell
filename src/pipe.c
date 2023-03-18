@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 14:25:09 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/16 17:27:37 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/18 11:19:45 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 static int	ms_pipe_cmdinit(t_msdata *msdata, char *line);
 static int	ms_pipe_split(t_msdata *msdata, t_command *cmd);
 static int	ms_pipe_cut(t_command *cmd, char *line, int *start, int *i);
+static int	ms_pipe_error(t_msdata *msdata);
 
 int	ms_pipe_start(t_msdata *msdata, char *line)
 {
@@ -22,9 +23,9 @@ int	ms_pipe_start(t_msdata *msdata, char *line)
 	if (ms_pipe_cmdinit(msdata, line))
 		return (1);
 	if (ms_pipe_split(msdata, msdata->cmds))
-		return (ms_command_clean(msdata));
+		return (ms_pipe_error(msdata));
 	if (ms_file_start(msdata))
-		return (ms_command_clean(msdata));
+		return (ms_pipe_error(msdata));
 	return (ms_pipeline_start(msdata));
 }
 
@@ -77,4 +78,10 @@ static int	ms_pipe_cut(t_command *cmd, char *line, int *start, int *i)
 	if (NULL == cmd->cmd_path)
 		return (ms_return_msg(1, R_STR));
 	return (0);
+}
+
+static int	ms_pipe_error(t_msdata *msdata)
+{
+	ms_command_clean(msdata);
+	return (2);
 }

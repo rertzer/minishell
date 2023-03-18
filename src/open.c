@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 16:14:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/16 17:16:56 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/18 12:23:12 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void	pp_open_in(t_msdata *msdata, t_command *cmd, int i)
 	file = cmd->infile;
 	while (file)
 	{
-		ms_command_close(cmd->fd_in);
+		ms_msdata_close(cmd->fd_in);
 		cmd->fd_in = pp_open_file(msdata, file);
 		file = file->next;
 	}
@@ -38,7 +38,7 @@ void	pp_open_out(t_msdata *msdata, t_command *cmd, int i)
 	file = cmd->outfile;
 	while (file)
 	{
-		ms_command_close(cmd->fd_out);
+		ms_msdata_close(cmd->fd_out);
 		cmd->fd_out = pp_open_file(msdata, file);
 		file = file->next;
 	}
@@ -50,6 +50,8 @@ static int	pp_open_file(t_msdata *msdata, t_file *file)
 	int		fd;
 	mode_t	mode;
 
+	if (file->name == NULL || file->name[0] == '\0')
+		ms_exit_msg(msdata, R_SYN);
 	if (file->mode == '=')
 		return (pp_here_doc(msdata, file->name));
 	flags = pp_open_flags(file->mode);

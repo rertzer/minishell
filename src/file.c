@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 15:16:20 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/16 17:20:40 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/18 10:29:14 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,10 @@ static int	ms_file_parse(t_command *cmd)
 		if ((cmd->cmd_path[i] == '>' || cmd->cmd_path[i] == '<') \
 				&& ms_char_prevok(cmd->cmd_path, i))
 			i = ms_file_chevron(cmd, i);
-		if (cmd->cmd_path[i] == '\0')
-			break ;
 		if (i < 0)
 			return (1);
+		if (cmd->cmd_path[i] == '\0')
+			break ;
 	}
 	return (0);
 }

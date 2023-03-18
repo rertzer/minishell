@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 11:55:38 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/16 18:05:04 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/18 12:24:54 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,17 @@ void	ms_exit_msg(t_msdata *msdata, char *msg)
 void	ms_exit_exit(t_msdata *msdata, char **args)
 {
 	if (args && args[0])
-		ms_exit_getstatus(msdata, args);
+		ms_exit_resetstatus(msdata, args);
 	ms_msdata_clean(msdata);
 	ms_lpid_clean();
-	msdata->envp = NULL;
+	ft_putendl_fd("exit", 1);
 	exit(msdata->status);
 }
 
 void	ms_exit_error(t_msdata *msdata, char *msg)
 {
 	int	error;
+
 	error = errno;
 	perror(msg);
 	if (error == 13)
@@ -50,7 +51,7 @@ void	ms_exit_error(t_msdata *msdata, char *msg)
 void	ms_exit_child(t_msdata *msdata, char *path, char **args)
 {
 	int	error;
-	
+
 	error = errno;
 	ft_putstr_fd("Minishell: ", 2);
 	perror(path);
@@ -73,11 +74,4 @@ void	ms_exit_path(t_msdata *msdata, char *msg)
 	ms_lpid_clean();
 	ms_msdata_clean(msdata);
 	exit(127);
-}
-
-int	ms_exit_getstatus(t_msdata *msdata, char **args)
-{
-	if (!ms_atoi(msdata, args[0]) && args[1] != NULL)
-		return (ms_return_msg(2, "exit: too many arguments"));
-	return (0);
 }

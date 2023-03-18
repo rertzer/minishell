@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 09:08:17 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/16 17:32:11 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/18 12:23:44 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static int	ms_pipeline_run(t_msdata *msdata)
 		if (fd_out != -1)
 		{
 			ret = ms_builtin_run(msdata, msdata->cmds, fd_out);
-			ms_command_close(fd_out);
+			ms_msdata_close(fd_out);
 		}
 		ms_pipeline_clean(msdata);
 		return (ret);

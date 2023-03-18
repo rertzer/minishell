@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/16 14:23:20 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/16 15:38:30 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/18 12:21:15 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,4 +26,10 @@ void	ms_msdata_clean(t_msdata *msdata)
 	ms_pipeline_clean(msdata);
 	ft_split_flush(msdata->envp);
 	msdata->envp = NULL;
+}
+
+void	ms_msdata_close(int fd)
+{
+	if (fd > 2)
+		close(fd);
 }
