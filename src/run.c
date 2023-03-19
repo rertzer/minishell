@@ -96,5 +96,7 @@ int	pp_run_wait(void)
 		if (g_lpid)
 			ms_lpid_del_pid(g_lpid->pid);
 	}
+	if (WIFSIGNALED(status)) 
+		return (WTERMSIG(status) + 128);
 	return (WEXITSTATUS(status));
 }

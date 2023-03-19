@@ -124,7 +124,7 @@ void	ms_lpid_clean(void);
 void	ms_lpid_delone(t_lpid *lpid);
 void	ms_lpid_del_pid(pid_t target);
 /* signal */
-void	ms_signal_kill_child(void);
+void	ms_signal_kill_child(int signum);
 void	ms_signal_handle_sig(int signum, siginfo_t *info, void *context);
 
 /* ================================================================= */

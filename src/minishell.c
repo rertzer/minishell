@@ -57,7 +57,7 @@ static int	ms_set_termios(struct termios *interact_tio,	\
 static void	ms_set_sigaction(struct sigaction *sa)
 {
 	sa->sa_sigaction = ms_signal_handle_sig;
-	sa->sa_flags = SA_SIGINFO;
+	sa->sa_flags = SA_RESTART;
 	sigemptyset(&sa->sa_mask);
 	sigaction(SIGINT, sa, NULL);
 	sigaction(SIGQUIT, sa, NULL);
