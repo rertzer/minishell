@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/19 17:10:00 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 18:49:30 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,8 +180,6 @@ void	ms_msdata_clean(t_msdata *msdata);
 void	ms_msdata_close(int fd);
 /* dollar */
 char	*ms_dollar_parse(t_msdata *msdata, char *line);
-/* dollar utils */
-char	*ms_dollar_protect(char *value);
 /* exit */
 void	ms_exit_msg(t_msdata *msdata, char *msg);
 void	ms_exit_error(t_msdata *msdata, char *msg);
@@ -192,8 +190,6 @@ void	ms_exit_exit(t_msdata *msdata, char **args);
 int		ms_exit_run(t_msdata *msdata, t_command *cmd, int fd_out);
 int		ms_exit_seterror(int error);
 int		ms_exit_resetstatus(t_msdata *msdata, char **args);
-/* file */
-int		ms_file_start(t_msdata *msdata);
 /* file chevron */
 int		ms_file_chevron(t_command *cmd, int mode);
 /* file wildcard */
@@ -217,8 +213,6 @@ char	*ms_return_nullerror(char *msg);
 char	**ms_return_null2error(char *msg);
 /* sort */
 void	ms_sort_sort(char **tosort);
-/* split */
-char	**ms_split_protected(char const *s, char c);
 /* tfile */
 int		ms_tfile_addback(t_file **start, char *parsed, char mode);
 int		ms_tfile_clean(t_file **file);

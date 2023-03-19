@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 10:26:30 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/19 09:43:54 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 18:31:58 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,10 @@ char	*ms_utils_strreplace(char *str, char *ins, int offset, int len)
 	errno = 0;
 	dest = malloc(sizeof(char) * (new_len + 1));
 	if (dest == NULL)
+	{
+		free(str);
 		return (ms_return_null(R_MAL));
+	}
 	i = -1;
 	while (++i < offset)
 		dest[i] = str[i];
@@ -81,7 +84,10 @@ int	ms_utils_insert(char *str, char ***table)
 	errno = 0;
 	new_tab = malloc(sizeof(char *) * (entries + 2));
 	if (new_tab == NULL)
+	{
+		free(str);
 		return (ms_return_error(1, R_MAL));
+	}
 	i = -1;
 	while (++i < entries)
 		new_tab[i] = (*table)[i];

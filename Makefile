@@ -25,7 +25,6 @@ SOURCES = args.c \
 	child.c \
 	command.c \
 	dollar.c \
-	dollar_utils.c \
 	echo.c \
 	env.c \
 	exit.c \
@@ -45,7 +44,6 @@ SOURCES = args.c \
 	return_null.c \
 	run.c \
 	sort.c \
-	split.c \
 	tfile.c \
 	trim.c \
 	unset.c \

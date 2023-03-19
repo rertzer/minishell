@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 10:19:35 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/15 14:57:23 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 18:48:43 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 static char	**ms_wildcard_expand(DIR *dd, char *pattern);
 static int	ms_wildcard_export(struct dirent *entry,	\
 		char *pattern, char ***expanded);
-static char	**ms_wildcard_returnclean(char *pattern, char **expanded);
+static char	**ms_wildcard_returnclean(char *pattern, \
+		char **expanded, char *msg);
 
 char	**ms_wildcard_start(char *pattern)
 {
@@ -30,13 +31,13 @@ char	**ms_wildcard_start(char *pattern)
 		return (expanded);
 	}
 	errno = 0;
-	dir = getcwd(NULL, 0);
+	dir = NULL;//getcwd(NULL, 0);
 	if (dir == NULL)
-		return (ms_return_null2error("getcwd"));
+		return (ms_wildcard_returnclean(pattern, expanded, "getcwd"));
 	dd = opendir(dir);
 	free(dir);
 	if (dd == NULL)
-		return (ms_return_null2error("opendir"));
+		return (ms_wildcard_returnclean(pattern, expanded, "opendir"));
 	expanded = ms_wildcard_expand(dd, pattern);
 	closedir(dd);
 	return (expanded);
@@ -57,7 +58,7 @@ static char	**ms_wildcard_expand(DIR *dd, char *pattern)
 		entry = readdir(dd);
 	}
 	if (errno)
-		ms_wildcard_returnclean(pattern, expanded);
+		ms_wildcard_returnclean(pattern, expanded, "readdir");
 	if (expanded == NULL)
 	{
 		if (ms_utils_insert(pattern, &expanded))
@@ -79,9 +80,12 @@ static int	ms_wildcard_export(struct dirent *entry,	\
 	return (ret);
 }
 
-static char	**ms_wildcard_returnclean(char *pattern, char **expanded)
+static char	**ms_wildcard_returnclean(char *pattern, char **expanded, \
+		char *msg)
 {
 	free(pattern);
-	ft_split_flush(expanded);
-	return (ms_return_null2error("readdir"));
+	if (expanded)
+		ft_split_flush(expanded);
+	ft_putstr_fd("minishell : error :", 2);
+	return (ms_return_null2error(msg));
 }

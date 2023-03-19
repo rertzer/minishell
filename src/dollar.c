@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 17:18:36 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/19 17:11:14 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 17:29:59 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ static int	ms_dollar_replace(t_msdata *msdata, char **line, int i)
 	if (len < 0)
 		return (ms_return_freeturn(line, -1));
 	value = ms_dollar_getvalue(msdata, key);
-	value = ms_dollar_protect(value);
 	*line = ms_utils_strreplace(*line, value, i, len + 1);
 	len = ft_strlen(value);
 	free(key);
