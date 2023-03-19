@@ -6,7 +6,7 @@
 /*   By: flarcher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:05:02 by flarcher          #+#    #+#             */
-/*   Updated: 2023/03/19 09:16:47 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 13:59:28 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static int	ms_set_termios(struct termios *interact_tio,	\
 		exit (ms_return_msg(-1, NULL, R_TCG));
 	if (tcgetattr(tty_device, process_tio) != 0)
 		exit (ms_return_msg(-1, NULL, R_TCG));
+	process_tio->c_cc[VQUIT] = 28;
 	interact_tio->c_cc[VQUIT] = 0;
 	return (tty_device);
 }

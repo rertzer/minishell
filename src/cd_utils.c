@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 10:38:29 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/16 13:52:11 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 13:47:07 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,4 +78,11 @@ static char	*ms_cd_recompose(char **dirlst)
 	}
 	dirlst = ft_split_flush(dirlst);
 	return (new_path);
+}
+
+int	ms_cd_return(int ret, char *path, char *new_path)
+{
+	free(path);
+	free(new_path);
+	return (ret);
 }

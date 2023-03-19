@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 16:15:03 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/19 09:43:16 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 13:04:36 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static int	pp_run_fork(t_msdata *msdata)
 	int			i;
 	pid_t		child;
 	t_command	*cmd;
+	t_lpid		*lpid;
 
 	i = -1;
 	cmd = msdata->cmds;
@@ -61,7 +62,12 @@ static int	pp_run_fork(t_msdata *msdata)
 		else if (child == 0)
 			pp_child_run(msdata, cmd, i);
 		else
-			ms_lpid_add_back(ms_lpid_new(child));
+		{
+			lpid = ms_lpid_new(child);
+			if (lpid == NULL)
+				return (1);
+			ms_lpid_add_back(lpid);
+		}
 		cmd = cmd->next;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/04 09:04:49 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/15 15:20:56 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 15:48:50 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,10 @@ static int	ms_trim_getend(char const *str)
 {
 	size_t	end;
 
-	end = ft_strlen(str) - 1;
-	while (end != 0 && str[end - 1] != '\\' && ms_trim_inset(str[end], " \t"))
+	end = ft_strlen(str);
+	if (end)
+		end--;
+	while (end > 0 && str[end - 1] != '\\' && ms_trim_inset(str[end], " \t"))
 		end--;
 	return (end);
 }

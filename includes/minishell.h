@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/19 11:19:46 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 13:47:43 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@
 
 # include "libft.h"
 
-# define FUN_TOP 8
 # define SQ_CHAR " $*|<>\t"
 # define DQ_CHAR " *|<>\t"
 # define QT_CHAR "'\""
@@ -45,6 +44,7 @@
 
 # define PROMPT "\001\e[1;32m\002Minishell: \001\e[0m\002"
 
+# define FUN_TOP 8
 # define NOT_FOUND 127
 # define NOT_EXEC 126
 
@@ -137,6 +137,7 @@ int		ms_builtin_run(t_msdata *msdata, t_command *cmd, int fd_out);
 int		ms_cd_run(t_msdata *msdata, t_command *cmd, int fd_out);
 /* cd_utils */
 char	*ms_cd_simplify(char **dirlst);
+int		ms_cd_return(int ret, char *path, char *new_path);
 /* echo */
 int		ms_echo_run(t_msdata *msdata, t_command *cmd, int fd_out);
 /* env */

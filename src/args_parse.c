@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 12:58:07 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/19 10:56:25 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 14:39:18 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static int	ms_args_expinsert(t_command *cmd, char **expanded)
 			while (expanded[++i])
 				free(expanded[i]);
 			free(expanded);
-			return (ms_return_msg(1, NULL, R_STR));
+			return (1);
 		}
 	}
 	return (0);

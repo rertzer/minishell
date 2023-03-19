@@ -60,7 +60,9 @@ OBJ = $(SOURCES:.c=.o)
 
 OBJS = $(addprefix $(OBJ_DIR), $(OBJ))
 
-all: $(NAME) $(BONUS_NAME)
+all: $(NAME) 
+
+bonus: $(NAME)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	$(CC) $(FLAGS) -c $< -o $@ -I $(INC_DIR) -I $(LIBFT_DIR) 

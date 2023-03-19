@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 13:32:08 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/19 11:19:19 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 15:27:46 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,29 +48,6 @@ static int	ms_args_fileparse(t_command *cmd)
 	return (0);
 }
 
-int	ms_args_add(t_command *cmd, char *line)
-{
-	int		i;
-	int		arg_nb;
-	char	**new;
-
-	if (line == NULL)
-		return (1);
-	arg_nb = ms_args_getnb(cmd);
-	errno = 0;
-	new = malloc(sizeof(char *) * (arg_nb + 2));
-	if (new == NULL)
-		return (ms_return_error(1, R_MAL));
-	i = -1;
-	while (++i < arg_nb)
-		new[i] = cmd->args[i];
-	new[i] = line;
-	new[++i] = NULL;
-	free(cmd->args);
-	cmd->args = new;
-	return (0);
-}
-
 int	ms_args_getnb(t_command *cmd)
 {
 	int	nb;
@@ -98,6 +75,33 @@ int	ms_args_insert(t_command *cmd, char *word)
 			return (ms_return_error(1, R_STR));
 		}
 	}
-	ms_args_add(cmd, word);
+	if (ms_args_add(cmd, word))
+	{
+		free(word);
+		return (1);
+	}
+	return (0);
+}
+
+int	ms_args_add(t_command *cmd, char *line)
+{
+	int		i;
+	int		arg_nb;
+	char	**new;
+
+	if (line == NULL)
+		return (1);
+	arg_nb = ms_args_getnb(cmd);
+	errno = 0;
+	new = malloc(sizeof(char *) * (arg_nb + 2));
+	if (new == NULL)
+		return (ms_return_error(1, R_MAL));
+	i = -1;
+	while (++i < arg_nb)
+		new[i] = cmd->args[i];
+	new[i] = line;
+	new[++i] = NULL;
+	free(cmd->args);
+	cmd->args = new;
 	return (0);
 }
