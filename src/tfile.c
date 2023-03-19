@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/26 13:19:14 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/15 14:36:53 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 09:43:33 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ms_tfile_addback(t_file **start, char *line, char mode)
 	errno = 0;
 	new = malloc(sizeof(t_file));
 	if (new == NULL)
-		return (ms_return_error(errno, R_MAL));
+		return (ms_return_error(1, R_MAL));
 	new->name = line;
 	new->mode = mode;
 	new->next = NULL;

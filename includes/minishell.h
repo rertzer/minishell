@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/18 12:21:34 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 11:19:46 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,8 @@
 
 # define PROMPT "\001\e[1;32m\002Minishell: \001\e[0m\002"
 
-# define DP fprintf(stderr, "%s %d\n", __FILE__, __LINE__);
+# define NOT_FOUND 127
+# define NOT_EXEC 126
 
 # define R_NVI "not a valid identifier"
 # define R_AMB "ambigous redirect"
@@ -59,9 +60,11 @@
 # define R_PIP "pipe error"
 # define R_SYN "syntax error"
 # define R_OPN "open error"
-# define R_QUT "Q"
 # define R_NUM "numeric argument required"
 # define R_SNP "string not in pwd"
+# define R_TMA "too many arguments"
+# define R_TTY "ttyslot error"
+# define R_TCG "tcgetattr error"
 
 typedef struct s_file
 {
@@ -152,11 +155,12 @@ int		ms_unset_run(t_msdata *msdata, t_command *cmd, int fd_out);
 /*                        parse and run                              */
 /* ================================================================= */
 /* args */
+int		ms_args_start(t_msdata *msdata);
 int		ms_args_add(t_command *cmd, char *line);
 int		ms_args_getnb(t_command *cmd);
 int		ms_args_insert(t_command *cmd, char *line);
 /* args parse */
-int		ms_args_parse(t_command *cmd);
+int		ms_args_argsparse(t_command *cmd);
 /* atoi */
 int		ms_atoi(t_msdata *msdata, const char *nptr);
 /* backtrack */
@@ -183,8 +187,9 @@ void	ms_exit_path(t_msdata *msdata, char *msg);
 void	ms_exit_exit(t_msdata *msdata, char **args);
 /* exit run */
 int		ms_exit_run(t_msdata *msdata, t_command *cmd, int fd_out);
-/* file */
+int		ms_exit_seterror(int error);
 int		ms_exit_resetstatus(t_msdata *msdata, char **args);
+/* file */
 int		ms_file_start(t_msdata *msdata);
 /* file chevron */
 int		ms_file_chevron(t_command *cmd, int mode);
@@ -201,7 +206,7 @@ int		ms_pipeline_start(t_msdata *msdata);
 void	ms_pipeline_clean(t_msdata *msdata);
 /* return */
 int		ms_return_freeturn(char **ptr, int ret);
-int		ms_return_msg(int ret, char *msg);
+int		ms_return_msg(int ret, char const *who, char const *what);
 int		ms_return_error(int ret, char *msg);
 /* return null */
 char	*ms_return_null(char *msg);

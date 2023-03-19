@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 16:15:38 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/12 16:22:35 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 09:44:22 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ char	*pp_pathjoin(char const *s1, char const *s2)
 	dest = malloc(sizeof(char) *(pp_path_size(s1, s2) + 1));
 	if (NULL == dest)
 	{
-		ms_return_error(errno, R_MAL);
+		ms_return_error(1, R_MAL);
 		return (NULL);
 	}
 	shift = pp_duplicate(s1, dest, 0);

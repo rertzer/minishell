@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 10:26:30 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/15 09:20:05 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 09:43:54 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	ms_utils_insert(char *str, char ***table)
 	errno = 0;
 	new_tab = malloc(sizeof(char *) * (entries + 2));
 	if (new_tab == NULL)
-		return (ms_return_error(errno, R_MAL));
+		return (ms_return_error(1, R_MAL));
 	i = -1;
 	while (++i < entries)
 		new_tab[i] = (*table)[i];

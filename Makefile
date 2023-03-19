@@ -30,7 +30,6 @@ SOURCES = args.c \
 	exit.c \
 	exit_run.c \
 	export.c \
-	file.c \
 	file_chevron.c \
 	file_wildcard.c \
 	here_doc.c \

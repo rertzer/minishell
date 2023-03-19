@@ -6,7 +6,7 @@
 /*   By: flarcher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 11:15:25 by flarcher          #+#    #+#             */
-/*   Updated: 2023/03/12 11:44:18 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 09:41:42 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_lpid	*ms_lpid_new(pid_t pid)
 	lpid = malloc(sizeof(t_lpid));
 	if (!lpid)
 	{
-		ms_return_error(errno, R_MAL);
+		ms_return_error(1, R_MAL);
 		return (NULL);
 	}
 	lpid->pid = pid;

@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 16:19:46 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/16 18:30:25 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 09:29:16 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ms_cd_run(t_msdata *msdata, t_command *cmd, int fd_out)
 	if (!cmd->args[1])
 		return (0);
 	if (cmd->args[2])
-		return (ms_return_msg(1, R_SNP));
+		return (ms_return_msg(1, cmd->args[2], R_SNP));
 	path = ms_env_getvalue(msdata->envp, "PWD");
 	if (ms_cd_isroot(cmd->args[1]))
 			new_path = ft_strdup("/");
@@ -73,9 +73,10 @@ static int	ms_cd_chdir(char *path, char *new_path)
 	errno = 0;
 	if (chdir(new_path) == -1)
 	{
+		perror(new_path);
 		free(path);
 		free(new_path);
-		return (ms_return_error(errno, "chdir"));
+		return (2);
 	}
 	return (0);
 }
@@ -89,7 +90,7 @@ static int	ms_cd_setpath(t_msdata *msdata, char *key, char const *value)
 	else
 		tmp = ft_strjoin(key, value);
 	if (tmp == NULL)
-		return (ms_return_msg(1, R_STR));
+		return (ms_return_msg(1, NULL, R_STR));
 	ms_export_arg(msdata, tmp);
 	free(tmp);
 	return (0);

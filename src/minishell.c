@@ -6,7 +6,7 @@
 /*   By: flarcher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:05:02 by flarcher          #+#    #+#             */
-/*   Updated: 2023/03/16 17:39:02 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 09:16:47 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ static int	ms_set_termios(struct termios *interact_tio,	\
 
 	tty_device = ttyslot();
 	if (!isatty(tty_device))
-		exit (ms_return_msg(-1, "ttyslot error"));
+		exit (ms_return_msg(-1, NULL, R_TTY));
 	if (tcgetattr(tty_device, interact_tio) != 0)
-		exit (ms_return_msg(-1, "tcgetattr error"));
+		exit (ms_return_msg(-1, NULL, R_TCG));
 	if (tcgetattr(tty_device, process_tio) != 0)
-		exit (ms_return_msg(-1, "tcgetattr error"));
+		exit (ms_return_msg(-1, NULL, R_TCG));
 	interact_tio->c_cc[VQUIT] = 0;
 	return (tty_device);
 }

@@ -6,13 +6,13 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/12 11:57:49 by rertzer           #+#    #+#             */
-/*   Updated: 2022/11/14 14:18:31 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 09:21:25 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	ft_putstr_fd(char *s, int fd)
+void	ft_putstr_fd(char const *s, int fd)
 {
 	write(fd, s, ft_strlen(s));
 }

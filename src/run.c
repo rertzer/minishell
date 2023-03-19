@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 16:15:03 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/16 17:33:14 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 09:43:16 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,12 @@ static int	pp_run_make_pipes(t_msdata *msdata)
 	errno = 0;
 	msdata->pipefd = malloc(sizeof(int) * 2 * (msdata->cmd_nb - 1));
 	if (NULL == msdata->pipefd)
-		return (ms_return_error(errno, R_MAL));
+		return (ms_return_error(1, R_MAL));
 	i = -1;
 	while (++i < (msdata->cmd_nb - 1))
 	{
 		if (pipe(msdata->pipefd[i]) == -1)
-			return (ms_return_error(errno, R_PIP));
+			return (ms_return_error(1, R_PIP));
 	}
 	return (0);
 }
@@ -57,7 +57,7 @@ static int	pp_run_fork(t_msdata *msdata)
 		errno = 0;
 		child = fork();
 		if (child == -1)
-			return (ms_return_error(errno, R_FRK));
+			return (ms_return_error(1, R_FRK));
 		else if (child == 0)
 			pp_child_run(msdata, cmd, i);
 		else

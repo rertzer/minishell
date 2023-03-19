@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:41:28 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/16 17:16:04 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 09:11:54 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,13 +35,13 @@ int	ms_export_arg(t_msdata *msdata, char *arg)
 	char	*tmp;
 
 	if (!ms_export_isvalid(arg))
-		return (ms_return_msg(1, R_NVI));
+		return (ms_return_msg(1, arg, R_NVI));
 	index = ms_env_getindex(msdata->envp, arg);
 	if (index == -1)
 	{
 		tmp = ft_strdup(arg);
 		if (tmp == NULL)
-			return (ms_return_msg(1, R_STR));
+			return (ms_return_msg(1, NULL, R_STR));
 		return (ms_utils_insert(tmp, &msdata->envp));
 	}
 	else

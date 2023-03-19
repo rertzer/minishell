@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 14:25:09 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/18 11:19:45 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 10:56:45 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	ms_pipe_start(t_msdata *msdata, char *line)
 		return (1);
 	if (ms_pipe_split(msdata, msdata->cmds))
 		return (ms_pipe_error(msdata));
-	if (ms_file_start(msdata))
+	if (ms_args_start(msdata))
 		return (ms_pipe_error(msdata));
 	return (ms_pipeline_start(msdata));
 }
@@ -46,13 +46,15 @@ static int	ms_pipe_split(t_msdata *msdata, t_command *cmd)
 
 	line = ft_strdup(cmd->cmd_path);
 	if (line == NULL)
-		return (ms_return_msg(1, R_STR));
+		return (ms_return_msg(1, NULL, R_STR));
 	i = -1;
 	start = 0;
 	while (line[++i])
 	{
 		if (line[i] == '|' && ms_char_prevok(line, i))
 		{
+			if (line[i + 1] == '|')
+				line[i + 1] = ' ';
 			if (ms_pipe_cut(cmd, line, &start, &i))
 				return (ms_return_freeturn(&line, 1));
 			msdata->cmd_nb++;
@@ -71,12 +73,14 @@ static int	ms_pipe_cut(t_command *cmd, char *line, int *start, int *i)
 	free(cmd->cmd_path);
 	cmd->cmd_path = ft_strndup(&line[*start], *i - *start);
 	if (NULL == cmd->cmd_path)
-		return (ms_return_msg(1, R_STR));
+		return (ms_return_msg(1, NULL, R_STR));
+	if (ms_utils_spaceonly(cmd->cmd_path))
+		return (ms_return_msg(1, "|", R_SYN));
 	*start = *i + 1;
 	cmd = cmd->next;
 	cmd->cmd_path = ft_strndup(&line[*start], ft_strlen(&line[*start]));
 	if (NULL == cmd->cmd_path)
-		return (ms_return_msg(1, R_STR));
+		return (ms_return_msg(1, NULL, R_STR));
 	return (0);
 }
 

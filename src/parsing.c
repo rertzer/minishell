@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 17:13:25 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/16 15:17:03 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 09:42:10 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ms_parsing_start(t_msdata *msdata, char *line)
 	errno = 0;
 	new_line = malloc(sizeof(char) * (len + 1));
 	if (NULL == new_line)
-		return (ms_return_error(errno, R_MAL));
+		return (ms_return_error(1, R_MAL));
 	ms_parsing_quote(line, new_line);
 	new_line = ms_dollar_parse(msdata, new_line);
 	if (new_line == NULL)

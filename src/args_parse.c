@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 12:58:07 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/13 13:57:39 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 10:56:25 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	ms_args_isseparator(char *line, int i);
 static int	ms_args_expinsert(t_command *cmd, char **expanded);
 static int	ms_args_wildinsert(t_command *cmd, char *line, int start, int i);
 
-int	ms_args_parse(t_command *cmd)
+int	ms_args_argsparse(t_command *cmd)
 {
 	char	*line;
 
@@ -75,10 +75,10 @@ static int	ms_args_wildinsert(t_command *cmd, char *line, int start, int i)
 
 	word = ft_strndup(&line[start], i - start);
 	if (word == NULL)
-		return (ms_return_msg(1, R_STR));
+		return (ms_return_msg(1, NULL, R_STR));
 	expanded = ms_wildcard_start(word);
 	if (expanded == NULL)
-		return (ms_return_msg(1, R_STR));
+		return (ms_return_msg(1, NULL, R_STR));
 	ms_sort_sort(expanded);
 	if (ms_args_expinsert(cmd, expanded))
 		return (1);
@@ -98,7 +98,7 @@ static int	ms_args_expinsert(t_command *cmd, char **expanded)
 			while (expanded[++i])
 				free(expanded[i]);
 			free(expanded);
-			return (ms_return_msg(1, R_STR));
+			return (ms_return_msg(1, NULL, R_STR));
 		}
 	}
 	return (0);

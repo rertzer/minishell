@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 16:12:57 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/18 12:06:43 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 09:49:05 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,5 @@ static void	pp_check_path(t_msdata *msdata, t_command *cmd, char **paths)
 static void	pp_check_exit(t_msdata *msdata, char **paths)
 {
 	ft_split_flush(paths);
-	ms_exit_msg(msdata, R_QUT);
+	ms_exit_msg(msdata, R_STR);
 }

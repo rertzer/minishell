@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/25 11:27:40 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/18 12:25:07 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 09:41:19 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	ms_command_addback(t_command **cmd_start)
 	errno = 0;
 	cmd = malloc(sizeof(t_command));
 	if (cmd == NULL)
-		return (ms_return_error(errno, R_MAL));
+		return (ms_return_error(1, R_MAL));
 	ms_command_init(cmd);
 	if (*cmd_start == NULL)
 		*cmd_start = cmd;

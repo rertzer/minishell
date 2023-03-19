@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 16:13:36 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/18 12:23:27 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 09:32:34 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ static int	ms_output_openfile(t_file *file)
 	errno = 0;
 	fd = open(file->name, flags, mode);
 	if (fd == -1)
-		return (ms_return_error(-1, R_OPN));
+		return (ms_return_error(-1, file->name));
 	return (fd);
 }
 
