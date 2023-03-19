@@ -25,6 +25,7 @@ SOURCES = args.c \
 	child.c \
 	command.c \
 	dollar.c \
+	dollar_utils.c \
 	echo.c \
 	env.c \
 	exit.c \

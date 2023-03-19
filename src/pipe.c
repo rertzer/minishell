@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 14:25:09 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/19 10:56:45 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 16:06:16 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ms_pipe_start(t_msdata *msdata, char *line)
 static int	ms_pipe_cmdinit(t_msdata *msdata, char *line)
 {
 	if (ms_command_addback(&msdata->cmds))
-		return (1);
+		return (ms_return_freeturn(&line, 1));
 	msdata->cmds->cmd_nb = 1;
 	msdata->cmds->cmd_path = line;
 	return (0);

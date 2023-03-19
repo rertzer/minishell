@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/19 13:47:43 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 17:10:00 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,8 @@ void	ms_msdata_clean(t_msdata *msdata);
 void	ms_msdata_close(int fd);
 /* dollar */
 char	*ms_dollar_parse(t_msdata *msdata, char *line);
+/* dollar utils */
+char	*ms_dollar_protect(char *value);
 /* exit */
 void	ms_exit_msg(t_msdata *msdata, char *msg);
 void	ms_exit_error(t_msdata *msdata, char *msg);

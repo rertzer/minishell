@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 10:38:29 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/19 13:47:07 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/19 16:34:11 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ static char	*ms_cd_recompose(char **dirlst)
 	char	*new_path;
 
 	new_path = NULL;
+	if (dirlst[0][0] == '\0')
+		new_path = ft_strdup("/");
 	i = -1;
 	while (dirlst[++i])
 	{
