@@ -12,11 +12,11 @@
 
 #include "minishell.h"
 
-void	ms_signal_kill_child(void)
+void	ms_signal_kill_child(int signum)
 {
 	while (g_lpid && g_lpid->pid > 0)
 	{
-		kill(g_lpid->pid, SIGKILL);
+		kill(g_lpid->pid, signum);
 		ms_lpid_del_pid(g_lpid->pid);
 	}
 }
@@ -27,13 +27,13 @@ void	ms_signal_handle_sig(int signum, siginfo_t *info, void *context)
 	(void)info;
 	if (signum == SIGQUIT && g_lpid)
 	{
-		ms_signal_kill_child();
+		ms_signal_kill_child(SIGQUIT);
 		printf("Quit");
 	}
 	else if (signum == SIGINT)
 	{
 		if (g_lpid)
-			ms_signal_kill_child();
+			ms_signal_kill_child(SIGINT);
 		else
 		{
 			rl_replace_line("", 0);
