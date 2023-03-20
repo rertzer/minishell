@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 11:22:31 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/19 18:14:23 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/20 10:56:57 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int	ms_file_chevron(t_command *cmd, int i)
 	if (ms_char_isin(str[0], "<>"))
 		return (ms_return_msg(-1, &str[0], R_SYN));
 	if (ms_tfile_addback(ms_file_adr(cmd, mode), str, mode))
-		return(ms_return_freeturn(&str, -1));	
+		return (ms_return_freeturn(&str, -1));
 	while (i < end)
 	{
 		cmd->cmd_path[i] = ' ';

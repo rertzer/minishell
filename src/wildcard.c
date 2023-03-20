@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 10:19:35 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/19 18:48:43 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/20 10:56:05 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	**ms_wildcard_start(char *pattern)
 		return (expanded);
 	}
 	errno = 0;
-	dir = NULL;//getcwd(NULL, 0);
+	dir = getcwd(NULL, 0);
 	if (dir == NULL)
 		return (ms_wildcard_returnclean(pattern, expanded, "getcwd"));
 	dd = opendir(dir);

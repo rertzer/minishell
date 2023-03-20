@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 16:14:08 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/20 09:54:50 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/20 10:58:10 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static char	*pp_here_line(t_msdata *msdata, char *limiter,	\
 	if (pp_here_nolimit(line, limiter, line_size, limiter_size))
 	{
 		errno = 0;
-	(void)pipefd;
 		if (write(pipefd[1], line, line_size) == -1)
 		{
 			free(line);

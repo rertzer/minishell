@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 16:15:03 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/20 10:34:28 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/20 10:58:45 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int	pp_run_wait(void)
 		if (g_lpid)
 			ms_lpid_del_pid(g_lpid->pid);
 	}
-	if (WIFSIGNALED(status)) 
+	if (WIFSIGNALED(status))
 		return (WTERMSIG(status) + 128);
 	return (WEXITSTATUS(status));
 }
