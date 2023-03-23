@@ -53,10 +53,8 @@ SOURCES = args.c \
 	lpid_del.c \
 	signal.c \
 	wildcard.c \
-	minishell.c
-	#get_minishell.c \
-	#get_next_line.c \
-	#get_next_line_utils.c 
+	minishell.c 
+#	get_minishell.c \
 
 OBJ = $(SOURCES:.c=.o)
 

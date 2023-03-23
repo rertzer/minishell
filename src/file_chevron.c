@@ -41,7 +41,7 @@ int	ms_file_chevron(t_command *cmd, int i)
 		cmd->cmd_path[i] = ' ';
 		i++;
 	}
-	return (i);
+	return (i-1);
 }
 
 static void	ms_file_mode(char *path, char *mode, int *shift)
