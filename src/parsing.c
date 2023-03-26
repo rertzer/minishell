@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 17:13:25 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/26 17:09:01 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/26 17:13:51 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ static int	ms_parsing_isquote(char *line, int i, char *quote)
 		if (*quote == line[i])
 		{
 			*quote = '\0';
-			if (i && line[i - 1] == line[i])
-				return (2);
-			return (1);
+		//	if (i && line[i - 1] == line[i])
+		//		return (2);
+			return (2);
 		}
 		else if ((!*quote) && ms_char_nextexist(&line[i]))
 		{
