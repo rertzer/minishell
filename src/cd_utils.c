@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 10:38:29 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/26 16:02:12 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/26 16:14:23 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static int	ms_cd_removeprevious(char **dirlst, int current)
 		if (dirlst[i][0] == '\0')
 			continue ;
 		dirlst[i][0] = '\0';
-		return (1);
+		break ;
 	}
 	dirlst[current][0] = '\0';
 	return (0);
