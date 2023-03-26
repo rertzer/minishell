@@ -6,11 +6,11 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 09:57:18 by rertzer           #+#    #+#             */
-/*   Updated: 2022/11/23 11:57:25 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/20 14:47:32 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
 ssize_t	buffer_update(int fd, t_buffer *buff)
 {

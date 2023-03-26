@@ -6,7 +6,7 @@
 /*   By: flarcher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:05:02 by flarcher          #+#    #+#             */
-/*   Updated: 2023/03/19 13:59:28 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/23 18:25:02 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int	main(int argc, char **argv, char **old_envp)
 	ms_msdata_init(&msdata);
 	term.tty_device = ms_set_termios(&term.interact_tio, &term.process_tio);
 	msdata.envp = ft_2dstrdup(old_envp);
+	if (msdata.envp == NULL)
+		return (ms_return_msg(1, "envp", R_STR);
 	ms_set_sigaction(&sa);
 	while (1)
 		shell_loop(&msdata, term);

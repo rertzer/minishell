@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 11:43:48 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/16 18:21:13 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/23 17:32:01 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static void	ms_unset_unset(t_msdata *msdata, char *arg)
 {
 	int	index;
 
+	if (ms_char_isin('=', arg))
+		return ;
 	index = ms_env_getindex(msdata->envp, arg);
 	if (index < 0)
 		return ;

@@ -6,12 +6,11 @@
 /*   By: flarcher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:05:02 by flarcher          #+#    #+#             */
-/*   Updated: 2023/03/20 09:22:51 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/20 14:46:41 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-//#include "get_next_line.h"
 
 t_lpid	*g_lpid = NULL;
 

@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/23 13:46:42 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/19 14:10:52 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/23 18:00:22 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,10 @@ int	ms_env_run(t_msdata *msdata, t_command *cmd, int fd_out)
 	(void)cmd;
 	i = -1;
 	while (msdata->envp[++i])
+	{
+		fprintf(stderr, "i: %d\n", i);
 		ft_putendl_fd(msdata->envp[i], fd_out);
+	}
 	ms_msdata_close(fd_out);
 	return (0);
 }

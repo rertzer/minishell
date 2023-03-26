@@ -6,11 +6,11 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/19 09:26:02 by rertzer           #+#    #+#             */
-/*   Updated: 2022/11/23 17:26:58 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/20 14:47:16 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "libft.h"
 
 char	*get_next_line(int fd)
 {

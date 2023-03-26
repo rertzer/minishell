@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 11:22:31 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/20 10:56:57 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/23 16:24:26 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	ms_file_chevron(t_command *cmd, int i)
 		cmd->cmd_path[i] = ' ';
 		i++;
 	}
-	return (i);
+	return (i - 1);
 }
 
 static void	ms_file_mode(char *path, char *mode, int *shift)
