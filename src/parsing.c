@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 17:13:25 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/26 16:49:39 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/26 16:56:14 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,7 @@ static void	ms_parsing_quote(char *line, char *new_line)
 		new_i++;
 		if (is_quote == 2 || ms_parsing_toprotect(quote, line[i]))
 			new_line[new_i++] = '\\';
-		if (is_quote == 2)
-			new_line[new_i++] = ' ';
-		else
+		if (is_quote != 2)
 			new_line[new_i] = line[i];
 	}
 	new_line[new_i + 1] = '\0';
