@@ -18,10 +18,11 @@ char	**ft_2dstrdup(char **src)
 	int		i;
 	int		size;
 
-	size = -1;
-	while (src[++size])
+	size = 0;
+	while (src[size])
 		size++;
 	dest = malloc(sizeof(char *) * (size + 1));
+	ft_printf("%d\n", size);
 	if (NULL == dest)
 		return (NULL);
 	i = -1;

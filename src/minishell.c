@@ -70,10 +70,10 @@ static void	shell_loop(t_msdata *msdata, t_term term)
 	line = NULL;
 	tcsetattr(term.tty_device, TCSANOW, &term.interact_tio);
 	line = readline(PROMPT);
+	tcsetattr(term.tty_device, TCSANOW, &term.process_tio);
 	if (!line)
 		ms_exit_run(msdata, NULL, 2);
 	add_history(line);
-	tcsetattr(term.tty_device, TCSANOW, &term.process_tio);
 	ms_parsing_start(msdata, line);
 	msdata->status = pp_run_wait();
 }
