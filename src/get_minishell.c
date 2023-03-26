@@ -31,7 +31,7 @@ int	main(int argc, char **argv, char **old_envp)
 	term.tty_device = ms_set_termios(&term.interact_tio, &term.process_tio);
 	msdata.envp = ft_2dstrdup(old_envp);
 	ms_set_sigaction(&sa);
-	int fd = open("mini_test_list", O_RDONLY);
+	int fd = open("tester/mini_test_list", O_RDONLY);
 	if (fd < 0) return (1);
 	while (1)
 		shell_loop(&msdata, term, fd);
@@ -95,5 +95,4 @@ static void	shell_loop(t_msdata *msdata, t_term term, int fd)
 	ms_parsing_start(msdata, line);
 	msdata->status = pp_run_wait();
 	free(line);
-	sleep(2);
 }

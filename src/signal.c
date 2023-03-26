@@ -28,17 +28,18 @@ void	ms_signal_handle_sig(int signum, siginfo_t *info, void *context)
 	if (signum == SIGQUIT && g_lpid)
 	{
 		ms_signal_kill_child(SIGQUIT);
-		printf("Quit");
+		printf("Quit (core dumped)\n");
+		rl_on_new_line();
 	}
 	else if (signum == SIGINT)
 	{
+		printf("\n");
+		rl_on_new_line();
 		if (g_lpid)
 			ms_signal_kill_child(SIGINT);
 		else
 		{
 			rl_replace_line("", 0);
-			printf("\n");
-			rl_on_new_line();
 			rl_redisplay();
 		}
 	}

@@ -1,0 +1,1513 @@
+export BACKUP_PWD=$PWD
+export BACKUP_OLDPWD=$OLDPWD
+export BACKUP_PATH=$PATH
+echo $BACKUP_PWD
+echo $BACKUP_OLDPWD
+echo $BACKUP_PATH
+
+ echo ------------------------------------------------------------------------echo test ----------------------------------------------------------------
+ 
+ echo --------------------
+echo 'COMMAND: echo coucou'
+ echo --------------------
+	echo coucou
+
+ echo --------------------
+echo 'COMMAND: ls -al'
+ echo --------------------
+	ls -al
+
+ echo --------------------
+echo 'COMMAND: date'
+ echo --------------------
+	date
+
+ echo --------------------
+echo 'COMMAND: echo'
+ echo --------------------
+	echo
+
+ echo --------------------
+echo 'COMMAND: echo a'
+ echo --------------------
+	echo a
+
+ echo --------------------
+echo 'COMMAND: echo	tab'
+ echo --------------------
+	echo	tab
+
+ echo --------------------
+echo 'COMMAND: echo "	tab	"'
+ echo --------------------
+	echo "	tab	"
+
+ echo --------------------
+echo 'COMMAND: echo		tab'
+ echo --------------------
+	echo		tab
+
+ echo --------------------
+echo 'COMMAND: echo hello world'
+ echo --------------------
+	echo hello world
+
+ echo --------------------
+echo 'COMMAND: echo -n'
+ echo --------------------
+	echo -n
+
+ echo --------------------
+echo 'COMMAND: echo -n a'
+ echo --------------------
+	echo -n a
+
+ echo --------------------
+echo 'COMMAND: echo -n hello world'
+ echo --------------------
+	echo -n hello world
+
+ echo --------------------
+echo 'COMMAND: echo -nnnnnnnn'
+ echo --------------------
+	echo -nnnnnnnn
+
+ echo --------------------
+echo 'COMMAND: echo -nnnnnnnn a'
+ echo --------------------
+	echo -nnnnnnnn a
+
+ echo --------------------
+echo 'COMMAND: echo -nnnnnnnn hello world'
+ echo --------------------
+	echo -nnnnnnnn hello world
+
+ echo --------------------
+echo 'COMMAND: echo -nnnnnnnn -nnnnnnnn'
+ echo --------------------
+	echo -nnnnnnnn -nnnnnnnn
+
+ echo --------------------
+echo 'COMMAND: echo -nnnnnnnn -nnnnnnnn a'
+ echo --------------------
+	echo -nnnnnnnn -nnnnnnnn a
+
+ echo --------------------
+echo 'COMMAND: echo -nnnnnnnn -nnnnnnnn hello world'
+ echo --------------------
+echo -nnnnnnnn -nnnnnnnn hello world
+
+ echo --------------------
+echo 'COMMAND: echo -nk hello'
+ echo --------------------
+	echo -nk hello
+
+ echo --------------------
+echo 'COMMAND: echo -nnnnnnnnnnk hello'
+ echo --------------------
+	echo -nnnnnnnnnnk hello
+
+ echo --------------------
+echo 'COMMAND: echo -nknknknk hello'
+ echo --------------------
+	echo -nknknknk hello
+
+ echo --------------------
+echo 'COMMAND: echo hello -n'
+ echo --------------------
+	echo hello -n
+
+ echo --------------------
+echo 'COMMAND: echo hello -nnnnnnn'
+ echo --------------------
+	echo hello -nnnnnnn
+
+ echo --------------------
+echo 'COMMAND: echo hello -nknknknknk'
+ echo --------------------
+	echo hello -nknknknknk
+
+ echo --------------------
+echo 'COMMAND: echo hello -nnnnnnnnn -nnnnnnnnn'
+ echo --------------------
+	echo hello -nnnnnnnnn -nnnnnnnnn
+
+ echo --------------------
+echo 'COMMAND: echo "-n" hello'
+ echo --------------------
+	echo "-n" hello
+
+ echo --------------------
+echo 'COMMAND: echo '-n' hello'
+ echo --------------------
+	echo '-n' hello
+
+ echo --------------------
+echo 'COMMAND: echo "-n" "hello"'
+ echo --------------------
+	echo "-n" "hello"
+
+ echo --------------------
+echo 'COMMAND: echo '-n' 'hello''
+ echo --------------------
+	echo '-n' 'hello'
+
+ echo --------------------
+echo 'COMMAND: echo $PATH'
+ echo --------------------
+	echo $PATH
+
+ echo --------------------
+echo 'COMMAND: echo "$PATH"'
+ echo --------------------
+	echo "$PATH"
+
+ echo --------------------
+echo 'COMMAND: echo '$PATH''
+ echo --------------------
+	echo '$PATH'
+
+ echo --------------------
+echo 'COMMAND: echo a "" b "" c'
+ echo --------------------
+	echo a "" b "" c
+
+ echo --------------------
+echo 'COMMAND: unset NO_SUCH_ENV; echo a "$NO_SUCH_ENV" b $NO_SUCH_ENV c'
+ echo --------------------
+	unset NO_SUCH_ENV
+	echo a "$NO_SUCH_ENV" b $NO_SUCH_ENV c
+
+ echo --------------------
+echo 'COMMAND: echo		hello'
+ echo --------------------
+	echo		hello
+
+ echo --------------------
+echo 'COMMAND: echo "$ $ $ $ $ $ "	'
+ echo --------------------
+	echo "$ $ $ $ $ $ "	
+
+ echo --------------------
+echo 'COMMAND: echo $'
+ echo --------------------
+	echo $
+
+
+ echo ------------------------------------------------------------------------env test ----------------------------------------------------------------
+
+ echo --------------------
+echo 'COMMAND: env | grep -v -E '^_=' | sort'
+ echo --------------------
+	env | grep -v -E '^_=' | sort
+
+ echo --------------------
+echo 'COMMAND: export A=hello; env | grep -v -E '^_=' | sort'
+ echo --------------------
+	export A=hello
+	env | grep -v -E '^_=' | sort
+	unset A
+
+ echo --------------------
+echo 'COMMAND: cd ../ ; env | grep -v -E '^_=' | sort'
+ echo --------------------
+	cd ../
+	env | grep -v -E '^_=' | sort
+	cd Minishell
+
+
+ echo ------------------------------------------------------------------------export test ----------------------------------------------------------------
+
+ echo --------------------
+echo 'COMMAND: export HELLO=hello; echo $HELLO'
+ echo --------------------
+	export HELLO=hello
+	echo $HELLO
+	unset HELLO
+
+ echo --------------------
+echo 'COMMAND: export HELLO=hello; echo $hello'
+ echo --------------------
+	export HELLO=hello
+	echo $hello
+	unset HELLO
+
+ echo --------------------
+echo 'COMMAND: echo $'
+ echo --------------------
+	echo $
+
+ echo --------------------
+echo 'COMMAND: echo "$"'
+ echo --------------------
+	echo "$"
+
+ echo --------------------
+echo 'COMMAND: echo  '$''
+ echo --------------------
+	echo  '$'
+
+ echo --------------------
+echo 'COMMAND: export HELLO=hello; echo "$HELLO"'
+ echo --------------------
+	export HELLO=hello
+	echo "$HELLO"
+	unset HELLO
+
+ echo --------------------
+echo 'COMMAND: export TEST=echo; "$TEST" hello'
+ echo --------------------
+	export TEST=echo
+	"$TEST" hello
+	unset TEST
+
+ echo --------------------
+echo 'COMMAND: export TEST="echo hello"; $TEST'
+ echo --------------------
+	export TEST="echo hello"
+	$TEST
+	unset TEST
+
+ echo --------------------
+echo 'COMMAND: export TEST='echo hello'; $TEST'
+ echo --------------------
+	export TEST='echo hello'
+	$TEST
+	unset TEST
+
+ echo --------------------
+echo 'COMMAND: export TEST="echo hello"; export TEST2="$TEST"; $TEST2'
+ echo --------------------
+	export TEST="echo hello"
+	export TEST2="$TEST"
+	$TEST2
+	unset TEST
+	unset TEST2
+
+ echo --------------------
+echo 'COMMAND: export abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890=hello; echo $abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890'
+ echo --------------------
+	export abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890=hello
+	echo $abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890
+	unset abcdefghijklmnopqrstuvwxyz_ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890
+
+ echo --------------------
+echo 'COMMAND: export TEST="export TEST=echo"; $TEST hello; $TEST hello'
+ echo --------------------
+	export TEST="export TEST=echo"
+	$TEST hello
+	$TEST hello
+	unset TEST
+	
+
+ echo ------------------------------------------------------------------------PATH test ----------------------------------------------------------------
+
+ echo --------------------
+echo 'COMMAND: export PATH=":" ; ls '
+ echo --------------------
+	export PATH=":"
+	ls 
+	export PATH=$BACKUP_PATH
+
+ echo --------------------
+echo 'COMMAND: export PATH=":/" ; ls '
+ echo --------------------
+	export PATH=":/"
+	ls 
+	export PATH=$BACKUP_PATH
+
+ echo --------------------
+echo 'COMMAND: export PATH="::" ; ls '
+ echo --------------------
+	export PATH="::"
+	ls 
+	export PATH=$BACKUP_PATH
+
+ echo --------------------
+echo 'COMMAND: export PATH="/:" ; ls '
+ echo --------------------
+	export PATH="/:"
+	ls 
+	export PATH=$BACKUP_PATH
+
+ echo --------------------
+echo 'COMMAND: export PATH="/bin:" ; ls '
+ echo --------------------
+	export PATH="/bin:" 
+	ls 
+	export PATH=$BACKUP_PATH
+
+ echo --------------------
+echo 'COMMAND: export PATH=":/bin" ; ls '
+ echo --------------------
+	export PATH=":/bin"
+	ls 
+	export PATH=$BACKUP_PATH
+
+ echo --------------------
+echo 'COMMAND: export PATH="::/bin::" ; ls '
+ echo --------------------
+	export PATH="::/bin::"
+	ls 
+	export PATH=$BACKUP_PATH
+
+ echo --------------------
+echo 'COMMAND: export PATH="/bin:" ; ls '
+ echo --------------------
+	export PATH="/bin:" 
+	ls 
+	export PATH=$BACKUP_PATH
+
+ echo --------------------
+echo 'COMMAND: export PATH="hello:" ; ls '
+ echo --------------------
+	export PATH="hello:"
+	ls 
+	export PATH=$BACKUP_PATH
+
+ echo --------------------
+echo 'COMMAND: export PATH=""; nosuchfile'
+ echo --------------------
+	export PATH=""
+	nosuchfile
+	export PATH=$BACKUP_PATH
+
+ echo --------------------
+echo 'COMMAND: export PATH=''; nosuchfile'
+ echo --------------------
+	export PATH=''
+	nosuchfile
+	export PATH=$BACKUP_PATH
+
+ echo --------------------
+echo 'COMMAND: unset PATH; nosuchfile'
+ echo --------------------
+	unset PATH
+	nosuchfile
+	export PATH=$BACKUP_PATH
+
+ echo --------------------
+echo 'COMMAND: unset PATH; export PATH; nosuchfile'
+ echo --------------------
+	unset PATH
+	export PATH
+	nosuchfile
+	export PATH=$BACKUP_PATH
+
+ echo --------------------
+echo 'COMMAND: unset PATH; export PATH=; nosuchfile'
+ echo --------------------
+	unset PATH
+	export PATH=
+	nosuchfile
+	export PATH=$BACKUP_PATH
+
+
+ echo ------------------------------------------------------------------------CD test ----------------------------------------------------------------
+
+cd /mnt/nfs/homes/flarcher/projets/Minishell
+
+ echo --------------------
+echo 'COMMAND: mkdir dir; cd dir; pwd'
+ echo --------------------
+	mkdir dir
+	cd dir
+	pwd
+	cd ..
+	rmdir dir
+
+ echo --------------------
+echo 'COMMAND: mkdir dir; cd dir; cd .; pwd'
+ echo --------------------
+	mkdir dir
+	cd dir
+	cd .
+	pwd
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+	rmdir dir
+
+ echo --------------------
+echo 'COMMAND: mkdir dir; cd dir; cd ./; pwd'
+ echo --------------------
+	mkdir dir
+	cd dir
+	cd ./
+	pwd
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+	rmdir dir
+
+ echo --------------------
+echo 'COMMAND: mkdir dir; cd dir; pwd ; cd ..; pwd'
+ echo --------------------
+	mkdir dir
+	cd dir
+	pwd
+	cd ..
+	pwd
+	rmdir dir
+
+ echo --------------------
+echo 'COMMAND: mkdir dir; cd dir; pwd; cd ../; pwd'
+ echo --------------------
+	mkdir dir
+	cd dir
+	pwd
+	cd ../
+	pwd
+	rmdir dir
+
+ echo --------------------
+echo 'COMMAND: touch testfile; cd testfile'
+ echo --------------------
+	touch testfile
+	cd testfile
+	rm testfile
+
+ echo --------------------
+echo 'COMMAND: cd NO_SUCH_FILE; pwd'
+ echo --------------------
+	cd NO_SUCH_FILE
+	pwd
+ 
+ echo --------------------
+echo 'COMMAND: cd hello world; pwd'
+ echo --------------------
+	cd hello world
+	pwd
+	
+ echo --------------------
+echo 'COMMAND: cd /; cd ../../akjwyefgjkwveyjfgweyugyuwegf76t273/../../ ;pwd'
+ echo --------------------
+	cd /
+	cd ../../akjwyefgjkwveyjfgweyugyuwegf76t273/../../
+	pwd
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+
+ echo --------------------
+echo 'COMMAND: mkdir dir; cd dir; cd ../nosuchdir/../dir; pwd'
+ echo --------------------
+	mkdir dir
+	cd dir
+	cd ../nosuchdir/../dir
+	pwd
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+	rmdir dir
+
+ echo --------------------
+echo 'COMMAND: mkdir hello; cd hello world; pwd										entre dans le dossier hello'
+ echo --------------------
+	mkdir hello
+	cd hello world
+	pwd
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+	rmdir hello
+
+ echo --------------------
+echo 'COMMAND: cd /; pwd'
+ echo --------------------
+	cd / 
+	pwd
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+	
+ echo --------------------
+echo 'COMMAND: cd /bin; pwd'
+ echo --------------------
+	cd /bin
+	pwd
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+
+ echo --------------------
+echo 'COMMAND: cd /bin/../; pwd														retour a la racine inacessible'
+ echo --------------------
+	cd /bin/../
+	pwd
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+
+ echo --------------------
+echo 'COMMAND: mkdir dir; cd DIR; pwd'
+ echo --------------------
+	mkdir dir
+	cd DIR
+	pwd
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+	rmdir dir
+
+ echo --------------------
+echo 'COMMAND: mkdir DIR; cd dir; pwd'
+ echo --------------------
+	mkdir DIR
+	cd dir
+	pwd
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+	rmdir DIR
+
+ echo --------------------
+echo 'COMMAND: mkdir dir; chmod 000 dir; cd dir; pwd;chmod 777 dir'
+ echo --------------------
+	mkdir dir
+	chmod 000 dir
+	cd dir
+	pwd
+	chmod 777 dir
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+	rmdir dir
+
+ echo --------------------
+echo 'COMMAND: mkdir dir; ln -s dir link; cd link; pwd'
+ echo --------------------
+	mkdir dir
+	ln -s dir link
+	cd link
+	pwd
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+	rmdir dir
+	rm -rf link 
+
+ echo --------------------
+echo 'COMMAND: mkdir dir; ln -s dir link; rmdir dir; cd link; pwd'
+ echo --------------------
+	mkdir dir
+	ln -s dir link
+	rmdir dir
+	cd link
+	pwd
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+	rm -rf link
+
+ echo --------------------
+echo 'COMMAND: mkdir dir; cd dir; rmdir ../dir; cd ./; pwd;cd .; pwd; cd ./././././; pwd; cd .////////./; pwd; cd ../; pwd'
+ echo --------------------
+	mkdir dir
+	cd dir
+	rmdir ../dir
+	cd ./
+	pwd
+	cd .
+	pwd
+	cd ./././././
+	pwd
+	cd .////////./
+	pwd
+	cd ../
+	pwd
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+
+ echo --------------------
+echo 'COMMAND: mkdir -p a/b/c; cd a/b/c; rm -rf ../../b; cd ./; pwd; cd ../; pwd; cd .////./; pwd'
+ echo --------------------
+	mkdir -p a/b/c
+	cd a/b/c
+	rm -rf ../../b
+	cd ./
+	pwd
+	cd ../
+	pwd
+	cd .////./
+	pwd
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+	rm -rf a
+
+ echo --------------------
+echo 'COMMAND: mkdir -p a/b/c; cd a/b/c; rm -rf ../../b; cd ./; pwd; cd .././.; pwd; cd ./; pwd; cd ../; pwd'
+ echo --------------------
+	mkdir -p a/b/c
+	cd a/b/c
+	rm -rf ../../b
+	cd ./
+	pwd
+	cd .././.
+	pwd
+	cd ./
+	pwd
+	cd ../
+	pwd
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+	rm -rf a
+
+ echo --------------------
+echo 'COMMAND: mkdir -p a/b/c/d/e/f/g/h/i/; cd a/b/c/d/../../c/d/e/f/g/h/i/../../../g/h/i/../.././././../g/h/i/../../../../../../../c/d/../d/../d//../../d/e/.././././e/f/.//////../f/g/h/i/////../../../; pwd'
+ echo --------------------
+	mkdir -p a/b/c/d/e/f/g/h/i/
+	cd a/b/c/d/../../c/d/e/f/g/h/i/../../../g/h/i/../.././././../g/h/i/../../../../../../../c/d/../d/../d//../../d/e/.././././e/f/.//////../f/g/h/i/////../../../
+	pwd
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+	rm -rf a 
+
+ echo --------------------
+echo 'COMMAND: rm -rf a'
+ echo --------------------
+	rm -rf a
+ echo --------------------
+echo 'COMMAND: cd //; pwd; cd //bin; pwd'
+ echo --------------------
+	cd //
+	pwd
+	cd //bin
+	pwd
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+
+ echo --------------------
+echo 'COMMAND: cd ///; pwd; cd ///bin; pwd'
+ echo --------------------
+	cd ///
+	pwd
+	cd ///bin
+	pwd
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+
+ echo --------------------
+echo 'COMMAND: cd ////; pwd; cd ////bin; pwd'
+ echo --------------------
+	cd ////
+	pwd
+	cd ////bin
+	pwd
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+
+ echo --------------------
+echo 'COMMAND: cd /////; pwd; cd /////bin; pwd'
+ echo --------------------
+	cd /////
+	pwd
+	cd /////bin
+	pwd
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+
+ echo --------------------
+echo 'COMMAND: cd //////; pwd; cd //////bin; pwd'
+ echo --------------------
+	cd //////
+	pwd
+	cd //////bin
+	pwd
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+
+ echo --------------------
+echo 'COMMAND: cd ///////; pwd; cd ///////bin; pwd'
+ echo --------------------
+	cd ///////
+	pwd
+	cd ///////bin
+	pwd
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+
+ echo --------------------
+echo 'COMMAND: pwd'
+ echo --------------------
+	pwd
+	
+
+ echo ------------------------------------------------------------------------PWD test ----------------------------------------------------------------
+
+ echo --------------------
+echo 'COMMAND: echo $OLDPWD'
+ echo --------------------
+	echo $OLDPWD
+
+ echo --------------------
+echo 'COMMAND: export OLDPWD=/; echo $OLDPWD'
+ echo --------------------
+	export OLDPWD=/
+	echo $OLDPWD
+	export OLDPWD=$BACKUP_OLDPWD
+
+ echo --------------------
+echo 'COMMAND: echo $PWD'
+ echo --------------------
+	echo $PWD
+
+ echo --------------------
+echo 'COMMAND: export PWD=/; echo $PWD'
+ echo --------------------
+	export PWD=/
+	echo $PWD
+	export PWD=$BACKUP_PWD
+
+ echo --------------------
+echo 'COMMAND: mkdir dir; ln -s dir symdir; cd symdir; echo $PWD'
+ echo --------------------
+	mkdir dir
+	ln -s dir symdir
+	cd symdir
+	echo $PWD
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+	rm -rf symdir
+	rmdir dir
+
+ echo --------------------
+echo 'COMMAND: pwd'
+ echo --------------------
+	pwd
+
+ echo --------------------
+echo 'COMMAND: export PWD=/ ; pwd'
+ echo --------------------
+	export PWD=/
+	pwd
+	export PWD=$BACKUP_PWD
+
+ echo --------------------
+echo 'COMMAND: mkdir dir; ln -s dir symdir; cd symdir; pwd'
+ echo --------------------
+	mkdir dir
+	ln -s dir symdir
+	cd symdir
+	pwd
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+	rm -rf symdir
+	rmdir dir
+
+ echo --------------------
+echo 'COMMAND: export PWD=; export OLDPWD=; pwd; echo $PWD; echo $OLDPWD '
+ echo --------------------
+	export PWD=
+	export OLDPWD=
+	pwd
+	echo $PWD
+	echo $OLDPWD
+	export PWD=$BACKUP_PWD
+	export OLDPWD=$BACKUP_OLDPWD
+
+ echo --------------------
+echo 'COMMAND: export PWD=; export OLDPWD=; mkdir dir; cd dir; pwd; echo $PWD; echo $OLDPWD'
+ echo --------------------
+	export PWD=
+	export OLDPWD=
+	mkdir dir
+	cd dir
+	pwd
+	echo $PWD
+	echo $OLDPWD
+	export PWD=$BACKUP_PWD
+	export OLDPWD=$BACKUP_OLDPWD
+
+ echo --------------------
+echo 'COMMAND: export PWD=; export OLDPWD= ; mkdir dir; cd dir; cd ..; pwd; echo $PWD; echo $OLDPWD'
+ echo --------------------
+	export PWD=
+	export OLDPWD=
+	mkdir dir
+	cd dir
+	cd ..
+	pwd
+	echo $PWD
+	echo $OLDPWD
+	export PWD=$BACKUP_PWD
+	export OLDPWD=$BACKUP_OLDPWD
+
+
+ echo --------------------
+echo 'COMMAND: export PWD=; export OLDPWD=; mkdir dir; cd dir; rmdir ../dir; cd ./; pwd; echo $PWD; echo $OLDPWD'
+ echo --------------------
+	export PWD=
+	export OLDPWD=
+	mkdir dir
+	cd dir
+	rmdir ../dir
+	cd ./
+	pwd
+	echo $PWD
+	echo $OLDPWD
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+	export PWD=$BACKUP_PWD
+	export OLDPWD=$BACKUP_OLDPWD
+
+ echo --------------------
+echo 'COMMAND: export PWD=; export OLDPWD=; mkdir dir; cd dir; rmdir ../dir; cd ./; cd ../; pwd; echo $PWD; echo $OLDPWD'
+ echo --------------------
+	export PWD=
+	export OLDPWD=
+	mkdir dir
+	cd  dir
+	rmdir ../dir
+	cd ./
+	cd ../
+	pwd
+	echo $PWD
+	echo $OLDPWD
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+	export PWD=$BACKUP_PWD
+	export OLDPWD=$BACKUP_OLDPWD
+
+ echo --------------------
+echo 'COMMAND: export PWD=; export OLDPWD=; mkdir dir; ln -s dir link; cd link; rmdir ../dir; cd ./; pwd; echo $PWD; echo $OLDPWD'
+ echo --------------------
+	export PWD=
+	export OLDPWD=
+	mkdir dir
+	ln  -s dir link
+	cd link
+	rmdir ../dir
+	cd ./
+	pwd
+	echo $PWD
+	echo $OLDPWD
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+	export PWD=$BACKUP_PWD
+	export OLDPWD=$BACKUP_OLDPWD
+	rm -rf link
+
+ echo --------------------
+echo 'COMMAND: export PWD=; export OLDPWD=; mkdir dir; ln -s dir link; cd link; rmdir ../dir; cd ./; cd ../; pwd; echo $PWD; echo $OLDPWD'
+ echo --------------------
+	export PWD=
+	export OLDPWD=
+	mkdir dir
+	ln  -s dir link
+	cd link
+	rmdir ../dir
+	cd ./
+	cd ../
+	pwd
+	echo $PWD
+	echo $OLDPWD
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+	export PWD=$BACKUP_PWD
+	export OLDPWD=$BACKUP_OLDPWD
+	rm -rf link
+
+ echo --------------------
+echo 'COMMAND: export PWD=; export OLDPWD=; mkdir DIR; cd dir; rmdir ../DIR; cd ./; pwd; echo $PWD; echo $OLDPWD'
+ echo --------------------
+	export PWD=
+	export OLDPWD=
+	mkdir DIR
+	cd  dir
+	rmdir ../DIR
+	cd ./
+	pwd
+	echo $PWD
+	echo $OLDPWD
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+	export PWD=$BACKUP_PWD
+	export OLDPWD=$BACKUP_OLDPWD
+	rmdir DIR
+
+ echo --------------------
+echo 'COMMAND: export PWD=; export OLDPWD=; mkdir DIR; cd dir; rmdir ../DIR; cd ./; cd ../; pwd; echo $PWD; echo $OLDPWD'
+ echo --------------------
+	export PWD=
+	export OLDPWD=
+	mkdir DIR
+	cd  dir
+	rmdir ../DIR
+	cd ./
+	cd ../
+	pwd
+	echo $PWD
+	echo $OLDPWD
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+	export PWD=$BACKUP_PWD
+	export OLDPWD=$BACKUP_OLDPWD
+	rmdir DIR
+
+ echo --------------------
+echo 'COMMAND: export PWD=; export OLDPWD=; mkdir dir; ln -s dir link; cd LINK; pwd; rmdir ../dir; cd ./; pwd; echo $PWD; echo $OLDPWD'
+ echo --------------------
+	export PWD=
+	export OLDPWD=
+	mkdir dir
+	ln  -s dir link
+	cd LINK
+	pwd
+	rmdir ../dir
+	cd ./
+	pwd
+	echo $PWD
+	echo $OLDPWD
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+	export PWD=$BACKUP_PWD
+	export OLDPWD=$BACKUP_OLDPWD
+	rmdir dir
+	rm -rf link
+
+ echo --------------------
+echo 'COMMAND: export PWD=; export OLDPWD=; mkdir dir; ln -s dir link; cd LINK; pwd; rmdir ../dir; cd ./; pwd; cd ../; pwd; echo $PWD; echo $OLDPWD'
+ echo --------------------
+	export PWD=
+	export OLDPWD=
+	mkdir dir
+	ln  -s dir link
+	cd LINK
+	pwd
+	rmdir ../dir
+	cd ./
+	pwd
+	cd ../
+	pwd
+	echo $PWD
+	echo $OLDPWD
+	cd /mnt/nfs/homes/flarcher/projets/Minishell
+	export PWD=$BACKUP_PWD
+	export OLDPWD=$BACKUP_OLDPWD
+	rmdir dir
+	rm -rf link
+
+
+ echo ------------------------------------------------------------------------SHLVL test ----------------------------------------------------------------
+
+	export BACKUP_SHLVL=$SHLVL
+
+ echo --------------------
+echo 'COMMAND: export SHLVL=0; echo $SHLVL '
+ echo --------------------
+	export SHLVL=0
+	echo $SHLVL 
+	export SHLVL=$BACKUP_SHLVL
+
+ echo --------------------
+echo 'COMMAND: export SHLVL=998; echo $SHLVL '
+ echo --------------------
+	export SHLVL=998
+	echo $SHLVL 
+	export SHLVL=$BACKUP_SHLVL
+
+ echo --------------------
+echo 'COMMAND: export SHLVL=999; echo $SHLVL '
+ echo --------------------
+	export SHLVL=999
+	echo $SHLVL 
+	export SHLVL=$BACKUP_SHLVL
+
+ echo --------------------
+echo 'COMMAND: export SHLVL=1000; echo $SHLVL '
+ echo --------------------
+	export SHLVL=1000
+	echo $SHLVL 
+	export SHLVL=$BACKUP_SHLVL
+
+ echo --------------------
+echo 'COMMAND: export SHLVL=+42; echo $SHLVL '
+ echo --------------------
+	export SHLVL=+42
+	echo $SHLVL 
+	export SHLVL=$BACKUP_SHLVL
+
+ echo --------------------
+echo 'COMMAND: export SHLVL=-1; echo $SHLVL '
+ echo --------------------
+	export SHLVL=-1
+	echo $SHLVL 
+	export SHLVL=$BACKUP_SHLVL
+
+ echo --------------------
+echo 'COMMAND: export SHLVL=4294967295; echo $SHLVL '
+ echo --------------------
+	export SHLVL=4294967295
+	echo $SHLVL 
+	export SHLVL=$BACKUP_SHLVL
+
+ echo --------------------
+echo 'COMMAND: export SHLVL=4294967296; echo $SHLVL '
+ echo --------------------
+	export SHLVL=4294967296
+	echo $SHLVL 
+	export SHLVL=$BACKUP_SHLVL
+
+ echo --------------------
+echo 'COMMAND: export SHLVL=-4294967296; echo $SHLVL '
+ echo --------------------
+	export SHLVL=-4294967296
+	echo $SHLVL 
+	export SHLVL=$BACKUP_SHLVL
+
+ echo --------------------
+echo 'COMMAND: export SHLVL=-4294967297; echo $SHLVL '
+ echo --------------------
+	export SHLVL=-4294967297
+	echo $SHLVL 
+	export SHLVL=$BACKUP_SHLVL
+
+ echo --------------------
+echo 'COMMAND: export SHLVL=a; echo $SHLVL '
+ echo --------------------
+	export SHLVL=a
+	echo $SHLVL 
+	export SHLVL=$BACKUP_SHLVL
+
+
+
+	unset BACKUP_SHLVL
+ echo ------------------------------------------------------------------------ chevrons test ----------------------------------------------------------------
+
+ echo --------------------
+echo 'COMMAND: > file; cat file ; ls'
+ echo --------------------
+	> file
+	cat file
+	ls
+	rm file
+
+ echo --------------------
+echo 'COMMAND: > file | cat < no_such_file							leak de str2dup du main'
+ echo --------------------
+	> file | cat < no_such_file
+	cat file
+	ls
+	rm file
+
+ echo --------------------
+echo 'COMMAND: ls no_such_file > out1.txt > out2.txt > out3.txt; cat out1.txt out2.txt out3.txt'
+ echo --------------------
+	ls no_such_file > out1.txt > out2.txt > out3.txt
+	cat out1.txt out2.txt out3.txt
+	rm out1.txt out2.txt out3.txt
+
+ echo --------------------
+echo 'COMMAND: ls no_such_file >> out1.txt >> out2.txt >> out3.txt; cat out1.txt out2.txt out3.txt'
+ echo --------------------
+	ls no_such_file >> out1.txt >> out2.txt >> out3.txt
+	cat out1.txt out2.txt out3.txt
+	rm out1.txt out2.txt out3.txt
+
+ echo --------------------
+echo 'COMMAND: echo a > out; echo b >> out; echo c >> out; echo d >> out; cat out'
+ echo --------------------
+	echo a > out
+	echo b >> out
+	echo c >> out
+	echo d >> out
+	cat out
+	rm out
+
+ echo --------------------
+echo 'COMMAND: echo a > out; echo b >> out; echo c >> out; echo d > out; cat out'
+ echo --------------------
+	echo a > out
+	echo b >> out
+	echo c >> out
+	echo d > out
+	cat out
+	rm out
+
+ echo --------------------
+echo 'COMMAND: echo hello 2147483647 > file'
+ echo --------------------
+	echo hello 2147483647 > file
+	cat file
+	rm file
+
+ echo --------------------
+echo 'COMMAND: echo hello 2147483648 > file'
+ echo --------------------
+	echo hello 2147483648 > file
+	cat file
+	rm file
+
+ echo --------------------
+echo 'COMMAND: unset NO_ENV; echo a > $NO_ENV | echo b'
+ echo --------------------
+	unset NO_ENV
+	echo a > $NO_ENV | echo b
+
+ echo --------------------
+echo 'COMMAND: printf function > a.c; gcc a.c; ./a.out > file; cat file'
+ echo --------------------
+	echo '#include<unistd.h>' > a.c
+	echo 'int main(){write(1, "fd1", 3);write(2, "fd2", 3);write(3, "fd3", 3);}' >> a.c 
+	gcc a.c
+	./a.out > file
+	cat file
+	rm file a.out a.c
+
+ echo --------------------
+echo 'COMMAND: printf function > a.c ; gcc a.c; a > 1.txt; ./a.out >> 1.txt; cat 1.txt'
+ echo --------------------
+	echo '#include<unistd.h>' > a.c
+	echo 'int main(){write(1, "fd1", 3);write(2, "fd2", 3);write(3, "fd3", 3);}' >> a.c 
+	gcc a.c
+	a > 1.txt
+	./a.out >> 1.txt
+	cat 1.txt
+	rm file a.out a.c 1.txt
+ 
+ echo --------------------
+echo 'COMMAND: echo a > f; echo b >> f; cat f f f >> ff; cat ff ff >> f; cat f'
+ echo --------------------
+	echo a > f
+	echo b >> f
+	cat f f f >> ff
+	cat ff ff >> f
+	cat f
+	rm f ff
+
+ echo --------------------
+echo 'COMMAND: ls>f>f>f>f>f>f>f>f>f>f>f>f>f>f>f>f>f>f>f>f>f>f>f>f>f>f; cat f'
+ echo --------------------
+	ls>f>f>f>f>f>f>f>f>f>f>f>f>f>f>f>f>f>f>f>f>f>f>f>f>f>f
+	cat f
+	rm f
+
+
+ echo ------------------------------------------------------------------------exec test ----------------------------------------------------------------
+
+
+ echo --------------------
+echo 'COMMAND: touch a .a;/bin/ls'
+ echo --------------------
+	touch a .a
+	/bin/ls
+	rm a .a
+
+ echo --------------------
+echo 'COMMAND: touch a .a;/bin/ls -a'
+ echo --------------------
+	touch a .a
+	/bin/ls -a
+	rm a .a
+
+ echo --------------------
+echo 'COMMAND: touch aa ab ac; /bin/ls | /usr/bin/grep a'
+ echo --------------------
+	touch aa ab ac
+	/bin/ls | /usr/bin/grep a
+	rm aa ab ac
+
+ echo --------------------
+echo 'COMMAND: touch aa ab ac; touch a .a;/bin/ls | /usr/bin/grep a | /usr/bin/grep c'
+ echo --------------------
+	touch aa ab ac
+	touch a .a
+	/bin/ls | /usr/bin/grep a | /usr/bin/grep c
+	rm aa ab ac
+
+ echo --------------------
+echo 'COMMAND: ls'
+ echo --------------------
+	ls
+ echo --------------------
+echo 'COMMAND: touch a .a;ls -a'
+ echo --------------------
+	touch a .a
+	ls -a
+	rm a .a
+ echo --------------------
+echo 'COMMAND: touch aa ab ac; ls | grep a'
+ echo --------------------
+	touch aa ab ac
+	ls | grep a
+	rm aa ab ac
+
+ echo --------------------
+echo 'COMMAND: touch aa ab ac; ls | grep a | grep c'
+ echo --------------------
+	touch aa ab ac
+	ls | grep a | grep c
+	rm aa ab ac 
+
+ echo --------------------
+echo 'COMMAND: echo hello world | cat'
+ echo --------------------
+	echo hello world | cat
+
+ echo --------------------
+echo 'COMMAND: no_such_file'
+ echo --------------------
+	no_such_file
+ 
+ echo --------------------
+echo 'COMMAND: ./no_such_file'
+ echo --------------------
+	./no_such_file
+ 
+ echo --------------------
+echo 'COMMAND: /bin/ls/no_such_file'
+ echo --------------------
+	/bin/ls/no_such_file
+ 
+ echo --------------------
+echo 'COMMAND: /bin/no_such_dir/file'
+ echo --------------------
+	/bin/no_such_dir/file
+ 
+ echo --------------------
+echo 'COMMAND: touch perm; chmod 000 perm;perm;'
+ echo --------------------
+	touch perm
+	chmod 000 perm
+	perm
+	rm -rf perm
+
+ echo --------------------
+echo 'COMMAND: touch perm; chmod 000 perm; ./perm'
+ echo --------------------
+	touch perm
+	chmod 000 perm
+	./perm
+	rm -rf perm
+
+ echo --------------------
+echo 'COMMAND: touch perm; chmod 100 perm; perm'
+ echo --------------------
+	touch perm
+	chmod 100 perm
+	perm
+	rm -rf perm
+
+ echo --------------------
+echo 'COMMAND: touch perm; chmod 100 perm; ./perm'
+ echo --------------------
+	touch perm
+	chmod 100 perm
+	./perm
+	rm -rf perm
+ 
+ echo --------------------
+echo 'COMMAND: touch perm; chmod 300 perm; perm'
+ echo --------------------
+	touch perm
+	chmod 300 perm
+	perm
+	rm -rf perm
+
+ echo --------------------
+echo 'COMMAND: touch perm; chmod 300 perm; ./perm'
+ echo --------------------
+	touch perm
+	chmod 300 perm
+	./perm
+	rm -rf perm
+
+ echo --------------------
+echo 'COMMAND: touch perm; chmod 500 perm; perm'
+ echo --------------------
+	touch perm
+	chmod 500 perm
+	perm
+	rm -rf perm
+
+ echo --------------------
+echo 'COMMAND: touch perm; chmod 500 perm; ./perm'
+ echo --------------------
+	touch perm
+	chmod 500 perm
+	./perm
+	rm -rf perm
+
+ echo --------------------
+echo 'COMMAND: touch empty; chmod +x empty; ./empty'
+ echo --------------------
+	touch empty
+	chmod +x empty
+	./empty
+	rm -rf empty
+
+ echo --------------------
+echo 'COMMAND: mkdir dir; dir'
+ echo --------------------
+	mkdir dir
+	dir
+	rmdir dir
+
+ echo --------------------
+echo 'COMMAND: mkdir dir; ./dir'
+ echo --------------------
+	mkdir dir
+	./dir
+	rmdir dir
+
+ echo --------------------
+echo 'COMMAND: printf "#!/bin/bash echo 42" > exe; chmod +x exe; ln -s exe sym; chmod -h -x sym; ./exe'
+ echo --------------------
+	printf "#!/bin/bash echo 42" > exe
+	chmod +x exe
+	ln -s exe sym
+	chmod -h -x sym
+	./exe
+	rm -rf sym
+	rm -rf exe
+
+ echo --------------------
+echo 'COMMAND: unset NO_ENV; echo a | $NO_ENV | cat'
+ echo --------------------
+	unset NO_ENV
+	echo a | $NO_ENV | cat
+
+
+ echo ------------------------------------------------------------------------unset test ----------------------------------------------------------------
+
+
+ echo --------------------
+echo 'COMMAND: unset; env | grep -v -E '^_=' | sort'
+ echo --------------------
+	unset
+	env | grep -v -E '^_=' | sort
+
+ echo --------------------
+echo 'COMMAND: unset A;  export A="test $A" ; echo $A'
+ echo --------------------
+	unset A
+	export A='test $A'
+	echo $A
+	unset A
+
+ echo --------------------
+echo 'COMMAND: export _A1="test $_A1"; unset _A1; echo $_A1'
+ echo --------------------
+	export _A1='test $_A1'
+	unset _A1
+	echo $_A1
+ 
+ echo --------------------
+echo 'COMMAND: export A=test B=multiple C=var D=hello; unset A B C; echo $A$B$C$D'
+ echo --------------------
+	export A=test B=multiple C=var D=hello
+	unset A B C
+	echo $A$B$C$D
+	unset A B C D
+
+ echo --------------------
+echo 'COMMAND: export A=test B=multiple C=var D=hello; unset A B =invalid C; echo $A$B$C$D'
+ echo --------------------
+	export A=test B=multiple C=var D=hello
+	unset A B =invalid C
+	echo $A$B$C$D
+	unset A B C D
+
+ echo --------------------
+echo 'COMMAND: unset PWD; echo $PWD'
+ echo --------------------
+	unset PWD
+	echo $PWD
+	export PWD=$BACKUP_PWD
+	
+ echo --------------------
+echo 'COMMAND: unset OLDPWD; echo $OLDPWD'
+ echo --------------------
+	unset OLDPWD
+	echo $OLDPWD
+	export OLDPWD=$BACKUP_OLDPWD
+
+ echo --------------------
+echo 'COMMAND: unset NO_SUCH_ENV; unset NO_SUCH_ENV; echo $?$NO_SUCH_ENV'
+ echo --------------------
+	unset NO_SUCH_ENV
+	unset NO_SUCH_ENV
+	echo $?$NO_SUCH_ENV
+ 
+ echo --------------------
+echo 'COMMAND: unset 1'
+ echo --------------------
+	unset 1
+
+ echo --------------------
+echo 'COMMAND: export A=a; unset A=a; echo $A'
+ echo --------------------
+	export A=a;
+	unset A=a;
+	echo $A
+
+ echo ------------------------------------------------------------------------meta test ----------------------------------------------------------------
+
+
+	unset BACKUP_OLDPWD
+	unset BACKUP_PWD
+	unset BACKUP_PATH
+	exit 1
+
+ echo --------------------
+echo 'COMMAND: ;'
+ echo --------------------
+	;
+
+ echo --------------------
+echo 'COMMAND: ;;'
+ echo --------------------
+	;;
+
+ echo --------------------
+echo 'COMMAND: ;;;'
+ echo --------------------
+	;;;
+
+ echo --------------------
+echo 'COMMAND: ; ;'
+ echo --------------------
+	; ;
+
+ echo --------------------
+echo 'COMMAND: |'
+ echo --------------------
+	|
+
+ echo --------------------
+echo 'COMMAND: | |'
+ echo --------------------
+	| |
+
+ echo --------------------
+echo 'COMMAND: >'
+ echo --------------------
+	>
+
+ echo --------------------
+echo 'COMMAND: >>'
+ echo --------------------
+	>>
+
+ echo --------------------
+echo 'COMMAND: >>>'
+ echo --------------------
+	>>>
+
+ echo --------------------
+echo 'COMMAND: >>>>'
+ echo --------------------
+	>>>>
+
+ echo --------------------
+echo 'COMMAND: <'
+ echo --------------------
+	<
+
+ echo --------------------
+echo 'COMMAND: < >'
+ echo --------------------
+	< >
+
+ echo --------------------
+echo 'COMMAND: | echo'
+ echo --------------------
+	| echo
+ echo --------------------
+echo 'COMMAND: echo | |'
+ echo --------------------
+	echo | |
+ echo --------------------
+echo 'COMMAND: cat < >'
+ echo --------------------
+	cat < >
+ echo --------------------
+
+
+ echo ------------------------------------------------------------------------exit test ----------------------------------------------------------------
+
+exit 1
+
+CTRL+D
+exit 0
+exit 1
+exit -1
+exit 2147483647
+exit 2147483648
+exit -2147483648
+exit -2147483649
+exit 
+exit 9223372036854775808					retourne 0 au lieu de dire que c'est trop gran et renvoyer 2
+exit -9223372036854775808
+exit -9223372036854775809					retourne 0 au lieu de dire que c'est trop gran et renvoyer 2
+exit -- 42									retourne 2 minishell error : numeric argument required au lieu de 42
+exit "        42           "
+exit -- -- 42
+exit --42
+exit ++42
+exit 42 42
+exit a
+exit 1a
+exit +										retourne 0 au lieu de 2 minishell error : numeric argument required
+❔exit -										retourne 0 au lieu de 2 minishell error : numeric argument required
+exit "          "
+exit 0 0;
+exit 0 0; exit
+exit 0 0; echo "this message should not be displayed" 2> file; ls
+exit 0 0 | echo hello

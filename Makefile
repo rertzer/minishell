@@ -54,7 +54,7 @@ SOURCES = args.c \
 	signal.c \
 	wildcard.c \
 	minishell.c \
-
+#	get_minishell.c \
 
 OBJ = $(SOURCES:.c=.o)
 
@@ -64,7 +64,7 @@ all: $(NAME)
 
 bonus: $(NAME)
 
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(INC_DIR)minishell.h
 	$(CC) $(FLAGS) -c $< -o $@ -I $(INC_DIR) -I $(LIBFT_DIR) 
 
 $(NAME): $(OBJ_DIR) $(LIBFT) $(OBJS)
@@ -76,22 +76,17 @@ $(OBJ_DIR):
 $(LIBFT):
 	make -C $(LIBFT_DIR)
 
-clean: miniclean
-	make -C $(LIBFT_DIR) clean
-
-miniclean:
+clean:
 	rm -f $(OBJS)
 	rm -fd $(OBJ_DIR)
+	make -C $(LIBFT_DIR) clean
 
-fclean: miniclean 
+
+fclean: clean 
 	make -C $(LIBFT_DIR) fclean
 	rm -f $(NAME)
 
-minifclean: miniclean
-	rm -f $(NAME)
 
 re: fclean all
 
-minire : minifclean all
-
-.PHONY: all bonus clean fclean miniclean minifclean re minire
+.PHONY: all bonus clean fclean re

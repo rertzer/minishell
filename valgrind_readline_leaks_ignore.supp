@@ -4,3 +4,9 @@
    ...
    obj:*/libreadline.so.*
 }
+{
+    leak get_next_line
+    Memcheck:Leak
+    ...
+    fun:get_next_line
+}

@@ -6,7 +6,7 @@
 /*   By: flarcher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:05:02 by flarcher          #+#    #+#             */
-/*   Updated: 2023/03/23 18:25:02 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/26 15:40:03 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	main(int argc, char **argv, char **old_envp)
 	term.tty_device = ms_set_termios(&term.interact_tio, &term.process_tio);
 	msdata.envp = ft_2dstrdup(old_envp);
 	if (msdata.envp == NULL)
-		return (ms_return_msg(1, "envp", R_STR);
+		return (ms_return_msg(1, "envp", R_STR));
 	ms_set_sigaction(&sa);
 	while (1)
 		shell_loop(&msdata, term);
@@ -72,10 +72,10 @@ static void	shell_loop(t_msdata *msdata, t_term term)
 	line = NULL;
 	tcsetattr(term.tty_device, TCSANOW, &term.interact_tio);
 	line = readline(PROMPT);
+	tcsetattr(term.tty_device, TCSANOW, &term.process_tio);
 	if (!line)
 		ms_exit_run(msdata, NULL, 2);
 	add_history(line);
-	tcsetattr(term.tty_device, TCSANOW, &term.process_tio);
 	ms_parsing_start(msdata, line);
 	msdata->status = pp_run_wait();
 }
