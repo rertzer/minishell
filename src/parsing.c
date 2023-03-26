@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 17:13:25 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/19 17:51:53 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/26 16:49:39 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	ms_parsing_computelen(char *line);
 static void	ms_parsing_quote(char *line, char *new_line);
-static int	ms_parsing_isquote(char *line, char *quote);
+static int	ms_parsing_isquote(char *line, int i, char *quote);
 static int	ms_parsing_toprotect(char quote, char c);
 
 int	ms_parsing_start(t_msdata *msdata, char *line)
@@ -52,6 +52,7 @@ static void	ms_parsing_quote(char *line, char *new_line)
 {
 	int		i;
 	int		new_i;
+	int		is_quote;
 	char	quote;
 
 	i = -1;
@@ -59,28 +60,34 @@ static void	ms_parsing_quote(char *line, char *new_line)
 	quote = '\0';
 	while (line[++i])
 	{
-		if (ms_parsing_isquote(&line[i], &quote))
+		is_quote = ms_parsing_isquote(line, i, &quote);
+		if (is_quote == 1)
 			continue ;
 		new_i++;
-		if (ms_parsing_toprotect(quote, line[i]))
+		if (is_quote == 2 || ms_parsing_toprotect(quote, line[i]))
 			new_line[new_i++] = '\\';
-		new_line[new_i] = line[i];
+		if (is_quote == 2)
+			new_line[new_i++] = ' ';
+		else
+			new_line[new_i] = line[i];
 	}
 	new_line[new_i + 1] = '\0';
 }
 
-static int	ms_parsing_isquote(char *line, char *quote)
+static int	ms_parsing_isquote(char *line, int i, char *quote)
 {
-	if (ms_char_isin(line[0], QT_CHAR))
+	if (ms_char_isin(line[i], QT_CHAR))
 	{
-		if (*quote == line[0])
+		if (*quote == line[i])
 		{
 			*quote = '\0';
+			if (i && line[i - 1] == line[i])
+				return (2);
 			return (1);
 		}
-		else if ((!*quote) && ms_char_nextexist(line))
+		else if ((!*quote) && ms_char_nextexist(&line[i]))
 		{
-			*quote = line[0];
+			*quote = line[i];
 			return (1);
 		}
 	}

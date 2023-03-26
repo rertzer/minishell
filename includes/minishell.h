@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/19 18:49:30 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/26 16:34:18 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 
 # include "libft.h"
 
-# define SQ_CHAR " $*|<>\t"
+# define SQ_CHAR " $*|<>\t\"'"
 # define DQ_CHAR " *|<>\t"
 # define QT_CHAR "'\""
 # define FL_CHAR " \t<>"
