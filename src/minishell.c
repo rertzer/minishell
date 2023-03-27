@@ -6,7 +6,7 @@
 /*   By: flarcher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 11:05:02 by flarcher          #+#    #+#             */
-/*   Updated: 2023/03/26 15:40:03 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/27 15:35:09 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static void	ms_set_sigaction(struct sigaction *sa)
 
 static void	shell_loop(t_msdata *msdata, t_term term)
 {	
+	int		ret;
 	char	*line;
 
 	line = NULL;
@@ -76,6 +77,8 @@ static void	shell_loop(t_msdata *msdata, t_term term)
 	if (!line)
 		ms_exit_run(msdata, NULL, 2);
 	add_history(line);
-	ms_parsing_start(msdata, line);
-	msdata->status = pp_run_wait();
+	msdata->status = ms_parsing_start(msdata, line);
+	ret = pp_run_wait();
+	if (ret != -1)
+		msdata->status = ret;
 }

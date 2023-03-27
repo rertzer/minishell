@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 13:21:15 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/13 18:15:43 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/27 16:51:30 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*ms_char_unprotect(char *line)
 	j = 0;
 	while (line[++i])
 	{
-		if (line[i] == '\\')
+		if (line[i] == '\\' || line[i] == '\001')
 			continue ;
 		line[j] = line[i];
 		j++;

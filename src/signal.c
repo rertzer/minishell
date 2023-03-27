@@ -6,7 +6,7 @@
 /*   By: flarcher <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/03 17:45:42 by flarcher          #+#    #+#             */
-/*   Updated: 2023/03/19 14:03:58 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/26 18:36:44 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	ms_signal_handle_sig(int signum, siginfo_t *info, void *context)
 	if (signum == SIGQUIT && g_lpid)
 	{
 		ms_signal_kill_child(SIGQUIT);
-		printf("Quit (core dumped)\n");
+		ft_putendl_fd("Quit (core dumped)", 2);
 		rl_on_new_line();
 	}
 	else if (signum == SIGINT)

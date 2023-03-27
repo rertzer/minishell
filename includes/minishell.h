@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/26 16:34:18 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/27 16:46:44 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@
 # define FL_CHAR " \t<>"
 # define SP_CHAR " \t"
 # define DL_CHAR " \t$/"
-# define LD_CHAR " \t$/\\"
+# define LD_CHAR " \t$/\\<>'\"\001"
 # define CD_CHAR " \t/"
 
 # define PROMPT "\001\e[1;32m\002Minishell: \001\e[0m\002"

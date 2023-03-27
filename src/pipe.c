@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 14:25:09 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/26 17:04:20 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/27 12:24:20 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,6 @@ static int	ms_pipe_split(t_msdata *msdata, t_command *cmd)
 	{
 		if (line[i] == '|' && ms_char_prevok(line, i))
 		{
-			if (line[i + 1] == '|')
-				line[i + 1] = ' ';
 			if (ms_pipe_cut(cmd, line, &start, &i))
 				return (ms_return_freeturn(&line, 1));
 			msdata->cmd_nb++;

@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/15 16:26:34 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/19 09:20:30 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/27 14:59:13 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,6 @@ static void	ms_atoi_setparams(const char *nptr, int *i, int *sign)
 
 static int	ms_atoi_error(t_msdata *msdata, char const *nptr)
 {
-	msdata->status = 1;
+	msdata->status = 2;
 	return (ms_return_msg(2, nptr, R_NUM));
 }

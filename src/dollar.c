@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 17:18:36 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/19 17:29:59 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/27 17:32:14 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,12 @@ static int	ms_dollar_wordlen(char *line)
 {
 	int	len;
 
-	len = 0;
-	while (line[len] && !ms_char_isin(line[len], DL_CHAR))
+	if (line[0] == '?')
+		return (1);
+	if (!(ft_isalpha(line[0]) || line[0] == '_'))
+		return (0);
+	len = 1;
+	while (line[len] && (ft_isalnum(line[len]) || line[len] == '_'))
 		len++;
 	return (len);
 }

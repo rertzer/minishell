@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 16:15:03 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/20 10:58:45 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/27 15:33:52 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ int	pp_run_wait(void)
 {
 	int	status;
 
+	if (g_lpid == NULL)
+		return (-1);
 	status = 0;
 	while (g_lpid && g_lpid->pid > 0)
 	{
