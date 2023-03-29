@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 10:19:35 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/20 10:56:05 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/29 17:49:30 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,11 @@ static char	**ms_wildcard_expand(DIR *dd, char *pattern)
 	expanded = NULL;
 	while (entry)
 	{
-		if (ms_wildcard_export(entry, pattern, &expanded))
-			return (NULL);
+		if (!(ft_strcmp(pattern, "*") == 0 && entry->d_name[0] == '.'))
+		{
+			if (ms_wildcard_export(entry, pattern, &expanded))
+				return (NULL);
+		}
 		entry = readdir(dd);
 	}
 	if (errno)
