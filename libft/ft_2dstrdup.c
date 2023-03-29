@@ -6,12 +6,12 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/06 17:35:45 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/26 15:41:53 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/29 16:25:20 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <stdio.h>
+
 char	**ft_2dstrdup(char **src)
 {
 	char	**dest;

@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 16:15:03 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/27 15:33:52 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/29 11:29:26 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,9 @@ int	pp_run_pipe(t_msdata *msdata)
 	int	ret;
 
 	ret = 0;
-	ret = pp_run_make_pipes(msdata);
+	ret = ms_hdloop_start(msdata);
+	if (!ret)
+		ret = pp_run_make_pipes(msdata);
 	if (!ret)
 		ret = pp_run_fork(msdata);
 	pp_run_close_pipes(msdata);

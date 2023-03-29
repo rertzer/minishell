@@ -53,7 +53,7 @@ SOURCES = ft_2dstrdup.c \
 	ftpf_format_num.c	\
 	ftpf_pointoa.c	\
 	ftpf_printf_utils.c	\
-	ftpf_uxiota.c	\
+	ftpf_uxitoa.c	\
 	ft_printf.c	\
 	get_next_line.c	\
 	get_next_line_utils.c

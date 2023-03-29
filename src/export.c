@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/01 17:41:28 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/27 15:23:58 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/27 17:40:07 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static int	ms_export_isnotvalid(char *arg)
 	if (ft_isdigit(arg[0]) || arg[0] == '=')
 		return (1);
 	if (!ms_char_isin('=', arg))
-			return (1);
+		return (1);
 	i = 0;
 	while (arg[i] != '\0' && arg[i] != '=')
 	{

@@ -6,39 +6,30 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 16:13:36 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/19 17:49:16 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/29 16:26:07 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	ms_output_loop(t_file *file);
 static int	ms_output_openfile(t_file *file);
-static int	ms_output_heredoc(char *limiter);
-static char	*ms_output_hereline(char *limiter, char *line, int *pipefd);
 
 int	ms_output_openall(t_command *cmd)
 {
-	int	fd;
-
-	fd = ms_output_loop(cmd->infile);
-	if (fd == -1)
-		return (-1);
-	fd = ms_output_loop(cmd->outfile);
-	return (fd);
-}
-
-static int	ms_output_loop(t_file *file)
-{
 	int		fd;
+	t_file	*file;
 
-	fd = 1;
+	fd = 0;
+	file = cmd->filelst;
 	while (file)
 	{
-		ms_msdata_close(fd);
+		if (file->mode == 60 || file->mode == 61)
+			ms_msdata_close(cmd->fd_in);
+		else
+			ms_msdata_close(cmd->fd_out);
 		fd = ms_output_openfile(file);
 		if (fd == -1)
-			return (-1);
+			break ;
 		file = file->next;
 	}
 	return (fd);
@@ -50,8 +41,6 @@ static int	ms_output_openfile(t_file *file)
 	int		fd;
 	mode_t	mode;
 
-	if (file->mode == '=')
-		return (ms_output_heredoc(file->name));
 	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 	flags = pp_open_flags(file->mode);
 	errno = 0;
@@ -59,44 +48,4 @@ static int	ms_output_openfile(t_file *file)
 	if (fd == -1)
 		return (ms_return_error(-1, file->name));
 	return (fd);
-}
-
-static int	ms_output_heredoc(char *limiter)
-{
-	char	*line;
-	int		fd;
-	int		pipefd[2];
-
-	errno = 0;
-	if (pipe(pipefd) == -1)
-		return (ms_return_error(-1, "pipe"));
-	fd = pipefd[0];
-	line = get_next_line(0);
-	while (line)
-		line = ms_output_hereline(limiter, line, pipefd);
-	close(pipefd[1]);
-	return (fd);
-}
-
-static char	*ms_output_hereline(char *limiter, char *line, int *pipefd)
-{
-	int	line_size;
-	int	limiter_size;
-
-	line_size = ft_strlen(line);
-	limiter_size = ft_strlen(limiter);
-	if (pp_here_nolimit(line, limiter, line_size, limiter_size))
-	{
-		errno = 0;
-		if (write(pipefd[1], line, line_size) == -1)
-		{
-			free(line);
-			return (ms_return_nullerror(R_WRT));
-		}
-		free(line);
-		line = get_next_line(0);
-	}
-	else
-		pp_nullfree(&line);
-	return (line);
 }

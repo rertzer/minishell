@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/27 16:46:44 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/29 16:26:53 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@
 # define CD_CHAR " \t/"
 
 # define PROMPT "\001\e[1;32m\002Minishell: \001\e[0m\002"
+# define HD_PATH "minishell_"
+# define DP fprintf(stderr, "%s %d\n", __FILE__, __LINE__);
 
 # define FUN_TOP 8
 # define NOT_FOUND 127
@@ -77,8 +79,7 @@ typedef struct s_command
 {
 	int					fd_in;
 	int					fd_out;
-	struct s_file		*infile;
-	struct s_file		*outfile;
+	struct s_file		*filelst;
 	char				*cmd_path;
 	char				**args;
 	int					cmd_nb;
@@ -226,13 +227,18 @@ char	*ms_utils_strreplace(char *str, char *ins, int offset, int len);
 int		ms_utils_insert(char *str, char ***table);
 /* wildcard */
 char	**ms_wildcard_start(char *line);
+/* *********************************************************************/
+/*                            here doc                                 */
+/* *********************************************************************/
+/* hd loop */
+int		ms_hdloop_start(t_msdata *msdata);
+/* here doc */
+int		pp_here_doc(char *limiter, char *filename);
+int		pp_here_nolimit(char *line, char *limiter,	\
+		int line_size, int limiter_size);
 /* **********************************************************************/
 /*                               pipex                                  */
 /* **********************************************************************/
-/* here doc */
-int		pp_here_doc(t_msdata *msdata, char *limiter);
-int		pp_here_nolimit(char *line, char *limiter,	\
-		int line_size, int limiter_size);
 /* check_cmd */
 void	pp_check_cmd_path(t_msdata *msdata, t_command *cmd);
 /* Run */
@@ -240,8 +246,7 @@ int		pp_run_pipe(t_msdata *msdata);
 void	pp_run_close_pipes(t_msdata *msdata);
 int		pp_run_wait(void);
 /* Open */
-void	pp_open_in(t_msdata *msdata, t_command *cmd, int i);
-void	pp_open_out(t_msdata *msdata, t_command *cmd, int i);
+void	pp_open_filelst(t_msdata *msdata, t_command *cmd, int i);
 int		pp_open_flags(char mode);
 /* Child */
 void	pp_child_run(t_msdata *msdata, t_command *cmd, int i);

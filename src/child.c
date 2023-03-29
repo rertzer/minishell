@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 16:13:34 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/20 10:43:14 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/29 09:43:07 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,7 @@ void	pp_child_run(t_msdata *msdata, t_command *cmd, int i)
 {
 	int	builtin;
 
-	pp_open_in(msdata, cmd, i);
-	pp_open_out(msdata, cmd, i);
+	pp_open_filelst(msdata, cmd, i);
 	pp_child_dupfd(msdata, cmd);
 	if (cmd->cmd_path == NULL || cmd->cmd_path[0] == '\0')
 		ms_exit_msg(msdata, NULL);

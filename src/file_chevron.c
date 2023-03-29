@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/18 11:22:31 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/26 15:31:08 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/29 10:34:23 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void		ms_file_mode(char *path, char *mode, int *shift);
 static int		ms_file_wordend(char *line, int j);
-static t_file	**ms_file_adr(t_command *cmd, int mode);
+//static t_file	**ms_file_adr(t_command *cmd, int mode);
 
 int	ms_file_chevron(t_command *cmd, int i)
 {
@@ -34,7 +34,7 @@ int	ms_file_chevron(t_command *cmd, int i)
 		return (-1);
 	if (ms_char_isin(str[0], "<>"))
 		return (ms_return_msg(-1, &str[0], R_SYN));
-	if (ms_tfile_addback(ms_file_adr(cmd, mode), str, mode))
+	if (ms_tfile_addback(&cmd->filelst, str, mode))
 		return (ms_return_freeturn(&str, -1));
 	while (i < end)
 	{
@@ -73,11 +73,11 @@ static int	ms_file_wordend(char *line, int j)
 	}
 	return (j);
 }
-
+/*
 static t_file	**ms_file_adr(t_command *cmd, int mode)
 {
 	if (mode == 60 || mode == 61)
 		return (&cmd->infile);
 	else
 		return (&cmd->outfile);
-}
+}*/

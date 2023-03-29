@@ -32,6 +32,7 @@ SOURCES = args.c \
 	export.c \
 	file_chevron.c \
 	file_wildcard.c \
+	hdloop.c \
 	here_doc.c \
 	msdata.c \
 	open.c \

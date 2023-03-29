@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/27 09:08:17 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/18 12:23:44 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/29 11:09:15 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ static int	ms_pipeline_run(t_msdata *msdata)
 	int	ret;
 	int	fd_out;
 
+	ret = 1;
 	if (msdata->cmd_nb == 1 && ms_builtin_itis(msdata->cmds[0].cmd_path))
 	{
 		msdata->cmds->cmd_nb = 0;

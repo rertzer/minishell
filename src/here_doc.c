@@ -6,34 +6,43 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 16:14:08 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/20 10:58:10 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/29 16:24:15 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*pp_here_line(t_msdata *msdata, char *limiter, char *line,	\
-		int *pipefd);
+static int	pp_here_open(char *filename);
+static char	*pp_here_line(char *limiter, char *line, int fd);
 
-int	pp_here_doc(t_msdata *msdata, char *limiter)
+int	pp_here_doc(char *limiter, char *filename)
 {
 	char	*line;
 	int		fd;
-	int		pipefd[2];
 
-	errno = 0;
-	if (pipe(pipefd) == -1)
-		ms_exit_error(msdata, "pipe");
-	fd = pipefd[0];
+	fd = pp_here_open(filename);
+	if (fd == -1)
+		return (1);
 	line = get_next_line(0);
 	while (line)
-		line = pp_here_line(msdata, limiter, line, pipefd);
-	close(pipefd[1]);
+		line = pp_here_line(limiter, line, fd);
+	close(fd);
+	return (0);
+}
+
+static int	pp_here_open(char *filename)
+{
+	int	fd;
+
+	errno = 0;
+	fd = open(filename, O_CREAT | O_TRUNC | O_WRONLY, \
+			S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH);
+	if (fd == -1)
+		return (ms_return_error(1, filename));
 	return (fd);
 }
 
-static char	*pp_here_line(t_msdata *msdata, char *limiter,	\
-		char *line, int *pipefd)
+static char	*pp_here_line(char *limiter, char *line, int fd)
 {
 	int	line_size;
 	int	limiter_size;
@@ -43,10 +52,10 @@ static char	*pp_here_line(t_msdata *msdata, char *limiter,	\
 	if (pp_here_nolimit(line, limiter, line_size, limiter_size))
 	{
 		errno = 0;
-		if (write(pipefd[1], line, line_size) == -1)
+		if (write(fd, line, line_size) == -1)
 		{
 			free(line);
-			ms_exit_error(msdata, R_WRT);
+			return (ms_return_nullerror(R_WRT));
 		}
 		free(line);
 		line = get_next_line(0);
