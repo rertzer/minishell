@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 16:13:36 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/29 16:26:07 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/30 14:10:41 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,10 @@ int	ms_output_openall(t_command *cmd)
 			ms_msdata_close(cmd->fd_in);
 		else
 			ms_msdata_close(cmd->fd_out);
-		fd = ms_output_openfile(file);
+		if (file->mode == 61)
+			fd = pp_here_doc(file->name);
+		else
+			fd = ms_output_openfile(file);
 		if (fd == -1)
 			break ;
 		file = file->next;

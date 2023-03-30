@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/02 13:21:15 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/29 17:07:14 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/30 14:51:21 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int	ms_char_prevok(char *line, int i)
 {
 	if (i && (line[i - 1] == '\\'))
 		return (0);
+	if (i == 0)
+		return (1);
 	i--;
 	while (i && !ms_char_isin(line[i], HD_CHAR))
 		i--;

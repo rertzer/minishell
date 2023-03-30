@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/22 13:09:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/29 17:05:09 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/30 13:01:26 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_file
 {
 	char			*name;
 	char			mode;
+	int				fd;
 	struct s_file	*next;
 }				t_file;
 
@@ -234,7 +235,7 @@ char	**ms_wildcard_start(char *line);
 /* hd loop */
 int		ms_hdloop_start(t_msdata *msdata);
 /* here doc */
-int		pp_here_doc(char *limiter, char *filename);
+int		pp_here_doc(char *limiter);
 int		pp_here_nolimit(char *line, char *limiter,	\
 		int line_size, int limiter_size);
 /* **********************************************************************/

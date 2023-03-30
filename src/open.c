@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/12 16:14:37 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/29 16:24:00 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/30 10:05:13 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ void	pp_open_filelst(t_msdata *msdata, t_command *cmd, int i)
 		{
 			ms_msdata_close(cmd->fd_in);
 			cmd->fd_in = pp_open_file(msdata, file);
-			if (file->mode == 61)
-				unlink(file->name);
 		}
 		else
 		{
@@ -49,6 +47,8 @@ static int	pp_open_file(t_msdata *msdata, t_file *file)
 
 	if (file->name == NULL || file->name[0] == '\0')
 		ms_exit_msg(msdata, R_SYN);
+	if (file->mode == 61)
+		return (file->fd);
 	flags = pp_open_flags(file->mode);
 	mode = S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH;
 	errno = 0;
