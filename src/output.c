@@ -6,7 +6,7 @@
 /*   By: rertzer <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/13 16:13:36 by rertzer           #+#    #+#             */
-/*   Updated: 2023/03/30 14:10:41 by rertzer          ###   ########.fr       */
+/*   Updated: 2023/03/30 15:08:35 by rertzer          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	ms_output_openall(t_command *cmd)
 	int		fd;
 	t_file	*file;
 
-	fd = 0;
+	fd = 1;
 	file = cmd->filelst;
 	while (file)
 	{
